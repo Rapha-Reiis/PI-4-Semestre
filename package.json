@@ -1,0 +1,40 @@
+{
+    "name": "pi-4-semestre",
+    "version": "1.0.0",
+    "description": "Projeto desenvolvido para a aula de desenvolvimento web 4",
+    "keywords": [],
+    "homepage": "https://github.com/Rapha-Reiis/PI-4-Semestre#readme",
+    "bugs": {
+        "url": "https://github.com/Rapha-Reiis/PI-4-Semestre/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Rapha-Reiis/PI-4-Semestre.git"
+    },
+    "license": "ISC",
+    "author": "Raphael",
+    "contributors": [
+        {
+            "name": "raphael",
+            "email": "raphaelreisrodrigues@outlook.com",
+            "url": "https://github.com/Rapha-Reiis"
+        },
+        {
+            "name": "Juliano Santos",
+            "email": "colcoaremail@gmail.com",
+            "url": "https://adicionarGithub.com"
+        }
+    ],
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "dotenv": "^17.2.1",
+        "express": "^5.1.0"
+    },
+    "devDependencies": {
+        "git-commit-msg-linter": "^5.0.8"
+    }
+}
