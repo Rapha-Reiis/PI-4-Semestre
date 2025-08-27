@@ -1,4 +1,5 @@
 import express from "express";
+import routesAPI from "./Routes/Routes.js";
 
 class App {
     constructor() {
@@ -11,7 +12,9 @@ class App {
         this.app.use(express.json());
     }
 
-    routes() {}
+    routes() {
+        this.app.use(routesAPI);
+    }
 }
 
 export default new App().app;

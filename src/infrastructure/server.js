@@ -1,5 +1,6 @@
 import app from "./app.js";
+import { env } from "./config/env.js";
 
 app.listen(3000, () => {
-    console.log("Oi como vai voce? opa.. servidor rodando na porta 3000. Ok?");
+    console.log(`Servidor ON na porta http://localhost:${env.PORT}`);
 });
