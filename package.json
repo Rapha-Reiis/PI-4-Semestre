@@ -28,6 +28,7 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
+        "start": "node src/infrastructure/server.js",
         "dev": "nodemon src/infrastructure/server.js"
     },
     "dependencies": {
