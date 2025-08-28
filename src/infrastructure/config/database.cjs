@@ -2,7 +2,7 @@ const { env } = require("./env");
 
 module.exports = {
     dialect: env.DB_TYPE,
-    host: env.DB_HOST,
+    host: env.DB_HOST | "localhost",
     username: env.DB_USER,
     password: env.DB_PASS,
     database: env.DB_NAME,
