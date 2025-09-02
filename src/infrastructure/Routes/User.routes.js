@@ -1,7 +1,13 @@
 import { Router } from "express";
 
-const router = Router();
+class RouterUser {
+    constructor() {
+        this.routes = Router();
+    }
 
-// router.get("/:id", getUser);
+    initRoutes() {
+        this.routes.use("/");
+    }
+}
 
-export default router;
+export default new RouterUser().routes;

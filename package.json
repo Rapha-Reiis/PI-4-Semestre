@@ -32,15 +32,15 @@
         "dev": "nodemon src/infrastructure/server.js"
     },
     "dependencies": {
+        "@prisma/client": "^6.15.0",
         "dotenv": "^17.2.1",
         "express": "^5.1.0",
         "pg": "^8.16.3",
-        "pg-hstore": "^2.3.4",
-        "sequelize": "^6.37.7"
+        "pg-hstore": "^2.3.4"
     },
     "devDependencies": {
         "git-commit-msg-linter": "^5.0.8",
         "nodemon": "^3.1.10",
-        "sequelize-cli": "^6.6.3"
+        "prisma": "^6.15.0"
     }
 }

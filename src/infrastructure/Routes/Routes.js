@@ -1,7 +1,14 @@
 import { Router } from "express";
-import userRouter from "./User.routes.js";
-const router = Router();
+import UserRoutes from "./User.routes";
 
-router.use("/users", userRouter);
+class Routers {
+    constructor() {
+        this.routes = Router();
+    }
 
-export default router;
+    initRoutes() {
+        this.routes.use("/users", UserRoutes);
+    }
+}
+
+export default new Routers().routes;

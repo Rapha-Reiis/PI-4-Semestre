@@ -1,5 +1,5 @@
 import express from "express";
-import routesAPI from "./Routes/Routes.js";
+import Routes from "./Routes/Routes";
 
 class App {
     constructor() {
@@ -13,7 +13,7 @@ class App {
     }
 
     routes() {
-        this.app.use(routesAPI);
+        this.app.use(Routes);
     }
 }
 
