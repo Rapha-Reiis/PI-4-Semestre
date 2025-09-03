@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getUsers } from "../../presentation/UserController.js";
+import UserController from "../../presentation/UserController.js";
 
 const routes = Router();
 
-routes.get("/", getUsers);
+routes.get("/", UserController.getUsers);
 
 export default routes;
