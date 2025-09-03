@@ -1,13 +1,8 @@
 import { Router } from "express";
+import { getUsers } from "../../presentation/UserController.js";
 
-class RouterUser {
-    constructor() {
-        this.routes = Router();
-    }
+const routes = Router();
 
-    initRoutes() {
-        this.routes.use("/");
-    }
-}
+routes.get("/", getUsers);
 
-export default new RouterUser().routes;
+export default routes;
