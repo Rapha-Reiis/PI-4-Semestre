@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 
 import { resolve } from 'path';
+import RoutesMain from '../application/routes/RoutesMain';
 
 class App {
     public app: Express;
@@ -8,7 +9,7 @@ class App {
     constructor() {
         this.app = express();
         this.middlerwares();
-        // this.routes();
+        this.routes();
         // this.errors();
     }
 
@@ -17,9 +18,9 @@ class App {
         this.app.use('/perfil-image', express.static(resolve(__dirname, '..', 'uploads')));
     }
 
-    // private routes() {
-    //     this.app.use(RoutesMain);
-    // }
+    private routes() {
+        this.app.use(RoutesMain);
+    }
 
     // private errors() {
     //     this.app.use(ErrosMiddleware.errorsMiddleware);

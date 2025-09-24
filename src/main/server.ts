@@ -1,8 +1,6 @@
 import app from './app';
 import 'dotenv/config';
-import { PrismaClient } from '../infra/prisma/generated/prisma';
-
-const prisma = new PrismaClient();
+import { prisma } from '../infra/prisma/client';
 
 const PORT = process.env.PORT || 3000;
 const runningMsg: string = `App is listening on port ${PORT}`;
