@@ -1,0 +1,8 @@
+import { ErrorApp } from './ErrorApp';
+
+export class ErrorConflitct extends ErrorApp {
+    constructor(details: unknown, msgText?: string) {
+        const message = msgText ?? 'Conflito de dados';
+        super(message, 400, details);
+    }
+}

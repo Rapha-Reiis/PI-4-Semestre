@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 
 import { resolve } from 'path';
 import RoutesMain from '../application/routes/RoutesMain';
+import ErrosMiddleware from '../Middleware/ErrosMiddleware';
 
 class App {
     public app: Express;
@@ -10,7 +11,7 @@ class App {
         this.app = express();
         this.middlerwares();
         this.routes();
-        // this.errors();
+        this.errors();
     }
 
     private middlerwares() {
@@ -22,9 +23,9 @@ class App {
         this.app.use(RoutesMain);
     }
 
-    // private errors() {
-    //     this.app.use(ErrosMiddleware.errorsMiddleware);
-    // }
+    private errors() {
+        this.app.use(ErrosMiddleware.errosMiddleware);
+    }
 }
 
 export default new App().app;

@@ -10,7 +10,6 @@ export class CreateUserUseCase {
 
     async execute(data: UserCreateDTO) {
         data.password = await this.hash.hashPassword(data.password);
-
         return await this.repository.create(data);
     }
 }
