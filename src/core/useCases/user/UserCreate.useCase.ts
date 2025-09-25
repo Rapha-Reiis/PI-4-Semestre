@@ -4,7 +4,7 @@ import { UserUniquenessService } from '../../../application/Services/UserUniques
 import { UserCreateDTO } from '../../Entities/UserEntity';
 import { ErrorConflitct } from '../../Error/ErrorConflict';
 
-export class CreateUserUseCase {
+export class UserCreateUseCase {
     constructor(
         private repository: IUserRepository,
         private hash: IHash,

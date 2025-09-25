@@ -1,7 +1,6 @@
 import { IUserRepository } from '../../../adapters/Repositories/IUserRepository';
 import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../../../core/Entities/UserEntity';
 import { ErrorApp } from '../../../core/Error/ErrorApp';
-import app from '../../../main/app';
 import { prisma } from '../client';
 
 export class UserRepositoryImpl implements IUserRepository {
@@ -28,12 +27,22 @@ export class UserRepositoryImpl implements IUserRepository {
         }
     }
 
-    async update(data: UserUpdateDTO, id: string): Promise<UserResponseDTO> {
+    async update(data: UserUpdateDTO, id: string): Promise<any> {
+        const selectUp = {
+            id: true,
+            name: !!data.name,
+            email: !!data.email,
+            username: !!data.username,
+            profile_image_url: !!data.profile_image_url,
+            bio: !!data.bio,
+            premium: !!data.premium,
+        };
+
         try {
             return await this.prisma.user.update({
                 where: { id },
                 data: data,
-                select: this.select,
+                select: selectUp,
             });
         } catch (err) {
             throw new ErrorApp('Erro no update', 500, err);

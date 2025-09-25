@@ -32,6 +32,7 @@ export type UserUpdateDTO = {
     name?: string;
     email?: string;
     password?: string;
+    bio?: string;
     profile_image_url?: string;
     premium?: boolean;
 };

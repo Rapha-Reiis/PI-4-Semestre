@@ -8,7 +8,6 @@ class ErrorMiddleware {
         return res.status(statusCode).json({
             message: message,
             details: error.details,
-            teste: Error,
         });
     }
 }

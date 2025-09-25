@@ -12,10 +12,16 @@ class RoutesUser {
         const instaceValid = new ZodUserValidation();
         this.validation = new UserValidationMiddleware(instaceValid);
         this.initRoutes();
+        console.log('aqui');
     }
 
     initRoutes() {
         this.routes.post('/', this.validation.ValidationCreate.bind(this.validation), this.userController.create.bind(this.userController));
+        this.routes.put(
+            '/update/:id',
+            this.validation.ValidationUpdate.bind(this.validation),
+            this.userController.update.bind(this.userController),
+        );
     }
 }
 

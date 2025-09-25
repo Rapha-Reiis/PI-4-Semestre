@@ -1,12 +1,32 @@
 import { Request, Response } from 'express';
-import { CreateUserUseCase } from '../core/useCases/user/createUser.useCase';
+import { UserUpdateUseCase } from '../core/useCases/user/UserUpdate.useCase';
+import { UserFindByEmailUseCase } from '../core/useCases/user/UserFindByEmail.useCase';
+import { UserCreateUseCase } from '../core/useCases/user/UserCreate.useCase';
+import { UserFindByUsernameUseCase } from '../core/useCases/user/UserFindByUsername.useCase';
+import { ErrorBadRequest } from '../core/Error/ErrorBadRequest';
+import { UserFindByIdUseCase } from '../core/useCases/user/UserFindById.useCase';
 
 export class UserController {
-    constructor(private readonly createUser: CreateUserUseCase) {}
+    constructor(
+        private readonly createUser: UserCreateUseCase,
+        private readonly updateUser: UserUpdateUseCase,
+        private readonly findById: UserFindByIdUseCase,
+        private readonly findByEmail: UserFindByEmailUseCase,
+        private readonly findByUsername: UserFindByUsernameUseCase,
+    ) {}
 
     async create(req: Request, res: Response) {
         const data = req.body;
         const user = await this.createUser.execute(data);
         return res.status(201).json(user);
+    }
+
+    async update(req: Request, res: Response) {
+        const data = req.body;
+        const { id } = req.params;
+        if (!id) throw new ErrorBadRequest('Id não foi passado corretamente');
+        console.log('aqui');
+        const user = await this.updateUser.execute(id, data);
+        return res.status(200).json(user);
     }
 }
