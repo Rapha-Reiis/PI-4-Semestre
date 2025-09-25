@@ -24,7 +24,7 @@ export class UserRepositoryImpl implements IUserRepository {
                 select: this.select,
             });
         } catch (err) {
-            throw new ErrorApp('Erro no banco', 500);
+            throw new ErrorApp('Erro no createUser', 500, err);
         }
     }
 
@@ -35,8 +35,8 @@ export class UserRepositoryImpl implements IUserRepository {
                 data: data,
                 select: this.select,
             });
-        } catch {
-            throw new ErrorApp('Erro com o bacno', 500);
+        } catch (err) {
+            throw new ErrorApp('Erro no update', 500, err);
         }
     }
 
@@ -47,7 +47,7 @@ export class UserRepositoryImpl implements IUserRepository {
                 select: this.select,
             });
         } catch (err) {
-            throw new ErrorApp('Erro no banco', 500);
+            throw new ErrorApp('Erro no findByEmail', 500, err);
         }
     }
 
@@ -58,18 +58,19 @@ export class UserRepositoryImpl implements IUserRepository {
                 select: this.select,
             });
         } catch (err) {
-            throw new ErrorApp('Erro no bacno', 500);
+            throw new ErrorApp('Erro no findById', 500, err);
         }
     }
 
     async findByUsername(username: string): Promise<UserResponseDTO | null> {
+        console.log('repoUser: ', username);
         try {
             return await this.prisma.user.findUnique({
                 where: { username },
                 select: this.select,
             });
         } catch (err) {
-            throw new ErrorApp('Erro no banco', 500);
+            throw new ErrorApp('Erro no FindByUsername', 500, err);
         }
     }
 }
