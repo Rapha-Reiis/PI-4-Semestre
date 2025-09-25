@@ -42,4 +42,11 @@ export class UserController {
         const user = await this.UserfindByEmail.execute(email);
         return res.status(200).json(user);
     }
+
+    async findByUsername(req: Request, res: Response) {
+        const { username } = req.params;
+        if (!username) throw new ErrorBadRequest('Username não foi passado corretamente');
+        const user = await this.UserfindByUsername.execute(username);
+        return res.status(200).json(user);
+    }
 }

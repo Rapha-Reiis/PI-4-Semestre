@@ -28,6 +28,7 @@ class RoutesUser {
             this.validation.ValidationEmail.bind(this.validation),
             this.userController.findByEmail.bind(this.userController),
         );
+        this.routes.get('/username/:username', this.userController.findByUsername.bind(this.userController));
     }
 }
 
