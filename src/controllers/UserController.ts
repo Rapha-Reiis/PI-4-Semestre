@@ -6,9 +6,6 @@ export class UserController {
 
     async create(req: Request, res: Response) {
         const data = req.body;
-        if (!data) {
-            throw new Error('sia');
-        }
         const user = await this.createUser.execute(data);
         return res.status(201).json(user);
     }
