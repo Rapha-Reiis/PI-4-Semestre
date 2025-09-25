@@ -36,11 +36,12 @@ export class UserValidationMiddleware {
     }
 
     async ValidationEmail(req: Request, res: Response, next: NextFunction) {
-        if (!req.params) {
+        const { email } = req.params;
+        if (!email) {
             throw new ErrorBadRequest('Email não foi passado corretamente');
         }
 
-        const details = this.validate.Email(req.body);
+        const details = this.validate.Email(email);
 
         if (details) {
             throw new ErrorBadRequest(undefined, details);

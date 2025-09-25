@@ -6,6 +6,7 @@ export class UserFindByEmailUseCase {
     constructor(private userRepo: IUserRepository) {}
 
     async execute(email: string): Promise<UserResponseDTO> {
+        console.log(email);
         const user = await this.userRepo.findByEmail(email);
 
         if (!user) {

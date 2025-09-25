@@ -23,6 +23,11 @@ class RoutesUser {
             this.userController.update.bind(this.userController),
         );
         this.routes.get('/:id', this.userController.findById.bind(this.userController));
+        this.routes.get(
+            '/email/:email',
+            this.validation.ValidationEmail.bind(this.validation),
+            this.userController.findByEmail.bind(this.userController),
+        );
     }
 }
 
