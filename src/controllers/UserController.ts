@@ -10,9 +10,9 @@ export class UserController {
     constructor(
         private readonly createUser: UserCreateUseCase,
         private readonly updateUser: UserUpdateUseCase,
-        private readonly findById: UserFindByIdUseCase,
-        private readonly findByEmail: UserFindByEmailUseCase,
-        private readonly findByUsername: UserFindByUsernameUseCase,
+        private readonly UserfindById: UserFindByIdUseCase,
+        private readonly UserfindByEmail: UserFindByEmailUseCase,
+        private readonly UserfindByUsername: UserFindByUsernameUseCase,
     ) {}
 
     async create(req: Request, res: Response) {
@@ -25,8 +25,14 @@ export class UserController {
         const data = req.body;
         const { id } = req.params;
         if (!id) throw new ErrorBadRequest('Id não foi passado corretamente');
-        console.log('aqui');
         const user = await this.updateUser.execute(id, data);
+        return res.status(200).json(user);
+    }
+
+    async findById(req: Request, res: Response) {
+        const { id } = req.params;
+        if (!id) throw new ErrorBadRequest('Id não foi passado corretamente');
+        const user = await this.UserfindById.execute(id);
         return res.status(200).json(user);
     }
 }

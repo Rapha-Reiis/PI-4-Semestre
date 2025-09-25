@@ -22,6 +22,7 @@ class RoutesUser {
             this.validation.ValidationUpdate.bind(this.validation),
             this.userController.update.bind(this.userController),
         );
+        this.routes.get('/:id', this.userController.findById.bind(this.userController));
     }
 }
 

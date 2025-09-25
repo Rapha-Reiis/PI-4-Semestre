@@ -9,7 +9,7 @@ export class UserFindByIdUseCase {
         const user = await this.userRepo.findById(id);
 
         if (!user) {
-            throw new ErrorApp('Usuário não encontrado', 404);
+            throw new ErrorApp('Usuário não cadastrado', 404);
         }
 
         return user;
