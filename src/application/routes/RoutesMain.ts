@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import RoutesUser from './RoutesUser';
+import RoutesLogin from './Routes.Login';
 
 class MainRoutes {
     public routes = Router();
@@ -10,6 +11,7 @@ class MainRoutes {
 
     initRoutes() {
         this.routes.use('/users', RoutesUser);
+        this.routes.use('/login', RoutesLogin);
     }
 }
 

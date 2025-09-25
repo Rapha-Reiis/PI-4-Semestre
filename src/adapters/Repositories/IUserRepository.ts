@@ -1,4 +1,4 @@
-import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../../core/Entities/UserEntity';
+import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../core/Entities/UserEntity';
 
 export interface IUserRepository {
     create(data: UserCreateDTO): Promise<UserResponseDTO>;
@@ -6,4 +6,5 @@ export interface IUserRepository {
     findByEmail(email: string): Promise<UserResponseDTO | null>;
     findByUsername(username: string): Promise<UserResponseDTO | null>;
     findById(id: string): Promise<UserResponseDTO | null>;
+    findByEmailWithPassword(email: string): Promise<UserResponseWhitPasswordDTO | null>;
 }

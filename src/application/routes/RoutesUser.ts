@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { UserController } from '../../controllers/UserController';
 import { makeUserController } from '../../factories/makeUserController';
 import { UserValidationMiddleware } from '../../Middleware/UserValidationMiddleware';
-import { ZodUserValidation } from '../../infra/Validations/ZodValidations/ZodUserValidation';
+import { ZodUserValidation } from '../../infra/Validations/ZodValidations/User/ZodUserValidation';
 
 class RoutesUser {
     public routes = Router();

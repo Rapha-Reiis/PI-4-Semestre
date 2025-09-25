@@ -11,8 +11,8 @@ export type UserEntity = {
     name: string;
     email: string;
     password: string;
-    profile_image_url?: string | null;
-    bio?: string | null;
+    profile_image_url?: string | undefined;
+    bio?: string | undefined;
     premium: boolean;
     role: Role;
     created_at: Date;
@@ -46,4 +46,13 @@ export type UserResponseDTO = {
     bio: string | null;
     premium: boolean;
     role: 'USER' | 'ADMIN';
+};
+
+export type UserResponseWhitPasswordDTO = {
+    id?: string;
+    name: string;
+    email?: string;
+    username?: string;
+    premium: boolean;
+    password: string;
 };

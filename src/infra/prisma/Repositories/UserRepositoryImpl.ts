@@ -1,5 +1,5 @@
 import { IUserRepository } from '../../../adapters/Repositories/IUserRepository';
-import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../../../core/Entities/UserEntity';
+import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../core/Entities/UserEntity';
 import { ErrorApp } from '../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
@@ -80,6 +80,24 @@ export class UserRepositoryImpl implements IUserRepository {
             });
         } catch (err) {
             throw new ErrorApp('Erro no FindByUsername', 500, err);
+        }
+    }
+
+    async findByEmailWithPassword(email: string): Promise<UserResponseWhitPasswordDTO | null> {
+        try {
+            return await this.prisma.user.findUnique({
+                where: { email },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    username: true,
+                    premium: true,
+                    password: true,
+                },
+            });
+        } catch (err) {
+            throw new ErrorApp('Erro no findByEmail', 500, err);
         }
     }
 }
