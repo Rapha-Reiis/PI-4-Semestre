@@ -9,9 +9,10 @@ import { HashBcrypt } from '../infra/hashBcrypt';
 import { UserRepositoryImpl } from '../infra/prisma/Repositories/UserRepositoryImpl';
 
 export function makeUserController() {
+    // infra
     const userRepo = new UserRepositoryImpl();
     const hash = new HashBcrypt();
-
+    // service
     const verify = new UserUniquenessService(userRepo);
 
     const createUser = new UserCreateUseCase(userRepo, hash, verify);

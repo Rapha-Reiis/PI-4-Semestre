@@ -3,11 +3,14 @@ import { IUserRepository } from '../../../adapters/Repositories/IUserRepository'
 import { LoginEntity } from '../../Entities/LoginEntity';
 import { ErrorNotFound } from '../../Error/ErrorNotFound';
 import { ErrorBadRequest } from '../../Error/ErrorBadRequest';
+import { IToken } from '../../../adapters/IToken';
+import { isSetIterator } from 'util/types';
 
 export class LoginCreateUseCase {
     constructor(
         private userRespo: IUserRepository,
         private hash: IHash,
+        private token: IToken,
     ) {}
 
     async execute(data: LoginEntity): Promise<Object> {
@@ -26,6 +29,7 @@ export class LoginCreateUseCase {
             email: user.email,
             username: user.username,
             premium: user.premium,
+            token: this.token.assin(user.id),
         };
     }
 }

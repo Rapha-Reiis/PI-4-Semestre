@@ -49,7 +49,7 @@ export type UserResponseDTO = {
 };
 
 export type UserResponseWhitPasswordDTO = {
-    id?: string;
+    id: string;
     name: string;
     email?: string;
     username?: string;
