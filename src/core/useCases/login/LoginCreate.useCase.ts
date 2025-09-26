@@ -4,7 +4,6 @@ import { LoginEntity } from '../../Entities/LoginEntity';
 import { ErrorNotFound } from '../../Error/ErrorNotFound';
 import { ErrorBadRequest } from '../../Error/ErrorBadRequest';
 import { IToken } from '../../../adapters/IToken';
-import { isSetIterator } from 'util/types';
 
 export class LoginCreateUseCase {
     constructor(

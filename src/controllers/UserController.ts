@@ -5,6 +5,7 @@ import { UserCreateUseCase } from '../core/useCases/user/UserCreate.useCase';
 import { UserFindByUsernameUseCase } from '../core/useCases/user/UserFindByUsername.useCase';
 import { ErrorBadRequest } from '../core/Error/ErrorBadRequest';
 import { UserFindByIdUseCase } from '../core/useCases/user/UserFindById.useCase';
+import { UserCreateDTO } from '../core/Entities/UserEntity';
 
 export class UserController {
     constructor(
@@ -16,7 +17,10 @@ export class UserController {
     ) {}
 
     async create(req: Request, res: Response) {
-        const data = req.body;
+        const filename = req.file?.filename;
+        const profile_image = filename ?? null;
+        const data: UserCreateDTO = req.body;
+        data.profile_image_url = profile_image;
         const user = await this.createUser.execute(data);
         return res.status(201).json(user);
     }

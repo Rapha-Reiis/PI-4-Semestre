@@ -16,7 +16,7 @@ class App {
 
     private middlerwares() {
         this.app.use(express.json());
-        this.app.use('/perfil-image', express.static(resolve(__dirname, '..', 'uploads')));
+        this.app.use('/perfil-image', express.static(resolve(__dirname, '..', '..', 'upload', 'profile')));
     }
 
     private routes() {
