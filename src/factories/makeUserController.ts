@@ -6,6 +6,7 @@ import { UserFindByIdUseCase } from '../core/useCases/user/UserFindById.useCase'
 import { UserFindByUsernameUseCase } from '../core/useCases/user/UserFindByUsername.useCase';
 import { UserUpdateUseCase } from '../core/useCases/user/UserUpdate.useCase';
 import { HashBcrypt } from '../infra/hashBcrypt';
+import { LocalImageStorage } from '../infra/Image/LocalImageStorage';
 import { UserRepositoryImpl } from '../infra/prisma/Repositories/UserRepositoryImpl';
 
 export function makeUserController() {
@@ -14,9 +15,10 @@ export function makeUserController() {
     const hash = new HashBcrypt();
     // service
     const verify = new UserUniquenessService(userRepo);
-
+    const storage = new LocalImageStorage();
+    // useCases
     const createUser = new UserCreateUseCase(userRepo, hash, verify);
-    const updateUser = new UserUpdateUseCase(userRepo, hash, verify);
+    const updateUser = new UserUpdateUseCase(userRepo, hash, verify, storage);
     const FId = new UserFindByIdUseCase(userRepo);
     const FEmail = new UserFindByEmailUseCase(userRepo);
     const FUsername = new UserFindByUsernameUseCase(userRepo);
