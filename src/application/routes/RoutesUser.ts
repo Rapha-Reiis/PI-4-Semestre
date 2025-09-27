@@ -31,6 +31,7 @@ class RoutesUser {
 
         this.routes.put(
             '/update/:id',
+            this.upload.single('profile'),
             this.validation.ValidationUpdate.bind(this.validation),
             this.userController.update.bind(this.userController),
         );

@@ -27,9 +27,10 @@ export class UserController {
 
     async update(req: Request, res: Response) {
         const data = req.body;
+        const filename = req.file?.filename;
         const { id } = req.params;
         if (!id) throw new ErrorBadRequest('Id não foi passado corretamente');
-        const user = await this.updateUser.execute(id, data);
+        const user = await this.updateUser.execute(id, data, filename);
         return res.status(200).json(user);
     }
 
