@@ -1,47 +1,79 @@
-import { release } from 'os';
+import { response } from 'express';
+import { get } from 'http';
+import { platform, release } from 'os';
 import { json } from 'zod';
+import { id } from 'zod/locales';
+
+const API_KEY = '5e603e9140c64ab38e6f3af8dac1f767';
+const search = 'The Witcher';
+const page = 1;
+const pageSize = 2; //----1
+
+// const url = `https://api.rawg.io/api/games?key=${API_KEY}&search=${search}&page=${page}&page_size=${pageSize}`;
+// const url = `https://api.rawg.io/api/genres?key=${API_KEY}`;
+// const url = `https://api.rawg.io/api/games/3328/achievements?key=${API_KEY}`;
+// const url = `https://api.rawg.io/api/games/3328/movies?key=${API_KEY}`;
+// const url = `https://api.rawg.io/api/games/3328/additions?key=${API_KEY}`;
+// const url = `https://api.rawg.io/api/games/3328/screenshots?key=${API_KEY}`; // - 2
 
 async function getGames() {
-    const API_KEY = '5e603e9140c64ab38e6f3af8dac1f767';
-    const search = 'The Witcher';
-    const page = 1;
-    const pageSize = 2;
+    const urlDetails = `https://api.rawg.io/api/games/3328?key=${API_KEY}`;
+    const urlScreen = `https://api.rawg.io/api/games/3328/screenshots?key=${API_KEY}`;
 
-    // const url = `https://api.rawg.io/api/games?key=${API_KEY}&search=${search}&page=${page}&page_size=${pageSize}`;
-    const url = `https://api.rawg.io/api/genres?key=${API_KEY}`;
+    const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
+    if (!detailRes.ok) throw new Error(`Erro, ${detailRes.status}`);
+    if (!shotsRes.ok) throw new Error(`Erro, ${shotsRes.status}`);
+    const data = await detailRes.json();
+    const screens = await shotsRes.json();
 
-    try {
-        console.log('Cheguei');
-        const repsonse = await fetch(url);
-        if (!repsonse.ok) throw new Error(`Errro  na requisição: ${repsonse.status}`);
+    const {
+        id,
+        slug,
+        name,
+        name_original,
+        description,
+        metacritic,
+        released,
+        background_image_additional,
+        website,
+        metacritic_url,
+        platforms,
+        developers,
+        genres,
+        publishers,
+        description_raw,
+        background_imag,
+    } = data;
 
-        const data = await repsonse.json();
-        // const games: RawgGame[] = data.results.map((item: any) => ({
-        //     rawgID: item.id,
-        //     name: item.name,
-        //     slug: item.slug,
-        //     released: item.released ?? null,
-        //     background_image: item.background_image ?? null,
-        //     metacritic: item.metacritic ?? null,
+    const games = {
+        id,
+        slug,
+        name,
+        name_original,
+        description,
+        metacritic,
+        released,
+        background_imag,
+        background_image_additional,
+        website,
+        metacritic_url,
+        platforms,
+        developers,
+        genres,
+        publishers,
+        description_raw,
+        screen_shots: screens.results,
+    };
 
-        //     platforms: (item.platforms ?? []).map((p: RawgPlatform) => ({
-        //         id: p.id,
-        //         name: p.name,
-        //     })),
-
-        //     genres: (item.genres ?? []).map((ge: RawgGenre) => ({
-        //         id: ge.id,
-        //         name: ge.name,
-        //     })),
-        // }));
-
-        console.log(JSON.stringify(data, null, 2));
-    } catch (err) {
-        console.error('Erro ao buscar o jogo ', err);
-    }
+    return games;
 }
 
-getGames();
+(async () => {
+    const games = await getGames();
+    console.log(JSON.stringify(games, null, 2));
+})().catch(console.error);
+
+// -----------------------------------------------
 
 export interface RawgGenres {
     id: number;

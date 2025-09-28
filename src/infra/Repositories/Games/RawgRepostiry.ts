@@ -1,14 +1,15 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 import 'dotenv/config';
 import { ErrorApp } from '../../../core/Error/ErrorApp';
-import { RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
-import { ErrorBadRequest } from '../../../core/Error/ErrorBadRequest';
+import { RawgGameDetails, RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
 
 export class RawgRepostiry implements IGameRepository {
     private API_KEY = process.env.KAY_RAWG ?? '';
 
     async gameList(page: string = '1', pageSize: string = '10', search?: string, genres?: string): Promise<RawgGameList[]> {
-        const url = `https://api.rawg.io/api/games?key=${this.API_KEY}&genres=${genres ?? ''}&search=${search ?? ''}&page=${page}&page_size=${pageSize}`;
+        let url = `https://api.rawg.io/api/games?key=${this.API_KEY}&page=${page}&page_size=${pageSize}`;
+        if (search) url += `&search=${search}`;
+        if (genres) url += `&genres=${genres}`;
 
         const response = await fetch(url);
         if (!response.ok) throw new ErrorApp('Sem response da RAWG', response.status, response.text);
@@ -36,8 +37,57 @@ export class RawgRepostiry implements IGameRepository {
         return games;
     }
 
-    async getById(rawgId: number): Promise<RawgGenres> {
-        throw new ErrorBadRequest();
+    async getById(rawgId: string): Promise<RawgGameDetails> {
+        const urlDetails = `https://api.rawg.io/api/games/${rawgId}?key=${this.API_KEY}`;
+        const urlScreen = `https://api.rawg.io/api/games/${rawgId}/screenshots?key=${this.API_KEY}`;
+
+        const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
+        if (!detailRes.ok) throw new Error(`Erro, ${detailRes.status}`);
+        if (!shotsRes.ok) throw new Error(`Erro, ${shotsRes.status}`);
+        const data = await detailRes.json();
+        const screens = await shotsRes.json();
+
+        const {
+            id,
+            slug,
+            name,
+            name_original,
+            description,
+            metacritic,
+            released,
+            background_image,
+            background_image_additional,
+            website,
+            metacritic_url,
+            platforms,
+            developers,
+            genres,
+            publishers,
+            description_raw,
+            background_imag,
+        } = data;
+
+        const games = {
+            id,
+            slug,
+            name,
+            name_original,
+            description,
+            metacritic,
+            released,
+            background_image,
+            background_image_additional,
+            website,
+            metacritic_url,
+            platforms,
+            developers,
+            genres,
+            publishers,
+            description_raw,
+            screen_shots: screens.results,
+        };
+
+        return games;
     }
 
     async getListGen(): Promise<any> {
