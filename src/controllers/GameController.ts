@@ -5,11 +5,13 @@ export class GameController {
     constructor(private readonly listUseCase: ListGameUseCase) {}
 
     ListOfGame = async (req: Request, res: Response): Promise<Response> => {
-        const pageNumber = Number(req.query.page ?? 1);
-        const pageSizeNumber = Number(req.query.pageSize ?? 5);
-        const search = (req.query.search as string) || undefined;
+        const pageNumber = (req.query.page as string) ?? '1';
+        const pageSizeNumber = (req.query.pageSize as string) ?? '10';
+        const search = (req.query.search as string) || null || undefined;
+        const genre = (req.query.genre as string) || null || undefined;
+        console.log(genre);
 
-        const games = await this.listUseCase.execute(pageNumber, pageSizeNumber, search);
+        const games = await this.listUseCase.execute(pageNumber, pageSizeNumber, search, genre);
 
         return res.status(201).json(games);
     };
