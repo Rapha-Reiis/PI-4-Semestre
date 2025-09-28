@@ -15,6 +15,13 @@ export interface RawgScreenShots {
     image: string;
 }
 
+export interface RawgGenres {
+    id: number;
+    name: string;
+    slug: string;
+    image_background: string;
+}
+
 export interface RawgGameList {
     rawgId: number;
     name: string;

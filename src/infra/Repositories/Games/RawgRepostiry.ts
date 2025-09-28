@@ -1,9 +1,8 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 import 'dotenv/config';
 import { ErrorApp } from '../../../core/Error/ErrorApp';
-import { RawgGameList, RawgGenre } from '../../../core/Entities/GameEntity';
+import { RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
 import { ErrorBadRequest } from '../../../core/Error/ErrorBadRequest';
-import { url } from 'inspector';
 
 export class RawgRepostiry implements IGameRepository {
     private API_KEY = process.env.KAY_RAWG ?? '';
@@ -37,7 +36,28 @@ export class RawgRepostiry implements IGameRepository {
         return games;
     }
 
-    async getById(rawgId: number): Promise<any> {
+    async getById(rawgId: number): Promise<RawgGenres> {
         throw new ErrorBadRequest();
+    }
+
+    async getListGen(): Promise<any> {
+        const url = `https://api.rawg.io/api/genres?key=${this.API_KEY}`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new ErrorApp('Erro no response RAWG', response.status, await response.text);
+
+        const data = await response.json();
+
+        const genres: RawgGenres[] = data.results.map(
+            (generos: any) =>
+                ({
+                    id: generos.id,
+                    name: generos.name,
+                    slug: generos.slug,
+                    image_background: generos.image_background,
+                }) as RawgGenres,
+        );
+
+        return genres;
     }
 }

@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
 import { ListGameUseCase } from '../core/useCases/games/ListGameUseCase';
+import { GenresUseCase } from '../core/useCases/games/GenresUseCase';
 
 export class GameController {
-    constructor(private readonly listUseCase: ListGameUseCase) {}
+    constructor(
+        private readonly listUseCase: ListGameUseCase,
+        private readonly genres: GenresUseCase,
+    ) {}
 
     ListOfGame = async (req: Request, res: Response): Promise<Response> => {
         const pageNumber = (req.query.page as string) ?? '1';
@@ -14,5 +18,10 @@ export class GameController {
         const games = await this.listUseCase.execute(pageNumber, pageSizeNumber, search, genre);
 
         return res.status(201).json(games);
+    };
+
+    ListGenre = async (req: Request, res: Response): Promise<Response> => {
+        const genres = await this.genres.execute();
+        return res.status(201).json(genres);
     };
 }

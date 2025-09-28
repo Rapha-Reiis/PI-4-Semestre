@@ -7,7 +7,8 @@ async function getGames() {
     const page = 1;
     const pageSize = 2;
 
-    const url = `https://api.rawg.io/api/games?key=${API_KEY}&search=${search}&page=${page}&page_size=${pageSize}`;
+    // const url = `https://api.rawg.io/api/games?key=${API_KEY}&search=${search}&page=${page}&page_size=${pageSize}`;
+    const url = `https://api.rawg.io/api/genres?key=${API_KEY}`;
 
     try {
         console.log('Cheguei');
@@ -34,7 +35,7 @@ async function getGames() {
         //     })),
         // }));
 
-        console.log(JSON.stringify(data.results, null, 2));
+        console.log(JSON.stringify(data, null, 2));
     } catch (err) {
         console.error('Erro ao buscar o jogo ', err);
     }
@@ -42,23 +43,11 @@ async function getGames() {
 
 getGames();
 
-async function traduzirTexto(texto: string, lang: string = 'pt'): Promise<string> {
-    console.log('tete:', texto);
-    const url = `https://libretranslate.com/translate`;
-    const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({
-            q: texto,
-            source: 'en',
-            target: lang,
-            format: 'text',
-        }),
-        headers: { 'Content-Type': 'application/json' },
-    });
-
-    const data = await response.json();
-    console.log('dps de trau: ', data);
-    return data.translatedText;
+export interface RawgGenres {
+    id: number;
+    name: string;
+    slug: string;
+    image_background: string;
 }
 
 export interface RawgPlatform {
