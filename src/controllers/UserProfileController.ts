@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { ErrorBadRequest } from '../core/Error/ErrorBadRequest';
-import { getUserProfileUseCase } from '../core/useCases/userGames/getUserProfile';
+import { ProfileGetByIdUseCase } from '../core/useCases/userGames/ProfileGetByIdUseCase';
 
 export class UserProfileController {
-    constructor(private getUserProfile: getUserProfileUseCase) {}
+    constructor(private getUserProfile: ProfileGetByIdUseCase) {}
 
     userProfile = async (req: Request, res: Response) => {
         const { userId } = req.params;

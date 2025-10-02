@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
-import { ListGameUseCase } from '../core/useCases/games/ListGameUseCase';
-import { GenresUseCase } from '../core/useCases/games/GenresUseCase';
-import { getGameByIdUseCase } from '../core/useCases/games/getGameByIdUseCase';
+
 import { ErrorBadRequest } from '../core/Error/ErrorBadRequest';
+import { GameListUseCase } from '../core/useCases/games/GameListUseCase';
+import { GameGetGenresUseCase } from '../core/useCases/games/GameGetGenresUseCase';
+import { GameGetByIdUseCase } from '../core/useCases/games/GameGetByIdUseCase';
 
 export class GameController {
     constructor(
-        private readonly listUseCase: ListGameUseCase,
-        private readonly genres: GenresUseCase,
-        private readonly gameById: getGameByIdUseCase,
+        private readonly listUseCase: GameListUseCase,
+        private readonly genres: GameGetGenresUseCase,
+        private readonly gameById: GameGetByIdUseCase,
     ) {}
 
     ListOfGame = async (req: Request, res: Response): Promise<Response> => {

@@ -1,6 +1,6 @@
 import { IProfileRepository } from '../../../adapters/Repositories/IProfileRepository';
 
-export class getUserProfileUseCase {
+export class ProfileGetByIdUseCase {
     constructor(private repository: IProfileRepository) {}
 
     async execute(userRawg: string) {

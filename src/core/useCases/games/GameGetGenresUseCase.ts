@@ -1,6 +1,6 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 
-export class GenresUseCase {
+export class GameGetGenresUseCase {
     constructor(private repository: IGameRepository) {}
 
     async execute() {

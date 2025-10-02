@@ -1,6 +1,6 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 
-export class ListGameUseCase {
+export class GameListUseCase {
     constructor(private gameRepo: IGameRepository) {}
 
     async execute(page: string, pageSize: string, search?: string, genre?: string) {

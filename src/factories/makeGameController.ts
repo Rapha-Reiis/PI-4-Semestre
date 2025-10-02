@@ -1,15 +1,15 @@
 import { GameController } from '../controllers/GameController';
-import { GenresUseCase } from '../core/useCases/games/GenresUseCase';
-import { getGameByIdUseCase } from '../core/useCases/games/getGameByIdUseCase';
-import { ListGameUseCase } from '../core/useCases/games/ListGameUseCase';
+import { GameGetGenresUseCase } from '../core/useCases/games/GameGetGenresUseCase';
+import { GameGetByIdUseCase } from '../core/useCases/games/GameGetByIdUseCase';
+import { GameListUseCase } from '../core/useCases/games/GameListUseCase';
 import { RawgRepostiry } from '../infra/Repositories/Games/RawgRepostiry';
 
 export function makeGamesController() {
     const gameRepo = new RawgRepostiry();
 
-    const ListUseCase = new ListGameUseCase(gameRepo);
-    const genreUseCase = new GenresUseCase(gameRepo);
-    const getByIdUseCase = new getGameByIdUseCase(gameRepo);
+    const ListUseCase = new GameListUseCase(gameRepo);
+    const genreUseCase = new GameGetGenresUseCase(gameRepo);
+    const getByIdUseCase = new GameGetByIdUseCase(gameRepo);
 
     return new GameController(ListUseCase, genreUseCase, getByIdUseCase);
 }

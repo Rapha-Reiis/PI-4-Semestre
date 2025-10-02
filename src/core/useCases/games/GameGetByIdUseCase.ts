@@ -1,6 +1,6 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 
-export class getGameByIdUseCase {
+export class GameGetByIdUseCase {
     constructor(private repository: IGameRepository) {}
 
     async execute(rawgId: string) {
