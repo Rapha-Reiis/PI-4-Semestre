@@ -1,6 +1,6 @@
-import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
-import { IProfileRepository } from '../../../adapters/Repositories/IProfileRepository';
-import { ErrorApp } from '../../../core/Error/ErrorApp';
+import { IGameRepository } from '../../../../adapters/Repositories/IGamesRepository';
+import { IProfileRepository } from '../../../../adapters/Repositories/IProfileRepository';
+import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
 export class ProfileUserRepository implements IProfileRepository {

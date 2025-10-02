@@ -1,7 +1,8 @@
 import { LoginController } from '../controllers/LoginController';
 import { LoginCreateUseCase } from '../core/useCases/login/LoginCreate.useCase';
 import { HashBcrypt } from '../infra/hashBcrypt';
-import { UserRepositoryImpl } from '../infra/prisma/Repositories/UserRepositoryImpl';
+import { UserRepositoryImpl } from '../infra/Repositories/prisma/Repositories/UserRepositoryImpl';
+
 import { isntaceToken } from './makeAutn';
 
 export function makeLoginController() {

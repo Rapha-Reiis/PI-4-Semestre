@@ -7,7 +7,7 @@ import { UserFindByUsernameUseCase } from '../core/useCases/user/UserFindByUsern
 import { UserUpdateUseCase } from '../core/useCases/user/UserUpdate.useCase';
 import { HashBcrypt } from '../infra/hashBcrypt';
 import { LocalImageStorage } from '../infra/Image/LocalImageStorage';
-import { UserRepositoryImpl } from '../infra/prisma/Repositories/UserRepositoryImpl';
+import { UserRepositoryImpl } from '../infra/Repositories/prisma/Repositories/UserRepositoryImpl';
 
 export function makeUserController() {
     // infra

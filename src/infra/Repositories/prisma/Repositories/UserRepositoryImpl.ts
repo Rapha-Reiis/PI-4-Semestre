@@ -1,6 +1,6 @@
-import { IUserRepository } from '../../../adapters/Repositories/IUserRepository';
-import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../core/Entities/UserEntity';
-import { ErrorApp } from '../../../core/Error/ErrorApp';
+import { IUserRepository } from '../../../../adapters/Repositories/IUserRepository';
+import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../../core/Entities/UserEntity';
+import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
 export class UserRepositoryImpl implements IUserRepository {
