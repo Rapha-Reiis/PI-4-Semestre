@@ -15,7 +15,6 @@ export class UserCreateUseCase {
 
     async execute(data: UserCreateDTO) {
         const details = await this.verifyUnique.verify(data.email, data.username);
-        console.log('details');
         if (details) {
             throw new ErrorConflitct(details);
         }
@@ -25,7 +24,6 @@ export class UserCreateUseCase {
         if (data.profile_image_url) {
             data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${data.profile_image_url}`;
         }
-        console.log(data.profile_image_url);
         return await this.repository.create(data);
     }
 }

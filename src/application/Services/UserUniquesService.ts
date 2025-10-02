@@ -17,7 +17,6 @@ export class UserUniquenessService {
 
         if (username) {
             const existingUser = await this.userRepo.findByUsername(username);
-            console.log(existingUser);
             if (UserId) {
                 if (existingUser && existingUser.id !== UserId) details.push({ field: 'username', message: 'Username já cadastrado' });
             } else {

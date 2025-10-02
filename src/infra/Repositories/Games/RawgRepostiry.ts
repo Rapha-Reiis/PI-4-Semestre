@@ -42,10 +42,11 @@ export class RawgRepostiry implements IGameRepository {
         const urlScreen = `https://api.rawg.io/api/games/${rawgId}/screenshots?key=${this.API_KEY}`;
 
         const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
-        if (!detailRes.ok) throw new Error(`Erro, ${detailRes.status}`);
-        if (!shotsRes.ok) throw new Error(`Erro, ${shotsRes.status}`);
-        const data = await detailRes.json();
-        const screens = await shotsRes.json();
+
+        if (!detailRes.ok) throw new ErrorApp('Erro ao buscar dados do jogo', detailRes.status);
+        if (!shotsRes.ok) throw new ErrorApp('Erro ao buscar screen do jogo', detailRes.status);
+
+        const [data, screens] = await Promise.all([detailRes.json(), shotsRes.json()]);
 
         const {
             id,
@@ -64,7 +65,6 @@ export class RawgRepostiry implements IGameRepository {
             genres,
             publishers,
             description_raw,
-            background_imag,
         } = data;
 
         const games = {
@@ -94,7 +94,7 @@ export class RawgRepostiry implements IGameRepository {
         const url = `https://api.rawg.io/api/genres?key=${this.API_KEY}`;
 
         const response = await fetch(url);
-        if (!response.ok) throw new ErrorApp('Erro no response RAWG', response.status, await response.text);
+        if (!response.ok) throw new ErrorApp('Erro no response RAWG', response.status, response.text);
 
         const data = await response.json();
 

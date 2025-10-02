@@ -1,9 +1,3 @@
-import { response } from 'express';
-import { get } from 'http';
-import { platform, release } from 'os';
-import { json } from 'zod';
-import { id } from 'zod/locales';
-
 const API_KEY = '5e603e9140c64ab38e6f3af8dac1f767';
 const search = 'The Witcher';
 const page = 1;
@@ -17,8 +11,8 @@ const pageSize = 2; //----1
 // const url = `https://api.rawg.io/api/games/3328/screenshots?key=${API_KEY}`; // - 2
 
 async function getGames() {
-    const urlDetails = `https://api.rawg.io/api/games/3328?key=${API_KEY}`;
-    const urlScreen = `https://api.rawg.io/api/games/3328/screenshots?key=${API_KEY}`;
+    const urlDetails = `https://api.rawg.io/api/games/3498?key=${API_KEY}`;
+    const urlScreen = `https://api.rawg.io/api/games/3498/screenshots?key=${API_KEY}`;
 
     const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
     if (!detailRes.ok) throw new Error(`Erro, ${detailRes.status}`);
@@ -67,6 +61,8 @@ async function getGames() {
 
     return games;
 }
+
+// function getAll() {}
 
 (async () => {
     const games = await getGames();

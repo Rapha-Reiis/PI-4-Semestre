@@ -10,7 +10,6 @@ export class JwtToken implements IToken {
 
     assin(userID: string): string {
         const secret = process.env.SECRET_KEY ?? 'rapha';
-        console.log('key: ', secret);
         return this.token.sign({ id: userID }, secret, {
             expiresIn: '5d',
         });

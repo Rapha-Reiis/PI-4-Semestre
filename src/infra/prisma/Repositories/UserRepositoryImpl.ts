@@ -72,7 +72,6 @@ export class UserRepositoryImpl implements IUserRepository {
     }
 
     async findByUsername(username: string): Promise<UserResponseDTO | null> {
-        console.log('repoUser: ', username);
         try {
             return await this.prisma.user.findUnique({
                 where: { username },

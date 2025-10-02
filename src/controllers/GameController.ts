@@ -16,7 +16,6 @@ export class GameController {
         const pageSizeNumber = (req.query.pageSize as string) ?? '10';
         const search = (req.query.search as string) || null || undefined;
         const genre = (req.query.genre as string) || null || undefined;
-        console.log(genre);
 
         const games = await this.listUseCase.execute(pageNumber, pageSizeNumber, search, genre);
 
