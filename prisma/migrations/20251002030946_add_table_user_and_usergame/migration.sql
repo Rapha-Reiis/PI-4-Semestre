@@ -42,6 +42,9 @@ CREATE UNIQUE INDEX "User_username_key" ON "public"."User"("username");
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
 
 -- CreateIndex
+CREATE INDEX "UserGame_userId_status_idx" ON "public"."UserGame"("userId", "status");
+
+-- CreateIndex
 CREATE INDEX "UserGame_userId_idx" ON "public"."UserGame"("userId");
 
 -- CreateIndex
@@ -51,4 +54,4 @@ CREATE INDEX "UserGame_rawgId_idx" ON "public"."UserGame"("rawgId");
 CREATE UNIQUE INDEX "UserGame_userId_rawgId_key" ON "public"."UserGame"("userId", "rawgId");
 
 -- AddForeignKey
-ALTER TABLE "public"."UserGame" ADD CONSTRAINT "UserGame_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "public"."UserGame" ADD CONSTRAINT "UserGame_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
