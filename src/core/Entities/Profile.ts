@@ -21,6 +21,14 @@ export type ProfileCreateDTO = {
     review?: string;
 };
 
+export type ProfileUpdateDTO = {
+    id: string;
+    status?: GameStatus;
+    rating?: number;
+    note?: string;
+    review?: string;
+};
+
 export type userWithGame = {
     user: userGameEntity;
     game: RawgGameDetails;

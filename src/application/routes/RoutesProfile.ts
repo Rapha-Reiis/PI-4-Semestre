@@ -12,6 +12,7 @@ class RoutesProfile {
     private initRoutes() {
         this.routes.get('/:userId', this.profileController.userProfile);
         this.routes.post('/', this.profileController.createProfile);
+        this.routes.put('/update/:id', this.profileController.updateProfiel);
     }
 }
 

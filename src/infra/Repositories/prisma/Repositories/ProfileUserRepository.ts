@@ -1,6 +1,6 @@
 import { IGameRepository } from '../../../../adapters/Repositories/IGamesRepository';
 import { IProfileRepository } from '../../../../adapters/Repositories/IProfileRepository';
-import { ProfileCreateDTO } from '../../../../core/Entities/Profile';
+import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/Profile';
 import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
@@ -50,6 +50,30 @@ export class ProfileUserRepository implements IProfileRepository {
             return userWithGame;
         } catch (err) {
             throw new ErrorApp('Erro ao buscar o games do perfil no repositório', 500);
+        }
+    }
+
+    async UpdateDataProfile(data: ProfileUpdateDTO): Promise<any> {
+        console.log(data.rating);
+        try {
+            const select = {
+                status: !!data.status,
+                rating: !!data.rating,
+                note: !!data.note,
+                review: !!data.review,
+            };
+
+            const perfilUpdate = await prisma.userGame.update({
+                where: { id: data.id },
+                data,
+                select,
+            });
+
+            console.log('update:', perfilUpdate);
+
+            return perfilUpdate;
+        } catch (err) {
+            throw new ErrorApp('Erro ao atualizar o perfil no repositório', 500, err);
         }
     }
 }
