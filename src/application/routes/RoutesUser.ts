@@ -5,7 +5,6 @@ import { UserValidationMiddleware } from '../../Middleware/UserValidationMiddlew
 import { ZodUserValidation } from '../../infra/Validations/ZodValidations/User/ZodUserValidation';
 import { AuthMiddleware } from '../../Middleware/AuthMiddleware';
 import { isntaceToken } from '../../factories/makeAutn';
-import th from 'zod/v4/locales/th.js';
 import multer from 'multer';
 import multerConfig from '../../infra/Config/Multer/multerConfig';
 

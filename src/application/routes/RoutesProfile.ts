@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { makeProfileController } from '../../factories/makeProfileController';
 
-class RoutesUserProfile {
+class RoutesProfile {
     public routes = Router();
     private profileController = makeProfileController();
 
@@ -10,8 +10,9 @@ class RoutesUserProfile {
     }
 
     private initRoutes() {
-        this.routes.use('/:userId', this.profileController.userProfile);
+        this.routes.get('/:userId', this.profileController.userProfile);
+        this.routes.post('/', this.profileController.createProfile);
     }
 }
 
-export default new RoutesUserProfile().routes;
+export default new RoutesProfile().routes;

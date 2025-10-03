@@ -11,8 +11,8 @@ const pageSize = 2; //----1
 // const url = `https://api.rawg.io/api/games/3328/screenshots?key=${API_KEY}`; // - 2
 
 async function getGames() {
-    const urlDetails = `https://api.rawg.io/api/games/3498?key=${API_KEY}`;
-    const urlScreen = `https://api.rawg.io/api/games/3498/screenshots?key=${API_KEY}`;
+    const urlDetails = `https://api.rawg.io/api/games/4233?key=${API_KEY}`;
+    const urlScreen = `https://api.rawg.io/api/games/4233/screenshots?key=${API_KEY}`;
 
     const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
     if (!detailRes.ok) throw new Error(`Erro, ${detailRes.status}`);

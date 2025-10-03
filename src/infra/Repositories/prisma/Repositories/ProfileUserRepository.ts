@@ -1,10 +1,23 @@
 import { IGameRepository } from '../../../../adapters/Repositories/IGamesRepository';
 import { IProfileRepository } from '../../../../adapters/Repositories/IProfileRepository';
+import { ProfileCreateDTO } from '../../../../core/Entities/Profile';
 import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
 export class ProfileUserRepository implements IProfileRepository {
     constructor(private repository: IGameRepository) {}
+
+    async createUserProfile(data: ProfileCreateDTO): Promise<any> {
+        try {
+            const profile = await prisma.userGame.create({
+                data,
+            });
+
+            return profile;
+        } catch (err) {
+            throw new ErrorApp('Erro no repository ao cadastrar no perfil', 500, err);
+        }
+    }
 
     async getUserProfile(userId: string): Promise<any> {
         try {

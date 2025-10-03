@@ -11,6 +11,16 @@ export interface userGameEntity {
     review?: string;
 }
 
+export type ProfileCreateDTO = {
+    id?: string;
+    userId: string;
+    rawgId: number;
+    status: GameStatus;
+    rating?: number;
+    note?: string;
+    review?: string;
+};
+
 export type userWithGame = {
     user: userGameEntity;
     game: RawgGameDetails;
