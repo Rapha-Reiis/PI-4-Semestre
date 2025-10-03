@@ -2,6 +2,8 @@ import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository
 import 'dotenv/config';
 import { ErrorApp } from '../../../core/Error/ErrorApp';
 import { RawgGameDetails, RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
+import { ErrorNotFound } from '../../../core/Error/ErrorNotFound';
+import { ErrorRawg } from '../../../util/ErrorRawg';
 
 export class RawgRepostiry implements IGameRepository {
     private API_KEY = process.env.KAY_RAWG ?? '';
@@ -12,7 +14,7 @@ export class RawgRepostiry implements IGameRepository {
         if (genres) url += `&genres=${genres}`;
 
         const response = await fetch(url);
-        if (!response.ok) throw new ErrorApp('Sem response da RAWG', response.status, response.text);
+        if (!response.ok) ErrorRawg(response.status);
         const data = await response.json();
 
         const games: RawgGameList[] = data.results.map((item: any) => ({
@@ -43,8 +45,8 @@ export class RawgRepostiry implements IGameRepository {
 
         const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
 
-        if (!detailRes.ok) throw new ErrorApp('Erro ao buscar dados do jogo', detailRes.status);
-        if (!shotsRes.ok) throw new ErrorApp('Erro ao buscar screen do jogo', detailRes.status);
+        if (!detailRes.ok) ErrorRawg(detailRes.status);
+        if (!shotsRes.ok) ErrorRawg(detailRes.status);
 
         const [data, screens] = await Promise.all([detailRes.json(), shotsRes.json()]);
 
@@ -94,7 +96,7 @@ export class RawgRepostiry implements IGameRepository {
         const url = `https://api.rawg.io/api/genres?key=${this.API_KEY}`;
 
         const response = await fetch(url);
-        if (!response.ok) throw new ErrorApp('Erro no response RAWG', response.status, response.text);
+        if (!response.ok) ErrorRawg(response.status);
 
         const data = await response.json();
 
