@@ -28,9 +28,7 @@ export class ProfileUserRepository implements IProfileRepository {
                     userId: true,
                     rawgId: true,
                     status: true,
-                    rating: true,
                     note: true,
-                    review: true,
                 },
             });
             if (userGames.length === 0) {
