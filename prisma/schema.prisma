@@ -20,16 +20,23 @@ model User {
   created_at        DateTime @default(now())
 
   userGames UserGame[]
+  reviews   Review[]
+  likes     ReviewLike[]
 }
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// -------------------------------------------------
 
 model UserGame {
   id     String     @id @default(cuid())
   userId String
   rawgId Int
   status GameStatus
-  rating Int?
   note   String?
-  review String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -49,7 +56,46 @@ enum GameStatus {
   DROPPED
 }
 
-enum Role {
-  USER
-  ADMIN
+// ------------------------------------------------------------------------------------
+
+model Review {
+  id           String       @id @default(cuid())
+  userId       String
+  rawgId       Int
+  title        String
+  body         String
+  rating       Int
+  isPublic     Boolean      @default(true)
+  status       ReviewStatus @default(PUBLISHED)
+  published_at DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  author User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes  ReviewLike[]
+
+  @@unique([userId, rawgId], name: "userId_rawgId")
+  @@index([isPublic, status, published_at])
+  @@index([rawgId, isPublic, status, published_at])
+  @@index([userId, status, updated_at])
+}
+
+model ReviewLike {
+  id         String   @id @default(cuid())
+  reviewId   String
+  userId     String
+  created_at DateTime @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewId, userId], name: "review_user_unique")
+  @@index([userId])
+}
+
+enum ReviewStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }

@@ -1,8 +1,6 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 import 'dotenv/config';
-import { ErrorApp } from '../../../core/Error/ErrorApp';
 import { RawgGameDetails, RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
-import { ErrorNotFound } from '../../../core/Error/ErrorNotFound';
 import { ErrorRawg } from '../../../util/ErrorRawg';
 
 export class RawgRepostiry implements IGameRepository {
