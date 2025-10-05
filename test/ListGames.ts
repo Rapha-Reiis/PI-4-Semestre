@@ -1,3 +1,6 @@
+import { any, map } from 'zod';
+import { id } from 'zod/locales';
+
 const API_KEY = '5e603e9140c64ab38e6f3af8dac1f767';
 const search = 'The Witcher';
 const page = 1;
@@ -62,11 +65,36 @@ async function getGames() {
     return games;
 }
 
-// function getAll() {}
+async function getAll() {
+    const url = `https://api.rawg.io/api/games/3328?key=${API_KEY}`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Errr, status: ${response.status}`);
+
+    const data = await response.json();
+
+    console.log(data);
+    console.log('--------------------');
+
+    const games = {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        metacritic: data.metacritic,
+        released: data.released,
+        background_image: data.background_image,
+        website: data.website,
+        playtime: data.playtime,
+        platforms: data.platforms.map((g: any) => ({ id: g.platform.id, name: g.platform.name })),
+        genres: [data.genres.map((g: any) => ({ id: g.id, name: g.name }))],
+    };
+
+    console.log(JSON.stringify(games, null, 2));
+}
 
 (async () => {
-    const games = await getGames();
-    console.log(JSON.stringify(games, null, 2));
+    const games = await getAll();
+    // console.log(JSON.stringify(games, null, 2));
 })().catch(console.error);
 
 // -----------------------------------------------

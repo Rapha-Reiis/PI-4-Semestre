@@ -37,7 +37,7 @@ export class ProfileUserRepository implements IProfileRepository {
 
             const userWithGame = await Promise.all(
                 userGames.map(async (user: any) => {
-                    const game = await this.repository.getById(user.rawgId);
+                    const game = await this.repository.getByIdSimple(user.rawgId);
                     return {
                         ...user,
                         game: game,

@@ -2,6 +2,7 @@ import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository
 import 'dotenv/config';
 import { RawgGameDetails, RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
 import { ErrorRawg } from '../../../util/ErrorRawg';
+import { ErrorApp } from '../../../core/Error/ErrorApp';
 
 export class RawgRepostiry implements IGameRepository {
     private API_KEY = process.env.KAY_RAWG ?? '';
@@ -85,6 +86,29 @@ export class RawgRepostiry implements IGameRepository {
             publishers,
             description_raw,
             screen_shots: screens.results,
+        };
+
+        return games;
+    }
+
+    async getByIdSimple(rawgId: string): Promise<any> {
+        const urlDetails = `https://api.rawg.io/api/games/${rawgId}?key=${this.API_KEY}`;
+
+        const response = await fetch(urlDetails);
+        if (!response.ok) ErrorRawg(response.status);
+        const data = await response.json();
+
+        const games = {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            metacritic: data.metacritic,
+            released: data.released,
+            background_image: data.background_image,
+            website: data.website,
+            playtime: data.playtime,
+            platforms: data.platforms.map((g: any) => ({ id: g.platform.id, name: g.platform.name })),
+            genres: [data.genres.map((g: any) => ({ id: g.id, name: g.name }))],
         };
 
         return games;
