@@ -97,5 +97,6 @@ model ReviewLike {
 enum ReviewStatus {
   DRAFT
   PUBLISHED
-  ARCHIVED
 }
+
+// ------------------------------------------------------------------------------------
