@@ -4,7 +4,6 @@ import { ProfileGetByIdUseCase } from '../core/useCases/Profile/ProfileGetByIdUs
 import { ProfileCreateUseCase } from '../core/useCases/Profile/ProfileCreateUseCase';
 import { ProfileCreateDTO, ProfileUpdateDTO } from '../core/Entities/Profile';
 import { ProfileUpdateUseCase } from '../core/useCases/Profile/ProfileUpdateUseCase';
-import no from 'zod/v4/locales/no.js';
 
 export class ProfileController {
     constructor(
@@ -23,14 +22,14 @@ export class ProfileController {
 
     createProfile = async (req: Request, res: Response) => {
         if (!req.body) throw new ErrorBadRequest('Não foi passado o body corretamente');
-        const { userId, rawgId, status } = req.body;
+        const { userId, rawgId, status, note } = req.body;
 
         const profileCreate: ProfileCreateDTO = {
             rawgId: rawgId,
             status: status,
             userId: userId,
+            note: note,
         };
-        console.log(profileCreate);
         const profile = await this.createProfileUC.exeute(profileCreate);
 
         return res.status(201).json(profile);
@@ -41,7 +40,6 @@ export class ProfileController {
         if (!req.params) throw new ErrorBadRequest('Parâmetro do ID não foi passado corretamente');
         const { status, rating, note, review } = req.body;
         const { id } = req.params;
-        console.log(id);
 
         const data = {
             id: id,

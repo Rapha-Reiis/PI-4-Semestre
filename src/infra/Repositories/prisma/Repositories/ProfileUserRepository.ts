@@ -1,3 +1,4 @@
+import { Prisma, PrismaClient, UserGame } from '@prisma/client';
 import { IGameRepository } from '../../../../adapters/Repositories/IGamesRepository';
 import { IProfileRepository } from '../../../../adapters/Repositories/IProfileRepository';
 import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/Profile';
@@ -7,7 +8,17 @@ import { prisma } from '../client';
 export class ProfileUserRepository implements IProfileRepository {
     constructor(private repository: IGameRepository) {}
 
-    async createUserProfile(data: ProfileCreateDTO): Promise<any> {
+    async createUserProfile(profile: ProfileCreateDTO): Promise<any> {
+        const rawgId = Number(profile.rawgId);
+        const data: Prisma.UserGameCreateInput = {
+            rawgId,
+            status: profile.status,
+            user: {
+                connect: { id: profile.userId },
+            },
+            note: profile.note,
+        };
+        //
         try {
             const profile = await prisma.userGame.create({
                 data,
@@ -51,27 +62,43 @@ export class ProfileUserRepository implements IProfileRepository {
         }
     }
 
-    async UpdateDataProfile(data: ProfileUpdateDTO): Promise<any> {
-        console.log(data.rating);
+    async UpdateDataProfile(profileUpdate: ProfileUpdateDTO): Promise<any> {
         try {
+            const data: Prisma.UserGameUpdateInput = {
+                status: profileUpdate.status,
+                note: profileUpdate.note,
+            };
+            //
             const select = {
                 status: !!data.status,
-                rating: !!data.rating,
                 note: !!data.note,
-                review: !!data.review,
             };
-
+            //
             const perfilUpdate = await prisma.userGame.update({
-                where: { id: data.id },
+                where: { id: profileUpdate.id },
                 data,
                 select,
             });
 
-            console.log('update:', perfilUpdate);
-
             return perfilUpdate;
         } catch (err) {
             throw new ErrorApp('Erro ao atualizar o perfil no repositório', 500, err);
+        }
+    }
+
+    async VerifyGameWithUser(userId: string, rawgId: string): Promise<any> {
+        const idRawg = Number(rawgId);
+        try {
+            let exist = false;
+            const profile = await prisma.userGame.findFirst({
+                where: { userId: userId, rawgId: idRawg },
+            });
+
+            if (profile) exist = true;
+
+            return exist;
+        } catch (err) {
+            throw new ErrorApp('Erro ao consultar o banco', 500, err);
         }
     }
 }

@@ -6,27 +6,20 @@ export interface userGameEntity {
     userId: string;
     rawgId: string;
     status?: GameStatus;
-    rating?: number;
     note?: string;
-    review?: string;
 }
 
 export type ProfileCreateDTO = {
-    id?: string;
     userId: string;
-    rawgId: number;
+    rawgId: string;
     status: GameStatus;
-    rating?: number;
-    note?: string;
-    review?: string;
+    note: string | null;
 };
 
 export type ProfileUpdateDTO = {
     id: string;
-    status?: GameStatus;
-    rating?: number;
-    note?: string;
-    review?: string;
+    status: GameStatus;
+    note: string | null;
 };
 
 export type userWithGame = {

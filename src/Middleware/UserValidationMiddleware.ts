@@ -18,7 +18,6 @@ export class UserValidationMiddleware {
     }
 
     async ValidationUpdate(req: Request, res: Response, next: NextFunction) {
-        console.log('esout auqi');
         if (!req.body) {
             throw new ErrorBadRequest('Não foi passado o body corretamente');
         }
