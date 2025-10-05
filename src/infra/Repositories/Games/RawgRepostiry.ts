@@ -1,13 +1,21 @@
 import { IGameRepository } from '../../../adapters/Repositories/IGamesRepository';
 import 'dotenv/config';
-import { RawgGameDetails, RawgGameList, RawgGenre, RawgGenres } from '../../../core/Entities/GameEntity';
+import {
+    GameCompact,
+    gameComplete,
+    GameDevelopers,
+    GameGenres,
+    GamePlatforms,
+    GamePublisher,
+    GameScreenShots,
+} from '../../../core/Entities/GameEntity';
 import { ErrorRawg } from '../../../util/ErrorRawg';
-import { ErrorApp } from '../../../core/Error/ErrorApp';
+import { any } from 'zod';
 
 export class RawgRepostiry implements IGameRepository {
     private API_KEY = process.env.KAY_RAWG ?? '';
 
-    async gameList(page: string = '1', pageSize: string = '10', search?: string, genres?: string): Promise<RawgGameList[]> {
+    async gameList(page: string = '1', pageSize: string = '10', search?: string, genres?: string): Promise<GameCompact[]> {
         let url = `https://api.rawg.io/api/games?key=${this.API_KEY}&page=${page}&page_size=${pageSize}`;
         if (search) url += `&search=${search}`;
         if (genres) url += `&genres=${genres}`;
@@ -16,29 +24,42 @@ export class RawgRepostiry implements IGameRepository {
         if (!response.ok) ErrorRawg(response.status);
         const data = await response.json();
 
-        const games: RawgGameList[] = data.results.map((item: any) => ({
-            rawgId: item.id,
-            name: item.name,
-            slug: item.slug,
-            released: item.released ?? null,
-            background_image: item.background_image ?? null,
-            metacritic: item.metacritic ?? null,
-
-            genres: (item.genres ?? []).map((gen: RawgGenre) => ({
-                id: gen.id,
-                name: gen.name,
-            })),
-
-            platforms: (item.platforms ?? []).map((p: any) => ({
-                id: p.platform.id,
-                name: p.platform.name,
-            })),
-        }));
+        const games: GameCompact[] = data.results.map(
+            (game: any): GameCompact => ({
+                idGame: game.id,
+                name: game.name,
+                slug: game.slug,
+                description: game.description,
+                metacritic: game.metacritic,
+                released: game.released,
+                background_image: game.background_image,
+                website: game.website,
+                platforms: (game.platforms ?? []).map(
+                    (p: any): GamePlatforms => ({
+                        id: p.platform.id,
+                        name: p.platform.name,
+                        image_background: p.platform.image_background ?? null,
+                        requirements: {
+                            minimum: game.requirements?.minimum ?? null,
+                            recommended: game.requirements?.recommended ?? null,
+                        },
+                    }),
+                ),
+                genres: (game.genres ?? []).map(
+                    (g: any): GameGenres => ({
+                        id: g.id,
+                        name: g.name,
+                        slug: g.slug,
+                        image_background: g.image_background,
+                    }),
+                ),
+            }),
+        );
 
         return games;
     }
 
-    async getById(rawgId: string): Promise<RawgGameDetails> {
+    async getById(rawgId: string): Promise<gameComplete> {
         const urlDetails = `https://api.rawg.io/api/games/${rawgId}?key=${this.API_KEY}`;
         const urlScreen = `https://api.rawg.io/api/games/${rawgId}/screenshots?key=${this.API_KEY}`;
 
@@ -59,6 +80,8 @@ export class RawgRepostiry implements IGameRepository {
             released,
             background_image,
             background_image_additional,
+            playtime,
+            reddit_url,
             website,
             metacritic_url,
             platforms,
@@ -68,45 +91,84 @@ export class RawgRepostiry implements IGameRepository {
             description_raw,
         } = data;
 
-        const games = {
-            id,
+        const games: gameComplete = {
+            idGame: id,
             slug,
             name,
             name_original,
             description,
             metacritic,
+            description2: description_raw,
             released,
             background_image,
             background_image_additional,
+            playtime,
+            reddit_url,
             website,
             metacritic_url,
-            platforms,
-            developers,
-            genres,
-            publishers,
-            description_raw,
-            screen_shots: screens.results,
+            paltforms: platforms.map(
+                (g: any): GamePlatforms => ({
+                    id: g.platform.id,
+                    name: g.platform.name,
+                    image_background: g.platform.image_background,
+                    requirements: {
+                        minimum: g.requirements?.minimum,
+                        recommended: g.requirements?.recommended,
+                    },
+                }),
+            ),
+            genres: (genres ?? []).map(
+                (g: any): GameGenres => ({
+                    id: g.id,
+                    name: g.name,
+                    slug: g.slug,
+                    image_background: g.image_background,
+                }),
+            ),
+            publishers: (publishers ?? []).map(
+                (p: any): GamePublisher => ({
+                    id: p.id,
+                    name: p.name,
+                    slug: p.slug,
+                    image_background: p.image_background,
+                }),
+            ),
+            developers: developers.map(
+                (d: any): GameDevelopers => ({
+                    id: d.id,
+                    name: d.name,
+                    slug: d.slug,
+                    image_background: d.image_background,
+                }),
+            ),
+            screen_shots: screens.results.map(
+                (s: any): GameScreenShots => ({
+                    id: s.id,
+                    image: s.image,
+                    height: s.height,
+                    width: s.width,
+                }),
+            ),
         };
-
         return games;
     }
 
-    async getByIdSimple(rawgId: string): Promise<any> {
+    async getByIdSimple(rawgId: string): Promise<GameCompact> {
         const urlDetails = `https://api.rawg.io/api/games/${rawgId}?key=${this.API_KEY}`;
 
         const response = await fetch(urlDetails);
         if (!response.ok) ErrorRawg(response.status);
         const data = await response.json();
 
-        const games = {
-            id: data.id,
+        const games: GameCompact = {
+            idGame: data.id,
             name: data.name,
+            slug: data.slug,
             description: data.description,
             metacritic: data.metacritic,
             released: data.released,
             background_image: data.background_image,
             website: data.website,
-            playtime: data.playtime,
             platforms: data.platforms.map((g: any) => ({ id: g.platform.id, name: g.platform.name })),
             genres: [data.genres.map((g: any) => ({ id: g.id, name: g.name }))],
         };
@@ -114,7 +176,7 @@ export class RawgRepostiry implements IGameRepository {
         return games;
     }
 
-    async getListGen(): Promise<any> {
+    async getListGen(): Promise<GameGenres[]> {
         const url = `https://api.rawg.io/api/genres?key=${this.API_KEY}`;
 
         const response = await fetch(url);
@@ -122,14 +184,13 @@ export class RawgRepostiry implements IGameRepository {
 
         const data = await response.json();
 
-        const genres: RawgGenres[] = data.results.map(
-            (generos: any) =>
-                ({
-                    id: generos.id,
-                    name: generos.name,
-                    slug: generos.slug,
-                    image_background: generos.image_background,
-                }) as RawgGenres,
+        const genres: GameGenres[] = data.results.map(
+            (generos: any): GameGenres => ({
+                id: generos.id,
+                name: generos.name,
+                slug: generos.slug,
+                image_background: generos.image_background,
+            }),
         );
 
         return genres;

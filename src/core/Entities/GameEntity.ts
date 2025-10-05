@@ -1,93 +1,82 @@
-export interface RawgPlatform {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-export interface RawgGenre {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-export interface RawgScreenShots {
-    id: number;
-    image: string;
-}
-
-export interface RawgGenres {
-    id: number;
-    name: string;
-    slug: string;
-    image_background: string;
-}
-
-export interface RawgGameList {
-    rawgId: number;
-    name: string;
-    slug: string;
-    released: string | null;
-    background_image: string | null;
-    metacritic: number | null;
-    genres: RawgGenre[];
-    platforms: RawgPlatform[];
-}
-
-export interface RawgGameDetails {
-    id: number;
+export interface gameComplete {
+    idGame: number;
     slug: string;
     name: string;
-    name_original: string;
-    description: string;
-    description_raw: string;
+    name_original: string | null;
+    description: string | null;
+    description2: string | null;
     metacritic: number | null;
     released: string | null;
     background_image: string | null;
     background_image_additional: string | null;
+    playtime: number | null;
+    reddit_url: string | null;
     website: string | null;
     metacritic_url: string | null;
-    platforms: RawgPlatform[];
-    developers: RawgCompany[];
-    genres: RawgGenre[];
-    publishers: RawgCompany[];
-    screen_shots: RawgScreenshot[];
+    paltforms: GamePlatforms[];
+    genres: GameGenres[];
+    publishers: GamePublisher[];
+    developers: GameDevelopers[];
+    screen_shots: GameScreenShots[];
 }
 
-export interface RawgPlatformInfo {
+export interface GameCompact {
+    idGame: number;
+    name: string;
+    slug: string;
+    description: string | null;
+    metacritic: number | null;
+    released: string | null;
+    background_image: string | null;
+    website: string | null;
+    platforms: GamePlatforms[];
+    genres: GameGenres[];
+}
+
+// ------------------------------------------------
+
+export interface GamePlatforms {
+    id: number;
+    name: string;
+    image_background: string | null;
+    requirements?: {
+        minimum?: string;
+        recommended?: string;
+    };
+}
+
+// ------------------------------------------------
+
+export interface GameGenres {
+    id: number;
+    name: string;
+    slug: string | null;
+    image_background: string | null;
+}
+
+// ------------------------------------------------
+
+export interface GamePublisher {
     id: number;
     name: string;
     slug: string;
-    image: string | null;
-    year_end: number | null;
-    year_start: number | null;
-    games_count: number;
-    image_background: string;
+    image_background: string | null;
 }
 
-export interface RawgPlatform {
-    platform: RawgPlatformInfo;
-}
+// ------------------------------------------------
 
-export interface RawgCompany {
+export interface GameDevelopers {
     id: number;
     name: string;
     slug: string;
-    games_count: number;
     image_background: string;
 }
 
-export interface RawgGenre {
-    id: number;
-    name: string;
-    slug: string;
-    games_count: number;
-    image_background: string;
-}
+// ------------------------------------------------
 
-export interface RawgScreenshot {
+export interface GameScreenShots {
     id: number;
     image: string;
-    width: number;
-    height: number;
-    is_deleted: boolean;
+    width: number | null;
+    height: number | null;
 }
