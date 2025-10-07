@@ -1,17 +1,17 @@
 import { GameStatus } from '@prisma/client';
-import { RawgGameDetails } from './GameEntity';
+import { GameCompact } from './GameEntity';
 
 export interface userGameEntity {
     id: string;
     userId: string;
-    rawgId: string;
+    gameId: string;
     status?: GameStatus;
     note?: string;
 }
 
 export type ProfileCreateDTO = {
     userId: string;
-    rawgId: string;
+    gameId: string;
     status: GameStatus;
     note: string | null;
 };
@@ -24,5 +24,5 @@ export type ProfileUpdateDTO = {
 
 export type userWithGame = {
     user: userGameEntity;
-    game: RawgGameDetails;
+    game: GameCompact;
 };
