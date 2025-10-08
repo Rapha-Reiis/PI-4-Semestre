@@ -9,9 +9,9 @@ export class ProfileUserRepository implements IProfileRepository {
     constructor(private repository: IGameRepository) {}
 
     async createUserProfile(profile: ProfileCreateDTO): Promise<any> {
-        const rawgId = Number(profile.gameId);
+        const gameId = Number(profile.gameId);
         const data: Prisma.UserGameCreateInput = {
-            rawgId,
+            gameId: gameId,
             status: profile.status,
             user: {
                 connect: { id: profile.userId },
@@ -103,7 +103,7 @@ export class ProfileUserRepository implements IProfileRepository {
         try {
             let exist = false;
             const profile = await prisma.userGame.findFirst({
-                where: { userId: userId, rawgId: idGame },
+                where: { userId: userId, gameId: idGame },
             });
             //
             if (profile) exist = true;

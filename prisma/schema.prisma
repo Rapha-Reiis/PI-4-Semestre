@@ -34,7 +34,7 @@ enum Role {
 model UserGame {
   id     String     @id @default(cuid())
   userId String
-  rawgId Int
+  gameId Int
   status GameStatus
   note   String?
 
@@ -43,10 +43,10 @@ model UserGame {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, rawgId])
+  @@unique([userId, gameId])
   @@index([userId, status])
   @@index([userId])
-  @@index([rawgId])
+  @@index([gameId])
 }
 
 enum GameStatus {
