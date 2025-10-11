@@ -61,7 +61,7 @@ enum GameStatus {
 model Review {
   id           String       @id @default(cuid())
   userId       String
-  rawgId       Int
+  gameId       Int
   title        String
   body         String
   rating       Int
@@ -75,9 +75,9 @@ model Review {
   author User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   likes  ReviewLike[]
 
-  @@unique([userId, rawgId], name: "userId_rawgId")
+  @@unique([userId, gameId], name: "userId_rawgId")
   @@index([isPublic, status, published_at])
-  @@index([rawgId, isPublic, status, published_at])
+  @@index([gameId, isPublic, status, published_at])
   @@index([userId, status, updated_at])
 }
 
