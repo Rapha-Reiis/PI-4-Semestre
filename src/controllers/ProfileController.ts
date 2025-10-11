@@ -19,6 +19,7 @@ export class ProfileController {
 
         const pageN = Number(page);
         const limitN = Number(limit);
+
         let gameStatus: GameStatus | undefined;
         if (status && Object.values(GameStatus).includes(status.toString().toUpperCase() as GameStatus)) {
             gameStatus = status.toString().toUpperCase() as GameStatus;
@@ -46,15 +47,13 @@ export class ProfileController {
     updateProfiel = async (req: Request, res: Response) => {
         if (!req.body) throw new ErrorBadRequest('Body veio vázio');
         if (!req.params) throw new ErrorBadRequest('Parâmetro do ID não foi passado corretamente');
-        const { status, rating, note, review } = req.body;
+        const { status, note } = req.body;
         const { id } = req.params;
 
         const data = {
             id: id,
             status,
-            rating,
             note,
-            review,
         } as ProfileUpdateDTO;
 
         const updateProfile = await this.updateProfileUC.execute(data);
