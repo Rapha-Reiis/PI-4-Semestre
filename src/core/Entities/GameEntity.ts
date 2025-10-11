@@ -18,6 +18,7 @@ export interface gameComplete {
     publishers: GamePublisher[];
     developers: GameDevelopers[];
     screen_shots: GameScreenShots[];
+    trailers: GamesTrailers[];
 }
 
 export interface GameCompact {
@@ -80,4 +81,16 @@ export interface GameScreenShots {
     image: string;
     width: number | null;
     height: number | null;
+}
+
+// ------------------------------------------------
+
+export interface GamesTrailers {
+    id: number;
+    name: string;
+    preview: string;
+    data: {
+        480: string;
+        max: string;
+    };
 }

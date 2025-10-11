@@ -8,6 +8,7 @@ import {
     GamePlatforms,
     GamePublisher,
     GameScreenShots,
+    GamesTrailers,
 } from '../../../core/Entities/GameEntity';
 import { ErrorRawg } from '../../../util/ErrorRawg';
 
@@ -59,16 +60,18 @@ export class RawgRepostiry implements IGameRepository {
         return games;
     }
 
-    async getById(rawgId: string): Promise<gameComplete> {
-        const urlDetails = `https://api.rawg.io/api/games/${rawgId}?key=${this.API_KEY}`;
-        const urlScreen = `https://api.rawg.io/api/games/${rawgId}/screenshots?key=${this.API_KEY}`;
+    async getById(gameId: string): Promise<gameComplete> {
+        const urlDetails = `https://api.rawg.io/api/games/${gameId}?key=${this.API_KEY}`;
+        const urlScreen = `https://api.rawg.io/api/games/${gameId}/screenshots?key=${this.API_KEY}`;
+        const urlTrailers = `https://api.rawg.io/api/games/${gameId}/movies?key=${this.API_KEY}`;
 
-        const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
+        const [detailRes, shotsRes, traiRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen), fetch(urlTrailers)]);
 
         if (!detailRes.ok) ErrorRawg(detailRes.status);
         if (!shotsRes.ok) ErrorRawg(detailRes.status);
+        if (!traiRes.ok) ErrorRawg(detailRes.status);
 
-        const [data, screens] = await Promise.all([detailRes.json(), shotsRes.json()]);
+        const [data, screens, trailers] = await Promise.all([detailRes.json(), shotsRes.json(), traiRes.json()]);
 
         const {
             id,
@@ -148,6 +151,17 @@ export class RawgRepostiry implements IGameRepository {
                     image: s.image,
                     height: s.height,
                     width: s.width,
+                }),
+            ),
+            trailers: trailers.results.map(
+                (s: any): GamesTrailers => ({
+                    id: s.id,
+                    name: s.name,
+                    preview: s.preview,
+                    data: {
+                        '480': s.data[480],
+                        max: s.data.max,
+                    },
                 }),
             ),
         };

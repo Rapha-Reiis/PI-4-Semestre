@@ -16,12 +16,15 @@ const pageSize = 2; //----1
 async function getGamesId() {
     const urlDetails = `https://api.rawg.io/api/games/3498?key=${API_KEY}`;
     const urlScreen = `https://api.rawg.io/api/games/3498/screenshots?key=${API_KEY}`;
+    const trailer = `https://api.rawg.io/api/games/3498/movies?key=${API_KEY}`;
 
-    const [detailRes, shotsRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen)]);
+    const [detailRes, shotsRes, traiRes] = await Promise.all([fetch(urlDetails), fetch(urlScreen), fetch(trailer)]);
     if (!detailRes.ok) throw new Error(`Erro, ${detailRes.status}`);
     if (!shotsRes.ok) throw new Error(`Erro, ${shotsRes.status}`);
+    if (!traiRes.ok) throw new Error(`Erro, ${traiRes.status}`);
     const data = await detailRes.json();
     const screens = await shotsRes.json();
+    const trailers = await traiRes.json();
 
     // const {
     //     id,
@@ -62,7 +65,7 @@ async function getGamesId() {
     //     screen_shots: screens.results,
     // };
 
-    return data;
+    return trailers;
 }
 
 async function getAll() {
