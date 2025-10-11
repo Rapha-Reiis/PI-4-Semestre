@@ -39,6 +39,7 @@ export interface GamePlatforms {
     id: number;
     name: string;
     image_background: string | null;
+    released_at: string | null;
     requirements?: {
         minimum?: string;
         recommended?: string;

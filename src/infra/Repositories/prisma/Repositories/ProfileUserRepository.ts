@@ -53,7 +53,7 @@ export class ProfileUserRepository implements IProfileRepository {
 
             const userWithGame = await Promise.all(
                 data.map(async (user: any) => {
-                    const game = await this.repository.getByIdSimple(user.rawgId);
+                    const game = await this.repository.getByIdSimple(user.gameId);
                     return {
                         ...user,
                         game: game,
@@ -63,7 +63,7 @@ export class ProfileUserRepository implements IProfileRepository {
 
             return {
                 data: userWithGame,
-                total,
+                totalGames: total,
                 totalPage,
                 currentPage: page,
             };

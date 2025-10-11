@@ -38,6 +38,7 @@ export class RawgRepostiry implements IGameRepository {
                         id: p.platform.id,
                         name: p.platform.name,
                         image_background: p.platform.image_background ?? null,
+                        released_at: game.released_at,
                         requirements: {
                             minimum: game.requirements?.minimum ?? null,
                             recommended: game.requirements?.recommended ?? null,
@@ -110,6 +111,7 @@ export class RawgRepostiry implements IGameRepository {
                     id: g.platform.id,
                     name: g.platform.name,
                     image_background: g.platform.image_background,
+                    released_at: g.released_at,
                     requirements: {
                         minimum: g.requirements?.minimum,
                         recommended: g.requirements?.recommended,
