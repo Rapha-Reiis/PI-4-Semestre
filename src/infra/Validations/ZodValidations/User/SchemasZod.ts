@@ -1,10 +1,10 @@
 import z from 'zod';
 
 export const UserSchemaCreate = z.object({
-    username: z.string().trim().min(3, 'Deve ter no mínimo 3 caracteres'),
-    name: z.string().trim().min(2, 'Nome muito curto '),
+    username: z.string('não foi passado username pelo body').trim().min(3, 'Deve ter no mínimo 3 caracteres'),
+    name: z.string('não foi passado name pelo body').trim().min(2, 'Nome muito curto '),
     email: z.email({ message: 'Email não esta na estrutura correta' }),
-    password: z.string().min(6, 'Senha deve ter no minimo 6 caracteres'),
+    password: z.string('não foi passado password pelo body').min(6, 'Senha deve ter no minimo 6 caracteres'),
     profile_image_url: z.url().nullish(),
 });
 
