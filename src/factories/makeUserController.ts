@@ -18,7 +18,7 @@ export function makeUserController() {
     const storage = new LocalImageStorage();
     // useCases
     const createUser = new UserCreateUseCase(userRepo, hash, verify);
-    const updateUser = new UserUpdateUseCase(userRepo, hash, verify, storage);
+    const updateUser = new UserUpdateUseCase(userRepo, hash, verify);
     const FId = new UserFindByIdUseCase(userRepo);
     const FEmail = new UserFindByEmailUseCase(userRepo);
     const FUsername = new UserFindByUsernameUseCase(userRepo);

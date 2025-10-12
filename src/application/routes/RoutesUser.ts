@@ -6,7 +6,7 @@ import { ZodUserValidation } from '../../infra/Validations/ZodValidations/User/Z
 import { AuthMiddleware } from '../../Middleware/AuthMiddleware';
 import { isntaceToken } from '../../factories/makeAutn';
 import multer from 'multer';
-import multerConfig from '../../infra/Config/Multer/multerConfig';
+import multerConfig from '../../infra/config/multer/multerConfig';
 
 class RoutesUser {
     public routes = Router();
