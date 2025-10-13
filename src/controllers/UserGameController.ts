@@ -6,14 +6,14 @@ import { ProfileCreateDTO, ProfileUpdateDTO } from '../core/Entities/Profile';
 import { ProfileUpdateUseCase } from '../core/useCases/Profile/ProfileUpdateUseCase';
 import { GameStatus } from '@prisma/client';
 
-export class ProfileController {
+export class UserGameController {
     constructor(
         private getUserProfileById: ProfileGetByIdUseCase,
         private createProfileUC: ProfileCreateUseCase,
         private updateProfileUC: ProfileUpdateUseCase,
     ) {}
 
-    userProfile = async (req: Request, res: Response) => {
+    getProfileList = async (req: Request, res: Response) => {
         let { id, page, limit, status } = req.query;
         if (!id) throw new ErrorBadRequest('Não foi passado o ID do usuário');
 

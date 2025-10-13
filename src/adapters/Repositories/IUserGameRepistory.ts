@@ -1,7 +1,7 @@
 import { GameStatus } from '@prisma/client';
 import { ProfileCreateDTO, ProfileUpdateDTO } from '../../core/Entities/Profile';
 
-export interface IProfileRepository {
+export interface IUserGameRepository {
     getUserProfile(userId: string, page: number, limit: number, status?: GameStatus): Promise<any>;
     createUserProfile(data: ProfileCreateDTO): Promise<any>;
     UpdateDataProfile(data: ProfileUpdateDTO): Promise<any>;

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import RoutesUser from './RoutesUser';
 import RoutesLogin from './Routes.Login';
 import RoutesGames from './Routes.games';
-import RoutesProfile from './RoutesProfile';
+import RoutesProfile from './RoutesUserGame';
 
 class MainRoutes {
     public routes = Router();

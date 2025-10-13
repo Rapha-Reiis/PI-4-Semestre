@@ -1,9 +1,9 @@
-import { IProfileRepository } from '../../../adapters/Repositories/IProfileRepository';
+import { IUserGameRepository } from '../../../adapters/Repositories/IUserGameRepistory';
 import { ProfileCreateDTO } from '../../Entities/Profile';
 import { ErrorConflitct } from '../../Error/ErrorConflict';
 
 export class ProfileCreateUseCase {
-    constructor(private repository: IProfileRepository) {}
+    constructor(private repository: IUserGameRepository) {}
 
     async exeute(data: ProfileCreateDTO) {
         const { gameId, userId } = data;

@@ -1,11 +1,11 @@
 import { GameStatus, Prisma } from '@prisma/client';
 import { IGameRepository } from '../../../../adapters/Repositories/IGamesRepository';
-import { IProfileRepository } from '../../../../adapters/Repositories/IProfileRepository';
 import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/Profile';
 import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
+import { IUserGameRepository } from '../../../../adapters/Repositories/IUserGameRepistory';
 
-export class ProfileUserRepository implements IProfileRepository {
+export class UserGameRepoPrisma implements IUserGameRepository {
     constructor(private repository: IGameRepository) {}
 
     async createUserProfile(profile: ProfileCreateDTO): Promise<any> {
