@@ -1,4 +1,4 @@
-import { UserCreateDTO, UserUpdateDTO } from '../../core/Entities/UserEntity';
+import { UserCreateDTO, UserUpdateDTO } from '../../core/Entities/user-entity';
 
 export interface IUserValidationRequest {
     Create(data: UserCreateDTO): any;

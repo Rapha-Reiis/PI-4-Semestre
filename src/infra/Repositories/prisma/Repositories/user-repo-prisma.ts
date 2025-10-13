@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { IUserRepository } from '../../../../adapters/Repositories/IUserRepository';
-import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../../core/Entities/UserEntity';
-import { ErrorApp } from '../../../../core/Error/ErrorApp';
+import { IUserRepository } from '../../../../adapters/Repositories/Iuser-repository';
+import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
+import { ErrorApp } from '../../../../core/Error/erro-app';
 import { prisma } from '../client';
 
 export class UserRepoPrisma implements IUserRepository {

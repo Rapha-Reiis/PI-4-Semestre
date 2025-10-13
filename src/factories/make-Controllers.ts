@@ -1,26 +1,26 @@
 import { UserRepoPrisma } from '../infra/Repositories/prisma/Repositories/user-repo-prisma';
 import { prisma } from '../infra/Repositories/prisma/client';
-import { RawgRepostiry } from '../infra/Repositories/Games/RawgRepostiry';
-import { HashBcrypt } from '../infra/hashBcrypt';
-import { UserUniquenessService } from '../application/Services/UserUniquesService';
-import { UserCreateUseCase } from '../core/useCases/user/UserCreate.useCase';
-import { UserUpdateUseCase } from '../core/useCases/user/UserUpdate.useCase';
-import { UserFindByIdUseCase } from '../core/useCases/user/UserFindById.useCase';
-import { UserFindByEmailUseCase } from '../core/useCases/user/UserFindByEmail.useCase';
-import { UserFindByUsernameUseCase } from '../core/useCases/user/UserFindByUsername.useCase';
-import { UserController } from '../controllers/UserController';
-import { GameListUseCase } from '../core/useCases/games/GameListUseCase';
-import { GameGetGenresUseCase } from '../core/useCases/games/GameGetGenresUseCase';
-import { GameGetByIdUseCase } from '../core/useCases/games/GameGetByIdUseCase';
-import { GameController } from '../controllers/GameController';
-import { UserGameCreateUsecase } from '../core/useCases/Profile/userGame-create.usecase';
-import { UserGameGetByIdListUseCase } from '../core/useCases/Profile/userGame-getById-list.usecase';
-import { UserGameController } from '../controllers/UserGameController';
-import { UserGameUpdateUsecase } from '../core/useCases/Profile/userGame-update.usecase';
-import { UserGameRepoPrisma } from '../infra/Repositories/prisma/Repositories/userGame-repo-prisma';
+import { RawgRepostiry } from '../infra/Repositories/Games/rawg-repository';
+import { HashBcrypt } from '../infra/hash-bycript';
+import { UserUniquenessService } from '../application/Services/user-unique-services';
+import { UserCreateUseCase } from '../core/useCases/user/user-create.usecase';
+import { UserUpdateUseCase } from '../core/useCases/user/user-update.usecase';
+import { UserFindByIdUseCase } from '../core/useCases/user/user-find-by-id.usecase';
+import { UserFindByEmailUseCase } from '../core/useCases/user/user-find-by-email.usecase';
+import { UserFindByUsernameUseCase } from '../core/useCases/user/user-find-by-username.usecase';
+import { UserController } from '../controllers/user-controller';
+import { GameListUseCase } from '../core/useCases/games/game-list.usecase';
+import { GameGetGenresUseCase } from '../core/useCases/games/game-get-genres.usecase';
+import { GameGetByIdUseCase } from '../core/useCases/games/game-get-by-id.usecase';
+import { GameController } from '../controllers/game-controller';
+import { UserGameCreateUsecase } from '../core/useCases/userGame/userGame-create.usecase';
+import { UserGameGetByIdListUseCase } from '../core/useCases/userGame/userGame-getById-list.usecase';
+import { UserGameController } from '../controllers/userGame-controller';
+import { UserGameUpdateUsecase } from '../core/useCases/userGame/userGame-update.usecase';
 import { instanceToken } from './make-auth';
-import { LoginController } from '../controllers/LoginController';
-import { LoginCreateUseCase } from '../core/useCases/login/LoginCreate.useCase';
+import { LoginController } from '../controllers/login-controller';
+import { LoginCreateUseCase } from '../core/useCases/login/login-create.usecase';
+import { UserGameRepoPrisma } from '../infra/Repositories/prisma/Repositories/UserGame-repo-prisma';
 
 export function makeControllers() {
     // Repositorios

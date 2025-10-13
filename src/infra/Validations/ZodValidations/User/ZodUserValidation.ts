@@ -1,5 +1,5 @@
 import { IUserValidationRequest } from '../../../../adapters/Validations/IUserValidationRequest';
-import { UserCreateDTO, UserUpdateDTO } from '../../../../core/Entities/UserEntity';
+import { UserCreateDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
 import { UserSchemaCreate, UserSchemaEmail, UserSchemaUpdate } from './SchemasZod';
 
 export class ZodUserValidation implements IUserValidationRequest {

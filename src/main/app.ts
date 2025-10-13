@@ -1,8 +1,8 @@
 import express, { Express } from 'express';
 
 import { resolve } from 'path';
-import RoutesMain from '../application/routes/RoutesMain';
-import ErrosMiddleware from '../Middleware/ErrosMiddleware';
+import RoutesMain from '../application/routes/routes-main';
+import ErrosMiddleware from '../Middleware/errors.middleware';
 
 class App {
     public app: Express;

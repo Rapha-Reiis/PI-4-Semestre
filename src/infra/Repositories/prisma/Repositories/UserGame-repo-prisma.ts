@@ -1,9 +1,9 @@
 import { GameStatus, Prisma } from '@prisma/client';
-import { IGameRepository } from '../../../../adapters/Repositories/IGamesRepository';
-import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/Profile';
-import { ErrorApp } from '../../../../core/Error/ErrorApp';
+import { IGameRepository } from '../../../../adapters/Repositories/Igame-repository';
+import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/userGame-entity';
+import { ErrorApp } from '../../../../core/Error/erro-app';
 import { prisma } from '../client';
-import { IUserGameRepository } from '../../../../adapters/Repositories/IUserGameRepistory';
+import { IUserGameRepository } from '../../../../adapters/Repositories/IuserGame-repository';
 
 export class UserGameRepoPrisma implements IUserGameRepository {
     constructor(private repository: IGameRepository) {}
