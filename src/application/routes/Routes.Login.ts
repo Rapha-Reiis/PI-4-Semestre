@@ -1,16 +1,17 @@
 import { Router } from 'express';
-import { makeLoginController } from '../../factories/makeLoginController';
+
 import { LoginController } from '../../controllers/LoginController';
+import { controllers } from '../../factories/controllers';
 
 export class RoutesLogin {
     public routes = Router();
-    private controller: LoginController = makeLoginController();
+    private LoginController = controllers.loginController;
     constructor() {
         this.initRoutes();
     }
 
     initRoutes() {
-        this.routes.post('/', this.controller.Login.bind(this.controller));
+        this.routes.post('/', this.LoginController.Login);
     }
 }
 

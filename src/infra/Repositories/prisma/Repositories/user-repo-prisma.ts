@@ -1,10 +1,12 @@
+import { Prisma, PrismaClient } from '@prisma/client';
 import { IUserRepository } from '../../../../adapters/Repositories/IUserRepository';
 import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../../core/Entities/UserEntity';
 import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
 export class UserRepoPrisma implements IUserRepository {
-    private prisma = prisma;
+    constructor(private prisma: PrismaClient) {}
+
     private select = {
         id: true,
         name: true,

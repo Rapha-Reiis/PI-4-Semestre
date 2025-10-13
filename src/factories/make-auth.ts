@@ -1,3 +1,3 @@
 import { JwtToken } from '../infra/JWTToken';
 
-export const isntaceToken = new JwtToken();
+export const instanceToken = new JwtToken();

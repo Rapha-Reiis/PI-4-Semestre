@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { makeUserGameController } from '../../factories/makeUserGameController';
+import { controllers } from '../../factories/controllers';
 
 class RoutesUserGame {
     public routes = Router();
-    private userGameController = makeUserGameController();
+    private userGameController = controllers.userGameController;
 
     constructor() {
         this.initRoutes();

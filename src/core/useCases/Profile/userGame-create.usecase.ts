@@ -2,7 +2,7 @@ import { IUserGameRepository } from '../../../adapters/Repositories/IUserGameRep
 import { ProfileCreateDTO } from '../../Entities/Profile';
 import { ErrorConflitct } from '../../Error/ErrorConflict';
 
-export class ProfileCreateUseCase {
+export class UserGameCreateUsecase {
     constructor(private repository: IUserGameRepository) {}
 
     async exeute(data: ProfileCreateDTO) {

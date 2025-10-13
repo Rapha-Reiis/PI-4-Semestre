@@ -1,22 +1,22 @@
 import { Router } from 'express';
-import { UserController } from '../../controllers/UserController';
-import { makeUserController } from '../../factories/makeUserController';
 import { UserValidationMiddleware } from '../../Middleware/UserValidationMiddleware';
 import { ZodUserValidation } from '../../infra/Validations/ZodValidations/User/ZodUserValidation';
 import { AuthMiddleware } from '../../Middleware/AuthMiddleware';
-import { isntaceToken } from '../../factories/makeAutn';
 import multer from 'multer';
 import multerConfig from '../../infra/config/multer/multerConfig';
+import { controllers } from '../../factories/controllers';
+import { instanceToken } from '../../factories/make-auth';
 
 class RoutesUser {
     public routes = Router();
-    private userController: UserController = makeUserController();
+    private userController = controllers.userController;
     private validation: UserValidationMiddleware;
-    private auth = new AuthMiddleware(isntaceToken);
+    private auth = new AuthMiddleware(instanceToken);
     private upload = multer(multerConfig);
     constructor() {
         const instaceValid = new ZodUserValidation();
         this.validation = new UserValidationMiddleware(instaceValid);
+        console.log('oi');
         this.initRoutes();
     }
 
@@ -25,14 +25,14 @@ class RoutesUser {
             '/',
             this.upload.single('profile'),
             this.validation.ValidationCreate.bind(this.validation),
-            this.userController.create.bind(this.userController),
+            this.userController.create,
         );
 
         this.routes.put(
             '/update/:id',
             this.upload.single('profile'),
             this.validation.ValidationUpdate.bind(this.validation),
-            this.userController.update.bind(this.userController),
+            this.userController.update,
         );
         this.routes.get('/:id', this.auth.auth, this.userController.findById.bind(this.userController));
         this.routes.get(

@@ -1,7 +1,7 @@
 import { GameStatus } from '@prisma/client';
 import { IUserGameRepository } from '../../../adapters/Repositories/IUserGameRepistory';
 
-export class ProfileGetByIdUseCase {
+export class UserGameGetByIdListUseCase {
     constructor(private repository: IUserGameRepository) {}
 
     async execute(userRawg: string, page: number, limit: number, status: GameStatus | undefined) {

@@ -16,14 +16,15 @@ export class UserController {
         private readonly UserfindByUsername: UserFindByUsernameUseCase,
     ) {}
 
-    async create(req: Request, res: Response) {
+    create = async (req: Request, res: Response) => {
         const filename = req.file?.filename;
         const profile_image = filename ?? null;
         const data: UserCreateDTO = req.body;
         data.profile_image_url = profile_image;
+        console.log('cheguei1');
         const user = await this.createUser.execute(data);
         return res.status(201).json(user);
-    }
+    };
 
     async update(req: Request, res: Response) {
         const data = req.body;
