@@ -21,7 +21,6 @@ export class UserController {
         const profile_image = filename ?? null;
         const data: UserCreateDTO = req.body;
         data.profile_image_url = profile_image;
-        console.log('cheguei1');
         const user = await this.createUser.execute(data);
         return res.status(201).json(user);
     };

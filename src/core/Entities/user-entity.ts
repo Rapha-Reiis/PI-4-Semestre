@@ -5,6 +5,10 @@ enum Role {
     ADMIN,
 }
 
+export const userCreateBody = ['username', 'email', 'name', 'password', 'premium'];
+export const userUpdateBody = ['username', 'email', 'name', 'password', 'premium', 'bio'];
+export const UserfileBody = 'profile';
+
 export type UserEntity = {
     id: string;
     username: string;
