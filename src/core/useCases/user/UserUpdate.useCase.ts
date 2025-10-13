@@ -5,6 +5,7 @@ import { UserResponseDTO, UserUpdateDTO } from '../../Entities/UserEntity';
 import { ErrorConflitct } from '../../Error/ErrorConflict';
 import { ErrorBadRequest } from '../../Error/ErrorBadRequest';
 import { LocalImageStorage } from '../../../infra/Image/LocalImageStorage';
+import { file } from 'zod';
 
 export class UserUpdateUseCase {
     constructor(

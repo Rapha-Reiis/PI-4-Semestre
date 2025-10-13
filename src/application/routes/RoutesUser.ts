@@ -16,7 +16,6 @@ class RoutesUser {
     constructor() {
         const instaceValid = new ZodUserValidation();
         this.validation = new UserValidationMiddleware(instaceValid);
-        console.log('oi');
         this.initRoutes();
     }
 
@@ -34,13 +33,9 @@ class RoutesUser {
             this.validation.ValidationUpdate.bind(this.validation),
             this.userController.update,
         );
-        this.routes.get('/:id', this.auth.auth, this.userController.findById.bind(this.userController));
-        this.routes.get(
-            '/email/:email',
-            this.validation.ValidationEmail.bind(this.validation),
-            this.userController.findByEmail.bind(this.userController),
-        );
-        this.routes.get('/username/:username', this.userController.findByUsername.bind(this.userController));
+        this.routes.get('/:id', this.auth.auth, this.userController.findById);
+        this.routes.get('/email/:email', this.validation.ValidationEmail.bind(this.validation), this.userController.findByEmail);
+        this.routes.get('/username/:username', this.userController.findByUsername);
     }
 }
 

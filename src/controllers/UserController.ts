@@ -26,33 +26,33 @@ export class UserController {
         return res.status(201).json(user);
     };
 
-    async update(req: Request, res: Response) {
+    update = async (req: Request, res: Response) => {
         const data = req.body;
         const filename = req.file?.filename;
         const { id } = req.params;
         if (!id) throw new ErrorBadRequest('Id não foi passado corretamente');
         const user = await this.updateUser.execute(id, data, filename);
         return res.status(200).json(user);
-    }
+    };
 
-    async findById(req: Request, res: Response) {
+    findById = async (req: Request, res: Response) => {
         const { id } = req.params;
         if (!id) throw new ErrorBadRequest('Id não foi passado corretamente');
         const user = await this.UserfindById.execute(id);
         return res.status(200).json(user);
-    }
+    };
 
-    async findByEmail(req: Request, res: Response) {
+    findByEmail = async (req: Request, res: Response) => {
         const { email } = req.params;
         if (!email) throw new ErrorBadRequest('Id não foi passado corretamente');
         const user = await this.UserfindByEmail.execute(email);
         return res.status(200).json(user);
-    }
+    };
 
-    async findByUsername(req: Request, res: Response) {
+    findByUsername = async (req: Request, res: Response) => {
         const { username } = req.params;
         if (!username) throw new ErrorBadRequest('Username não foi passado corretamente');
         const user = await this.UserfindByUsername.execute(username);
         return res.status(200).json(user);
-    }
+    };
 }
