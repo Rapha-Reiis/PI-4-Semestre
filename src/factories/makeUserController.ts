@@ -7,11 +7,11 @@ import { UserFindByUsernameUseCase } from '../core/useCases/user/UserFindByUsern
 import { UserUpdateUseCase } from '../core/useCases/user/UserUpdate.useCase';
 import { HashBcrypt } from '../infra/hashBcrypt';
 import { LocalImageStorage } from '../infra/Image/LocalImageStorage';
-import { UserRepositoryImpl } from '../infra/Repositories/prisma/Repositories/UserRepositoryImpl';
+import { UserRepoPrisma } from '../infra/Repositories/prisma/Repositories/user-repo-prisma';
 
 export function makeUserController() {
     // infra
-    const userRepo = new UserRepositoryImpl();
+    const userRepo = new UserRepoPrisma();
     const hash = new HashBcrypt();
     // service
     const verify = new UserUniquenessService(userRepo);

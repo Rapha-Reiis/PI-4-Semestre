@@ -3,7 +3,7 @@ import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdate
 import { ErrorApp } from '../../../../core/Error/ErrorApp';
 import { prisma } from '../client';
 
-export class UserRepositoryImpl implements IUserRepository {
+export class UserRepoPrisma implements IUserRepository {
     private prisma = prisma;
     private select = {
         id: true,
