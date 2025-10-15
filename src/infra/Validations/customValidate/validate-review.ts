@@ -19,8 +19,8 @@ export class ValidateReview {
             if (data.gameId == 0 || data.gameId == undefined) texts.push('GameId não foi passado');
             if (isNaN(Number(data.gameId))) throw new ErrorBadRequest('gameId tem que ser numérico');
         }
-        console.log(data);
-        if (data.title) {
+
+        if (data.title || data.title == '') {
             if (data.title.length == 0) texts.push('Título não pode estar vazio');
         }
 

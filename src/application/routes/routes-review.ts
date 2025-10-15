@@ -13,7 +13,8 @@ class RoutesReview {
 
     initRoutes() {
         this.routes.post('/', ValidateRequest.validateBody([], createBodyMandatory), this.controller.create);
-        this.routes.put('/update/:idReview', ValidateRequest.validateBody(updateBody), this.controller.update);
+        this.routes.put('/update/:reviewId', ValidateRequest.validateBody(updateBody), this.controller.update);
+        this.routes.get('/:reviewId', this.controller.getById);
     }
 }
 
