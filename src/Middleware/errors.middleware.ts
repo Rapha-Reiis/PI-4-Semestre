@@ -5,7 +5,6 @@ import { LocalImageStorage } from '../infra/Image/Local-image-storage';
 class ErrorMiddleware {
     public errosMiddleware(error: Error & ErrorApp, req: Request, res: Response, next: NextFunction) {
         if (req.file) {
-            console.log(req.file.filename);
             LocalImageStorage.deleteByIDImage(req.file.filename);
         }
 

@@ -21,12 +21,16 @@ import { instanceToken } from './make-auth';
 import { LoginController } from '../controllers/login-controller';
 import { LoginCreateUseCase } from '../core/useCases/login/login-create.usecase';
 import { UserGameRepoPrisma } from '../infra/Repositories/prisma/Repositories/UserGame-repo-prisma';
+import { ReviwRepository } from '../infra/Repositories/prisma/Repositories/review-repo.prisma';
+import { ReviewCreateUsecase } from '../core/useCases/review/review-create.usecase';
+import { ReviewController } from '../controllers/review-controller';
 
 export function makeControllers() {
     // Repositorios
     const userRepo = new UserRepoPrisma(prisma);
     const gameRepo = new RawgRepostiry();
     const userGameRepo = new UserGameRepoPrisma(gameRepo);
+    const reviewRepo = new ReviwRepository(prisma);
 
     // Infras
     const hash = new HashBcrypt();
@@ -49,16 +53,21 @@ export function makeControllers() {
     const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo);
     const userGameCreate = new UserGameCreateUsecase(userGameRepo);
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
+    //
+    const reviewCreate = new ReviewCreateUsecase(reviewRepo, userRepo);
+
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
     const gameController = new GameController(GameList, GameGenreList, gameGetById);
     const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate);
     const loginController = new LoginController(login);
+    const reviewController = new ReviewController(reviewCreate);
 
     return {
         userController,
         gameController,
         userGameController,
         loginController,
+        reviewController,
     };
 }

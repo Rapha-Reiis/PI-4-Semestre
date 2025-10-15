@@ -4,6 +4,7 @@ import { ErrorBadRequest } from '../core/Error/error-bad-request';
 export class ValidateRequest {
     static validateBody(validate: string[], mandatory?: string[]) {
         return (req: Request, res: Response, next: NextFunction) => {
+            if (req.body == null || undefined) throw new ErrorBadRequest('Body foi passado vazio');
             const keys = Object.keys(req.body);
 
             if (mandatory?.length) {
@@ -14,10 +15,12 @@ export class ValidateRequest {
                 }
             }
 
-            const invalid = keys.filter((k) => !validate.includes(k));
-            if (invalid.length > 0) {
-                const details = invalid.map((field) => ({ field }));
-                throw new ErrorBadRequest('campos não permitido', details);
+            if (validate.length > 0) {
+                const invalid = keys.filter((k) => !validate.includes(k));
+                if (invalid.length > 0) {
+                    const details = invalid.map((field) => ({ field }));
+                    throw new ErrorBadRequest('campos não permitido', details);
+                }
             }
 
             next();

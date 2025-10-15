@@ -38,7 +38,6 @@ export class UserGameController {
             status: status,
             note: note,
         };
-        console.log(profileCreate);
         const profile = await this.createProfileUC.exeute(profileCreate);
 
         return res.status(201).json(profile);

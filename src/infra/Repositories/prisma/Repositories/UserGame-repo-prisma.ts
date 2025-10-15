@@ -98,8 +98,6 @@ export class UserGameRepoPrisma implements IUserGameRepository {
 
     async VerifyGameWithUser(userId: string, rawgId: string): Promise<Boolean> {
         const idGame = Number(rawgId);
-        console.log(idGame);
-        console.log(rawgId);
         try {
             let exist = false;
             const profile = await prisma.userGame.findFirst({

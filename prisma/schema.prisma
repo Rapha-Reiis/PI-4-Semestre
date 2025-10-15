@@ -63,8 +63,8 @@ model Review {
   userId       String
   gameId       Int
   title        String
-  body         String
-  rating       Int
+  body         String?
+  rating       Int?
   isPublic     Boolean      @default(true)
   status       ReviewStatus @default(PUBLISHED)
   published_at DateTime?
@@ -80,6 +80,10 @@ model Review {
   @@index([gameId, isPublic, status, published_at])
   @@index([userId, status, updated_at])
 }
+enum ReviewStatus {
+  DRAFT
+  PUBLISHED
+}
 
 model ReviewLike {
   id         String   @id @default(cuid())
@@ -94,9 +98,5 @@ model ReviewLike {
   @@index([userId])
 }
 
-enum ReviewStatus {
-  DRAFT
-  PUBLISHED
-}
 
 // ------------------------------------------------------------------------------------

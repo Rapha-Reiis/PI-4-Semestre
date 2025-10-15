@@ -13,7 +13,6 @@ export class UserCreateUseCase {
     ) {}
 
     async execute(data: UserCreateDTO) {
-        console.log('cheguei2');
         const details = await this.verifyUnique.verify(data.email, data.username);
         if (details) {
             throw new ErrorConflitct(details);

@@ -77,10 +77,27 @@ async function getAll() {
     console.log(JSON.stringify(data, null, 2));
 }
 
-(async () => {
-    const games = await getGamesId();
-    console.log(JSON.stringify(games, null, 2));
-})().catch(console.error);
+// (async () => {
+//     const games = await getGamesId();
+//     console.log(JSON.stringify(games, null, 2));
+// })().catch(console.error);
+enum en {
+    FINISHED = 'FINISHED',
+    DRAFT = 'DRAFT',
+}
+
+function validateData(body: string, title: string, id: number | null, en: string) {
+    const texts: string[] = [];
+    if (body.length == 0) texts.push('Body não pode estar vazio');
+    if (title.length == 0) texts.push('Título não pode estar vazio');
+    if (id == null || undefined) texts.push('Rating não foi passado');
+    if (!['FINISHED', 'DRAFT'].includes(en)) texts.push('Parâmetro passado para status não é valido');
+
+    const details = texts.map((f: any) => ({ f }));
+    console.log(details);
+}
+
+validateData('ff', '', null, 'ff');
 
 // -----------------------------------------------
 

@@ -5,7 +5,6 @@ export class LocalImageStorage {
     static async deleteByUrl(url: string): Promise<void> {
         const oldName = url?.split('/').pop();
         let pathImage: string = '';
-        console.log(url);
         if (oldName) {
             pathImage = path.join(__dirname, '..', '..', '..', 'uploads', 'profile', path.basename(oldName));
         }
