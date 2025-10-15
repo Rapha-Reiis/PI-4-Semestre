@@ -24,6 +24,7 @@ import { UserGameRepoPrisma } from '../infra/Repositories/prisma/Repositories/Us
 import { ReviwRepository } from '../infra/Repositories/prisma/Repositories/review-repo.prisma';
 import { ReviewCreateUsecase } from '../core/useCases/review/review-create.usecase';
 import { ReviewController } from '../controllers/review-controller';
+import { ReviewUpdateUsecase } from '../core/useCases/review/review-update.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -55,13 +56,14 @@ export function makeControllers() {
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
     //
     const reviewCreate = new ReviewCreateUsecase(reviewRepo, userRepo);
+    const reviewUpdate = new ReviewUpdateUsecase(reviewRepo);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
     const gameController = new GameController(GameList, GameGenreList, gameGetById);
     const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate);
     const loginController = new LoginController(login);
-    const reviewController = new ReviewController(reviewCreate);
+    const reviewController = new ReviewController(reviewCreate, reviewUpdate);
 
     return {
         userController,

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { makeControllers } from '../../factories/make-Controllers';
 import { ValidateRequest } from '../../Middleware/validate-body.middleware';
-import { createBodyMandatory } from '../../core/Entities/review-entity';
+import { createBodyMandatory, updateBody } from '../../core/Entities/review-entity';
 
 class RoutesReview {
     public routes = Router();
@@ -13,6 +13,7 @@ class RoutesReview {
 
     initRoutes() {
         this.routes.post('/', ValidateRequest.validateBody([], createBodyMandatory), this.controller.create);
+        this.routes.put('/update/:idReview', ValidateRequest.validateBody(updateBody), this.controller.update);
     }
 }
 
