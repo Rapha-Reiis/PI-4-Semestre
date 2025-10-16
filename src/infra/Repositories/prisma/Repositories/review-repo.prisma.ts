@@ -79,7 +79,6 @@ export class ReviwRepository implements IReviewRepository {
             OFFSET ${(page - 1) * limit}
             LIMIT ${limit}
         `;
-
         return reviewList;
     }
 

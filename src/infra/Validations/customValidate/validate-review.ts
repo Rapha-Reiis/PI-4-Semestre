@@ -14,7 +14,6 @@ export class ValidateReview {
     private static validar(data: any, update?: boolean) {
         const texts: string[] = [];
         if (!update) {
-            console.log(update);
             if (data.userId.length == 0) texts.push('userId não foi passado');
             if (data.gameId == 0 || data.gameId == undefined) texts.push('GameId não foi passado');
             if (isNaN(Number(data.gameId))) throw new ErrorBadRequest('gameId tem que ser numérico');

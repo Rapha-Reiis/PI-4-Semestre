@@ -5,7 +5,7 @@ enum Role {
     ADMIN,
 }
 
-export const userCreateBody = ['username', 'email', 'name', 'password', 'premium'];
+export const userCreateBody = ['username', 'email', 'name', 'password'];
 export const userUpdateBody = ['username', 'email', 'name', 'password', 'premium', 'bio'];
 export const UserfileBody = 'profile';
 
@@ -24,20 +24,22 @@ export type UserEntity = {
 
 export type UserCreateDTO = {
     username: string;
-    name: string;
     email: string;
+    name: string;
     password: string;
     profile_image_url?: string | null;
+    bio?: string | null;
     premium?: boolean;
 };
 
 export type UserUpdateDTO = {
+    userId: string;
     username?: string;
     name?: string;
     email?: string;
     password?: string;
     bio?: string;
-    profile_image_url?: string;
+    profile_image_url?: string | null;
     premium?: boolean;
 };
 

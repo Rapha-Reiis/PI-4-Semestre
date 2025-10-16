@@ -13,18 +13,19 @@ export class UserUpdateUseCase {
         private verifyUnique: UserUniquenessService,
     ) {}
 
-    async execute(id: string, data: UserUpdateDTO, filename?: string): Promise<UserResponseDTO> {
+    async execute(data: UserUpdateDTO): Promise<UserResponseDTO> {
+        const { profile_image_url } = data;
         if (data.email || data.username) {
-            const details = await this.verifyUnique.verify(data.email, data.username, id);
+            const details = await this.verifyUnique.verify(data.email, data.username, data.userId);
             if (details) throw new ErrorConflitct(details);
         }
-
-        const user = await this.userRepo.findById(id);
+        const user = await this.userRepo.findById(data.userId);
         if (!user) throw new ErrorBadRequest('Usuário não cadastrado');
-        if (filename && user?.profile_image_url) LocalImageStorage.deleteByUrl(user.profile_image_url);
-        if (filename) data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${filename}`;
+
+        if (profile_image_url && user?.profile_image_url) LocalImageStorage.deleteByUrl(user.profile_image_url);
+        if (profile_image_url) data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${profile_image_url}`;
         if (data.password) data.password = await this.hash.hashPassword(data.password);
 
-        return await this.userRepo.update(data, id);
+        return await this.userRepo.update(data, data.userId);
     }
 }

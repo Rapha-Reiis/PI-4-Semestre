@@ -23,7 +23,7 @@ export class ReviewController {
             rating,
             status,
             title,
-            isPublic,
+            isPublic: Boolean(isPublic === 'true' || isPublic === true),
         };
 
         const output = await this.createReview.execute(createDTO);
@@ -41,7 +41,7 @@ export class ReviewController {
             body,
             rating,
             status,
-            isPublic,
+            isPublic: Boolean(isPublic === 'true' || isPublic === true),
         };
 
         const output = await this.updateReview.execute(updateDTO);
@@ -57,10 +57,10 @@ export class ReviewController {
             limit: Number(limit),
             page: Number(page),
             gameId: Number(gameId),
-            random: random === 'true',
+            random: random == 'true',
         };
 
-        const output = this.listfeedUsecase.execute(input);
+        const output = await this.listfeedUsecase.execute(input);
 
         res.status(200).json(output);
     };

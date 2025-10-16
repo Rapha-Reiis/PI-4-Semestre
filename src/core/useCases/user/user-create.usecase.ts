@@ -23,6 +23,7 @@ export class UserCreateUseCase {
         if (data.profile_image_url) {
             data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${data.profile_image_url}`;
         }
+
         return await this.repository.create(data);
     }
 }

@@ -2,7 +2,6 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { IUserRepository } from '../../../../adapters/Repositories/Iuser-repository';
 import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
 import { ErrorApp } from '../../../../core/Error/erro-app';
-import { prisma } from '../client';
 
 export class UserRepoPrisma implements IUserRepository {
     constructor(private prisma: PrismaClient) {}
@@ -20,16 +19,28 @@ export class UserRepoPrisma implements IUserRepository {
 
     async create(data: UserCreateDTO): Promise<UserResponseDTO> {
         try {
-            return await this.prisma.user.create({
+            const user = await this.prisma.user.create({
                 data: data,
                 select: this.select,
             });
+
+            return user;
         } catch (err) {
             throw new ErrorApp('Erro no createUser', 500, err);
         }
     }
 
-    async update(data: UserUpdateDTO, id: string): Promise<any> {
+    async update(user: UserUpdateDTO, id: string): Promise<any> {
+        const data: Prisma.UserUpdateInput = {
+            name: user.name,
+            password: user.password,
+            email: user.email,
+            username: user.username,
+            bio: user.bio,
+            premium: user.premium,
+            profile_image_url: user.profile_image_url,
+        };
+
         const selectUp = {
             id: true,
             name: !!data.name,

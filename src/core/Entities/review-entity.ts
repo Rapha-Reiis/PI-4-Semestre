@@ -1,6 +1,6 @@
 import { ReviewStatus } from '@prisma/client';
 
-export const createBodyMandatory = ['userId', 'gameId', 'title', 'body', 'status', 'profile'];
+export const createBodyMandatory = ['userId', 'gameId', 'title', 'body', 'status'];
 export const updateBody = ['userId', 'gameId', 'title', 'body', 'status', 'rating'];
 
 export type ReviewCreateDTO = {
@@ -28,5 +28,5 @@ export type reviewListParams = {
     gameId: number;
     page: number;
     limit: number;
-    random?: boolean;
+    random: boolean;
 };
