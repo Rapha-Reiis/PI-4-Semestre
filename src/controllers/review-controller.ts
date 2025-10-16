@@ -1,15 +1,17 @@
-import { ReviewCreateDTO, ReviewUpdateDTO } from '../core/Entities/review-entity';
+import { ReviewCreateDTO, reviewListParams, ReviewUpdateDTO } from '../core/Entities/review-entity';
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { ReviewCreateUsecase } from '../core/useCases/review/review-create.usecase';
 import { Request, Response } from 'express';
 import { ReviewUpdateUsecase } from '../core/useCases/review/review-update.usecase';
 import { ReviewGetByIdUsecase } from '../core/useCases/review/review-get-by-id.usecase';
+import { ReviewListFeedUsecase } from '../core/useCases/review/review-list-feed.usecase';
 
 export class ReviewController {
     constructor(
         private createReview: ReviewCreateUsecase,
         private updateReview: ReviewUpdateUsecase,
         private getByIdreviewU: ReviewGetByIdUsecase,
+        private listfeedUsecase: ReviewListFeedUsecase,
     ) {}
 
     create = async (req: Request, res: Response) => {
@@ -43,6 +45,22 @@ export class ReviewController {
         };
 
         const output = await this.updateReview.execute(updateDTO);
+
+        res.status(200).json(output);
+    };
+
+    listFeed = async (req: Request, res: Response) => {
+        const { gameId, page, limit, random } = req.query;
+        if (!gameId) throw new ErrorBadRequest('GameId não foi passado');
+
+        const input: reviewListParams = {
+            limit: Number(limit),
+            page: Number(page),
+            gameId: Number(gameId),
+            random: random === 'true',
+        };
+
+        const output = this.listfeedUsecase.execute(input);
 
         res.status(200).json(output);
     };

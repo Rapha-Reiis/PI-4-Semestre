@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { IReviewRepository } from '../../../../adapters/Repositories/Ireview-repository';
-import { ReviewCreateDTO, ReviewUpdateDTO } from '../../../../core/Entities/review-entity';
+import { ReviewCreateDTO, reviewListParams, ReviewUpdateDTO } from '../../../../core/Entities/review-entity';
 import { prisma } from '../client';
 import { ErrorApp } from '../../../../core/Error/erro-app';
 
@@ -63,6 +63,24 @@ export class ReviwRepository implements IReviewRepository {
         } catch (err) {
             throw new ErrorApp('Erro ao atualizar review no banco', 500, err);
         }
+    }
+
+    async reviewListFeed(reviewParam: reviewListParams) {
+        const { gameId, limit, page, random } = reviewParam;
+
+        const orderBy = random ? Prisma.sql`ORDER BY RANDOM()` : Prisma.sql`ORDER BY "published_at" DESC`;
+
+        const reviewList = await prisma.$queryRaw`
+            SELECT * FROM "Review"
+            WHERE "gameId" = ${gameId}
+                AND "isPublic" = true
+                AND "status" = 'PUBLISHED'
+            ${orderBy}
+            OFFSET ${(page - 1) * limit}
+            LIMIT ${limit}
+        `;
+
+        return reviewList;
     }
 
     async reviewById(reviwId: string): Promise<any> {

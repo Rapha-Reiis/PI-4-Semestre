@@ -15,6 +15,7 @@ class RoutesReview {
         this.routes.post('/', ValidateRequest.validateBody([], createBodyMandatory), this.controller.create);
         this.routes.put('/update/:reviewId', ValidateRequest.validateBody(updateBody), this.controller.update);
         this.routes.get('/:reviewId', this.controller.getById);
+        this.routes.get('/list/feed', this.controller.listFeed);
     }
 }
 
