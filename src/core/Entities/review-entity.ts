@@ -24,9 +24,17 @@ export type ReviewUpdateDTO = {
     published_at?: Date | null;
 };
 
-export type reviewListParams = {
+export type reviewListFeed = {
     gameId: number;
     page: number;
     limit: number;
     random: boolean;
+};
+
+export type reviewListUserParams = {
+    userId: string;
+    page: number;
+    limit: number;
+    title?: string | null;
+    status?: ReviewStatus;
 };

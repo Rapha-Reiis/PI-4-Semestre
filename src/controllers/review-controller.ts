@@ -1,10 +1,12 @@
-import { ReviewCreateDTO, reviewListParams, ReviewUpdateDTO } from '../core/Entities/review-entity';
+import { ReviewCreateDTO, reviewListFeed, reviewListUserParams, ReviewUpdateDTO } from '../core/Entities/review-entity';
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { ReviewCreateUsecase } from '../core/useCases/review/review-create.usecase';
 import { Request, Response } from 'express';
 import { ReviewUpdateUsecase } from '../core/useCases/review/review-update.usecase';
 import { ReviewGetByIdUsecase } from '../core/useCases/review/review-get-by-id.usecase';
 import { ReviewListFeedUsecase } from '../core/useCases/review/review-list-feed.usecase';
+import { ReviewListByUserUsecase } from '../core/useCases/review/review-list-by-user.usecase';
+import { ReviewStatus } from '@prisma/client';
 
 export class ReviewController {
     constructor(
@@ -12,6 +14,7 @@ export class ReviewController {
         private updateReview: ReviewUpdateUsecase,
         private getByIdreviewU: ReviewGetByIdUsecase,
         private listfeedUsecase: ReviewListFeedUsecase,
+        private listByUserUsecase: ReviewListByUserUsecase,
     ) {}
 
     create = async (req: Request, res: Response) => {
@@ -53,7 +56,7 @@ export class ReviewController {
         const { gameId, page, limit, random } = req.query;
         if (!gameId) throw new ErrorBadRequest('GameId não foi passado');
 
-        const input: reviewListParams = {
+        const input: reviewListFeed = {
             limit: Number(limit),
             page: Number(page),
             gameId: Number(gameId),
@@ -63,6 +66,31 @@ export class ReviewController {
         const output = await this.listfeedUsecase.execute(input);
 
         res.status(200).json(output);
+    };
+
+    listUser = async (
+        req: Request<
+            { userId: string },
+            {},
+            {},
+            { page?: number; limit?: number; title?: string | null | undefined; status?: ReviewStatus }
+        >,
+        res: Response,
+    ) => {
+        const { userId } = req.params;
+        if (!userId) throw new ErrorBadRequest('userId não foi informado');
+        const { page, limit, title, status } = req.query;
+
+        const input: reviewListUserParams = {
+            userId,
+            limit: Number(limit),
+            page: Number(page),
+            status: status,
+            title: title,
+        };
+        const out = await this.listByUserUsecase.execute(input);
+
+        res.status(201).json(out);
     };
 
     getById = async (req: Request, res: Response) => {

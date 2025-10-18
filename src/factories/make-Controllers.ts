@@ -27,6 +27,7 @@ import { ReviewController } from '../controllers/review-controller';
 import { ReviewUpdateUsecase } from '../core/useCases/review/review-update.usecase';
 import { ReviewGetByIdUsecase } from '../core/useCases/review/review-get-by-id.usecase';
 import { ReviewListFeedUsecase } from '../core/useCases/review/review-list-feed.usecase';
+import { ReviewListByUserUsecase } from '../core/useCases/review/review-list-by-user.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -61,13 +62,14 @@ export function makeControllers() {
     const reviewUpdate = new ReviewUpdateUsecase(reviewRepo);
     const reviewGetByID = new ReviewGetByIdUsecase(reviewRepo);
     const reviewListFeed = new ReviewListFeedUsecase(reviewRepo);
+    const reviewListUser = new ReviewListByUserUsecase(reviewRepo);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
     const gameController = new GameController(GameList, GameGenreList, gameGetById);
     const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate);
     const loginController = new LoginController(login);
-    const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed);
+    const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser);
 
     return {
         userController,

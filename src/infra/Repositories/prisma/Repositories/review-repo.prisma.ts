@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { IReviewRepository } from '../../../../adapters/Repositories/Ireview-repository';
-import { ReviewCreateDTO, reviewListParams, ReviewUpdateDTO } from '../../../../core/Entities/review-entity';
+import { ReviewCreateDTO, reviewListFeed, reviewListUserParams, ReviewUpdateDTO } from '../../../../core/Entities/review-entity';
 import { prisma } from '../client';
 import { ErrorApp } from '../../../../core/Error/erro-app';
 
@@ -65,7 +65,7 @@ export class ReviwRepository implements IReviewRepository {
         }
     }
 
-    async reviewListFeed(reviewParam: reviewListParams) {
+    async reviewListFeed(reviewParam: reviewListFeed) {
         const { gameId, limit, page, random } = reviewParam;
 
         const orderBy = random ? Prisma.sql`ORDER BY RANDOM()` : Prisma.sql`ORDER BY "published_at" DESC`;
@@ -80,6 +80,23 @@ export class ReviwRepository implements IReviewRepository {
             LIMIT ${limit}
         `;
         return reviewList;
+    }
+
+    async reviewListByUser(reviewParam: reviewListUserParams) {
+        const { limit, page, status, userId, title } = reviewParam;
+
+        const review = prisma.review.findMany({
+            where: {
+                userId,
+                status,
+                title: title ? { contains: title, mode: 'insensitive' } : undefined,
+            },
+            skip: (page - 1) * limit,
+            take: limit,
+            orderBy: { updated_at: 'desc' },
+        });
+
+        return review;
     }
 
     async reviewById(reviwId: string): Promise<any> {

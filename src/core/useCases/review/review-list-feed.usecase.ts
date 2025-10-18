@@ -1,10 +1,10 @@
 import { IReviewRepository } from '../../../adapters/Repositories/Ireview-repository';
-import { reviewListParams } from '../../Entities/review-entity';
+import { reviewListFeed } from '../../Entities/review-entity';
 
 export class ReviewListFeedUsecase {
     constructor(private repository: IReviewRepository) {}
 
-    async execute(reviewParam: reviewListParams) {
+    async execute(reviewParam: reviewListFeed) {
         return await this.repository.reviewListFeed(reviewParam);
     }
 }
