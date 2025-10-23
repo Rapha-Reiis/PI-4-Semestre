@@ -53,14 +53,15 @@ export class ReviewController {
     };
 
     listFeed = async (req: Request, res: Response) => {
-        const { gameId, page, limit, random } = req.query;
+        const { gameId, page, limit, userId } = req.query;
         if (!gameId) throw new ErrorBadRequest('GameId não foi passado');
+        if (!userId) throw new ErrorBadRequest('Id do usuário não foi passado');
 
         const input: reviewListFeed = {
             limit: Number(limit),
             page: Number(page),
             gameId: Number(gameId),
-            random: random == 'true',
+            userId: userId as string,
         };
 
         const output = await this.listfeedUsecase.execute(input);

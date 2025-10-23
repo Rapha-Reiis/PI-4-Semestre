@@ -26,9 +26,9 @@ export type ReviewUpdateDTO = {
 
 export type reviewListFeed = {
     gameId: number;
+    userId: string;
     page: number;
     limit: number;
-    random: boolean;
 };
 
 export type reviewListUserParams = {

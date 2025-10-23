@@ -66,20 +66,43 @@ export class ReviwRepository implements IReviewRepository {
     }
 
     async reviewListFeed(reviewParam: reviewListFeed) {
-        const { gameId, limit, page, random } = reviewParam;
+        const { gameId, limit, page, userId } = reviewParam;
 
-        const orderBy = random ? Prisma.sql`ORDER BY RANDOM()` : Prisma.sql`ORDER BY "published_at" DESC`;
+        const reviews = await prisma.review.findMany({
+            where: {
+                gameId,
+                isPublic: true,
+                status: 'PUBLISHED',
+            },
+            skip: (page - 1) * limit,
+            take: limit,
+            orderBy: [{ likes: { _count: 'desc' } }, { published_at: 'desc' }],
+            include: {
+                author: {
+                    select: { id: true, username: true, profile_image_url: true },
+                },
+                likes: {
+                    where: { userId },
+                    select: { user: true },
+                    take: 1,
+                },
+                _count: { select: { likes: true } },
+            },
+        });
 
-        const reviewList = await prisma.$queryRaw`
-            SELECT * FROM "Review"
-            WHERE "gameId" = ${gameId}
-                AND "isPublic" = true
-                AND "status" = 'PUBLISHED'
-            ${orderBy}
-            OFFSET ${(page - 1) * limit}
-            LIMIT ${limit}
-        `;
-        return reviewList;
+        const output = reviews.map((r) => ({
+            reviewId: r.id,
+            title: r.title,
+            body: r.body,
+            rating: r.rating,
+            status: r.status,
+            isPublic: r.isPublic,
+            published_at: r.published_at,
+            author: r.author,
+            likedByUser: r.likes.length > 0,
+            likesCount: r._count.likes,
+        }));
+        return output;
     }
 
     async reviewListByUser(reviewParam: reviewListUserParams) {
@@ -91,12 +114,44 @@ export class ReviwRepository implements IReviewRepository {
                 status,
                 title: title ? { contains: title, mode: 'insensitive' } : undefined,
             },
+            select: {
+                gameId: true,
+                body: true,
+                title: true,
+                rating: true,
+                isPublic: true,
+                status: true,
+                published_at: true,
+                author: {
+                    select: {
+                        id: true,
+                        username: true,
+                        profile_image_url: true,
+                    },
+                },
+                _count: { select: { likes: true } },
+                likes: {
+                    where: { userId: userId },
+                    select: { id: true },
+                },
+            },
             skip: (page - 1) * limit,
             take: limit,
             orderBy: { updated_at: 'desc' },
         });
 
-        return review;
+        return (await review).map((r) => ({
+            gameId: r.gameId,
+            body: r.body,
+            title: r.title,
+            rating: r.rating,
+            isPublic: r.isPublic,
+            status: r.status,
+            published_at: r.published_at,
+            author: r.author,
+            likesCount: r._count.likes,
+            userLiked: r.likes.length > 0,
+        }));
     }
 
     async reviewById(reviwId: string): Promise<any> {
