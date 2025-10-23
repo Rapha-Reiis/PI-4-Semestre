@@ -4,6 +4,7 @@ import RoutesLogin from './routes-login';
 import RoutesGames from './routes-game';
 import RoutesProfile from './routes-userGame';
 import RoutesReview from './routes-review';
+import routesReviewLike from './routes-review-like';
 
 class MainRoutes {
     public routes = Router();
@@ -18,6 +19,7 @@ class MainRoutes {
         this.routes.use('/games', RoutesGames);
         this.routes.use('/profile', RoutesProfile);
         this.routes.use('/review', RoutesReview);
+        this.routes.use('/reviewLike', routesReviewLike);
     }
 }
 

@@ -28,6 +28,10 @@ import { ReviewUpdateUsecase } from '../core/useCases/review/review-update.useca
 import { ReviewGetByIdUsecase } from '../core/useCases/review/review-get-by-id.usecase';
 import { ReviewListFeedUsecase } from '../core/useCases/review/review-list-feed.usecase';
 import { ReviewListByUserUsecase } from '../core/useCases/review/review-list-by-user.usecase';
+import { ReviewLikeRepository } from '../infra/Repositories/prisma/Repositories/review-like-repo.prisma';
+import { ReviewLikeCreateUsecase } from '../core/useCases/reviewLike/review-like-create.usecase';
+import { ReviewLikeDeleteUsecase } from '../core/useCases/reviewLike/review-like-delete.usecase';
+import { ReviewLikeController } from '../controllers/review-like-controller';
 
 export function makeControllers() {
     // Repositorios
@@ -35,6 +39,7 @@ export function makeControllers() {
     const gameRepo = new RawgRepostiry();
     const userGameRepo = new UserGameRepoPrisma(gameRepo);
     const reviewRepo = new ReviwRepository(prisma);
+    const reviewLikeRepo = new ReviewLikeRepository();
 
     // Infras
     const hash = new HashBcrypt();
@@ -63,6 +68,9 @@ export function makeControllers() {
     const reviewGetByID = new ReviewGetByIdUsecase(reviewRepo);
     const reviewListFeed = new ReviewListFeedUsecase(reviewRepo);
     const reviewListUser = new ReviewListByUserUsecase(reviewRepo);
+    // ReviewLike
+    const reviewLikeCreate = new ReviewLikeCreateUsecase(reviewLikeRepo);
+    const reviewLikeDelete = new ReviewLikeDeleteUsecase(reviewLikeRepo);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
@@ -70,6 +78,7 @@ export function makeControllers() {
     const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate);
     const loginController = new LoginController(login);
     const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser);
+    const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
 
     return {
         userController,
@@ -77,5 +86,6 @@ export function makeControllers() {
         userGameController,
         loginController,
         reviewController,
+        reviewLikeController,
     };
 }

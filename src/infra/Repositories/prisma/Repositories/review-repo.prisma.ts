@@ -115,6 +115,7 @@ export class ReviwRepository implements IReviewRepository {
                 title: title ? { contains: title, mode: 'insensitive' } : undefined,
             },
             select: {
+                id: true,
                 gameId: true,
                 body: true,
                 title: true,
@@ -141,6 +142,7 @@ export class ReviwRepository implements IReviewRepository {
         });
 
         return (await review).map((r) => ({
+            reviewId: r.id,
             gameId: r.gameId,
             body: r.body,
             title: r.title,

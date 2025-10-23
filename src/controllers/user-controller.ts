@@ -6,7 +6,6 @@ import { UserFindByUsernameUseCase } from '../core/useCases/user/user-find-by-us
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { UserFindByIdUseCase } from '../core/useCases/user/user-find-by-id.usecase';
 import { UserCreateDTO, UserUpdateDTO } from '../core/Entities/user-entity';
-import { boolean, file } from 'zod';
 
 export class UserController {
     constructor(
