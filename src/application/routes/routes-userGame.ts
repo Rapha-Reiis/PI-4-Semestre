@@ -13,6 +13,7 @@ class RoutesUserGame {
         this.routes.get('/', this.userGameController.getProfileList);
         this.routes.post('/', this.userGameController.createProfile);
         this.routes.put('/update/:id', this.userGameController.updateProfiel);
+        this.routes.get('/total', this.userGameController.totalGameStatus);
     }
 }
 

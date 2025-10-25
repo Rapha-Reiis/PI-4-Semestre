@@ -6,4 +6,5 @@ export interface IUserGameRepository {
     createUserProfile(data: ProfileCreateDTO): Promise<any>;
     UpdateDataProfile(data: ProfileUpdateDTO): Promise<any>;
     VerifyGameWithUser(userId: string, rawgId: string): Promise<any>;
+    totalGameStatus(gameId: number): Promise<any>;
 }

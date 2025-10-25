@@ -5,12 +5,14 @@ import { GameStatus } from '@prisma/client';
 import { UserGameGetByIdListUseCase } from '../core/useCases/userGame/userGame-getById-list.usecase';
 import { UserGameCreateUsecase } from '../core/useCases/userGame/userGame-create.usecase';
 import { UserGameUpdateUsecase } from '../core/useCases/userGame/userGame-update.usecase';
+import { UserGameTotalGameStatus } from '../core/useCases/userGame/userGame-total-game-status.usecase';
 
 export class UserGameController {
     constructor(
         private getUserProfileById: UserGameGetByIdListUseCase,
         private createProfileUC: UserGameCreateUsecase,
         private updateProfileUC: UserGameUpdateUsecase,
+        private totalGameStatusUC: UserGameTotalGameStatus,
     ) {}
 
     getProfileList = async (req: Request, res: Response) => {
@@ -61,5 +63,13 @@ export class UserGameController {
             message: 'Atualizado com sucesso!',
             ...updateProfile,
         });
+    };
+
+    totalGameStatus = async (req: Request<{}, {}, {}, { gameId: number }>, res: Response) => {
+        if (!req.query.gameId) throw new ErrorBadRequest('gameId não foi passado');
+
+        const out = await this.totalGameStatusUC.execute(req.query.gameId);
+
+        res.status(200).json(out);
     };
 }

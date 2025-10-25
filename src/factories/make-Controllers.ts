@@ -32,6 +32,7 @@ import { ReviewLikeRepository } from '../infra/Repositories/prisma/Repositories/
 import { ReviewLikeCreateUsecase } from '../core/useCases/reviewLike/review-like-create.usecase';
 import { ReviewLikeDeleteUsecase } from '../core/useCases/reviewLike/review-like-delete.usecase';
 import { ReviewLikeController } from '../controllers/review-like-controller';
+import { UserGameTotalGameStatus } from '../core/useCases/userGame/userGame-total-game-status.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -62,6 +63,7 @@ export function makeControllers() {
     const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo);
     const userGameCreate = new UserGameCreateUsecase(userGameRepo);
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
+    const TotalGameStatus = new UserGameTotalGameStatus(userGameRepo);
     // Review
     const reviewCreate = new ReviewCreateUsecase(reviewRepo, userRepo);
     const reviewUpdate = new ReviewUpdateUsecase(reviewRepo);
@@ -75,7 +77,7 @@ export function makeControllers() {
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
     const gameController = new GameController(GameList, GameGenreList, gameGetById);
-    const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate);
+    const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate, TotalGameStatus);
     const loginController = new LoginController(login);
     const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser);
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);

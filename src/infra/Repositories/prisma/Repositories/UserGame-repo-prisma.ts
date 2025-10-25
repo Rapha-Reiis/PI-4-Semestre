@@ -111,4 +111,19 @@ export class UserGameRepoPrisma implements IUserGameRepository {
             throw new ErrorApp('Erro ao consultar o banco (verifyGameWithUser)', 500, err);
         }
     }
+
+    async totalGameStatus(gameId: number) {
+        console.log('usecase', gameId);
+        try {
+            const result = await prisma.userGame.groupBy({
+                by: ['status'],
+                where: { gameId: Number(gameId) },
+                _count: { _all: true },
+            });
+
+            return result.map((r) => ({ status: r.status, total: r._count._all }));
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao pegar total game status', 500, err);
+        }
+    }
 }
