@@ -1,4 +1,21 @@
 services:
+    app:
+        image: pi-backend
+        container_name: pi4
+        depends_on:
+            db: 
+                condition: service_healthy
+        environment: 
+            BASE_URL: "http://localhost:${PORT}"
+        env_file:
+            - .env
+        networks:
+            - dev-net
+        ports: 
+            - '3000:3000'
+        volumes: 
+            - uploads:/app/uploads
+
     db:
         image: postgres:16
         container_name: postgres
@@ -8,7 +25,7 @@ services:
             POSTGRES_DB: ${DB_NAME}
 
         ports:
-            - '5433:5432'
+            - '5432:5432'
         volumes:
             - pgdata:/var/lib/postgresql/data
         networks:
@@ -21,6 +38,7 @@ services:
 
 volumes:
     pgdata:
+    uploads:
 
 networks:
     dev-net:

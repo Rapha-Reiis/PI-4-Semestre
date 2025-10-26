@@ -1,0 +1,3 @@
+dist/
+dockerfile
+docker-compose.yml
