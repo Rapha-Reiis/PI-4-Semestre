@@ -1,5 +1,5 @@
 import express, { Express } from 'express';
-
+import cors from 'cors';
 import { resolve } from 'path';
 import RoutesMain from '../application/routes/routes-main';
 import ErrosMiddleware from '../Middleware/errors.middleware';
@@ -15,6 +15,7 @@ class App {
     }
 
     private middlerwares() {
+        this.app.use(cors());
         this.app.use(express.json());
         this.app.use('/perfil-image', express.static(resolve(__dirname, '..', '..', 'uploads', 'profile')));
     }
