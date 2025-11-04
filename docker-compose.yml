@@ -1,44 +1,45 @@
 services:
-    app:
-        image: pi-backend
-        container_name: pi4
-        depends_on:
-            db: 
-                condition: service_healthy
-        environment: 
-            BASE_URL: "http://localhost:${PORT}"
-        env_file:
-            - .env
-        networks:
-            - dev-net
-        ports: 
-            - '3000:3000'
-        volumes: 
-            - uploads:/app/uploads
+  app:
+    build:
+      context: .          
+    image: pi-backend
+    container_name: pi4
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      BASE_URL: "http://localhost:${PORT}"
+    env_file:
+      - .env
+    networks:
+      - dev-net
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads:/app/uploads
 
-    db:
-        image: postgres:16
-        container_name: postgres
-        environment:
-            POSTGRES_USER: ${DB_USER}
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-            POSTGRES_DB: ${DB_NAME}
-
-        ports:
-            - '5432:5432'
-        volumes:
-            - pgdata:/var/lib/postgresql/data
-        networks:
-            - dev-net
-        healthcheck:
-            test: ['CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_NAME}']
-            interval: 5s
-            timeout: 3s
-            retries: 10
+  db:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - dev-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
 volumes:
-    pgdata:
-    uploads:
+  pgdata:
+  uploads:
 
 networks:
-    dev-net:
+  dev-net:
