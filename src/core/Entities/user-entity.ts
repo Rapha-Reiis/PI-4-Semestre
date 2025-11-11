@@ -1,3 +1,5 @@
+import { Data } from 'mercadopago/dist/clients/payment/commonTypes';
+
 enum Role {
     USER,
     ADMIN,
@@ -16,6 +18,7 @@ export type UserEntity = {
     profile_image_url?: string | undefined;
     bio?: string | undefined;
     premium: boolean;
+    plan_expires_at: Data;
     role: Role;
     created_at: Date;
 };
@@ -38,6 +41,7 @@ export type UserUpdateDTO = {
     password?: string;
     bio?: string;
     profile_image_url?: string | null;
+    plan_expires_at?: Date;
     premium?: boolean;
 };
 
@@ -49,6 +53,7 @@ export type UserResponseDTO = {
     profile_image_url: string | null;
     bio: string | null;
     premium: boolean;
+    plan_expires_at: Date | null;
     role: 'USER' | 'ADMIN';
 };
 

@@ -15,6 +15,7 @@ export class UserRepoPrisma implements IUserRepository {
         bio: true,
         premium: true,
         role: true,
+        plan_expires_at: true,
     };
 
     async create(data: UserCreateDTO): Promise<UserResponseDTO> {
@@ -39,6 +40,7 @@ export class UserRepoPrisma implements IUserRepository {
             bio: user.bio,
             premium: user.premium,
             profile_image_url: user.profile_image_url,
+            plan_expires_at: user.plan_expires_at,
         };
 
         const selectUp = {

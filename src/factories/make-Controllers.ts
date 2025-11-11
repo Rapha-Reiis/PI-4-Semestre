@@ -33,6 +33,11 @@ import { ReviewLikeCreateUsecase } from '../core/useCases/reviewLike/review-like
 import { ReviewLikeDeleteUsecase } from '../core/useCases/reviewLike/review-like-delete.usecase';
 import { ReviewLikeController } from '../controllers/review-like-controller';
 import { UserGameTotalGameStatus } from '../core/useCases/userGame/userGame-total-game-status.usecase';
+import { PaymentController } from '../controllers/payment-controller';
+import { CreatePayment } from '../core/useCases/payment/payment-create-code.usecase';
+import { PaymentRepo } from '../infra/Repositories/prisma/Repositories/payment-repo.prisma';
+import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
+import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
 
 export function makeControllers() {
     // Repositorios
@@ -41,10 +46,13 @@ export function makeControllers() {
     const userGameRepo = new UserGameRepoPrisma(gameRepo);
     const reviewRepo = new ReviwRepository(prisma);
     const reviewLikeRepo = new ReviewLikeRepository();
+    const paymentRepo = new PaymentRepo();
 
     // Infras
     const hash = new HashBcrypt();
     const verifyUniques = new UserUniquenessService(userRepo);
+
+    const Subscribe = new UpgradeUserToPremiumService(userRepo);
 
     // usecases
     // Login
@@ -73,6 +81,9 @@ export function makeControllers() {
     // ReviewLike
     const reviewLikeCreate = new ReviewLikeCreateUsecase(reviewLikeRepo);
     const reviewLikeDelete = new ReviewLikeDeleteUsecase(reviewLikeRepo);
+    // Payments
+    const CreatePaymentUsecase = new CreatePayment(paymentRepo);
+    const webhook = new webhookUsecase(Subscribe, paymentRepo);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
@@ -81,6 +92,7 @@ export function makeControllers() {
     const loginController = new LoginController(login);
     const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser);
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
+    const paymentController = new PaymentController(CreatePaymentUsecase, webhook);
 
     return {
         userController,
@@ -89,5 +101,6 @@ export function makeControllers() {
         loginController,
         reviewController,
         reviewLikeController,
+        paymentController,
     };
 }
