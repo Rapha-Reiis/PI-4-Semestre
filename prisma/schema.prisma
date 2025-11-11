@@ -16,6 +16,7 @@ model User {
   profile_image_url String?
   bio               String?
   premium           Boolean  @default(false)
+  plan_expires_at   DateTime?
   role              Role     @default(USER)
   created_at        DateTime @default(now())
 
@@ -80,6 +81,7 @@ model Review {
   @@index([gameId, isPublic, status, published_at])
   @@index([userId, status, updated_at])
 }
+
 enum ReviewStatus {
   DRAFT
   PUBLISHED
@@ -98,5 +100,20 @@ model ReviewLike {
   @@index([userId])
 }
 
-
 // ------------------------------------------------------------------------------------
+
+model Payments {
+  id             Int      @id @default(autoincrement())
+  user_id        String
+  mp_payment_id  String?
+  description    String?
+  price          Decimal?  @db.Decimal(10, 2)
+  payer_email    String
+  status         String?
+  qr_code        String?
+  qr_code_base64 String?
+  qr_valid       DateTime?
+  finished       Boolean  @default(false)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+}
