@@ -1,10 +1,11 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import RoutesUser from './routes-user';
 import RoutesLogin from './routes-login';
 import RoutesGames from './routes-game';
 import RoutesProfile from './routes-userGame';
 import RoutesReview from './routes-review';
 import routesReviewLike from './routes-review-like';
+import routesPayment from './routes.payment';
 
 class MainRoutes {
     public routes = Router();
@@ -20,6 +21,7 @@ class MainRoutes {
         this.routes.use('/profile', RoutesProfile);
         this.routes.use('/review', RoutesReview);
         this.routes.use('/reviewLike', routesReviewLike);
+        this.routes.use('/payment', routesPayment);
     }
 }
 
