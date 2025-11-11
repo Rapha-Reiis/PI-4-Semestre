@@ -65,10 +65,20 @@ export class UserGameController {
         });
     };
 
-    totalGameStatus = async (req: Request<{}, {}, {}, { gameId: number }>, res: Response) => {
-        if (!req.query.gameId) throw new ErrorBadRequest('gameId não foi passado');
+    totalGameStatusGame = async (req: Request, res: Response) => {
+        const { gameId } = req.body;
+        if (!gameId) throw new ErrorBadRequest('ID do jogo não foi passado');
 
-        const out = await this.totalGameStatusUC.execute(req.query.gameId);
+        const out = await this.totalGameStatusUC.execute(gameId);
+
+        res.status(200).json(out);
+    };
+
+    totalGameStatusUser = async (req: Request, res: Response) => {
+        const { userId } = req.body;
+        if (!userId) throw new ErrorBadRequest('ID do usuáiro não foi passado corretamente');
+
+        const out = await this.totalGameStatusUC.execute(undefined, userId);
 
         res.status(200).json(out);
     };

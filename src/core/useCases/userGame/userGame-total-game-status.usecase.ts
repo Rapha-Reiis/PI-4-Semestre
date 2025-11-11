@@ -3,7 +3,11 @@ import { IUserGameRepository } from '../../../adapters/Repositories/IuserGame-re
 export class UserGameTotalGameStatus {
     constructor(private repository: IUserGameRepository) {}
 
-    async execute(gameId: number) {
-        return await this.repository.totalGameStatus(gameId);
+    async execute(gameId?: number, userId?: string) {
+        if (gameId) {
+            return await this.repository.totalGameStatusGame(gameId);
+        } else if (userId) {
+            return await this.repository.totalGameStatusUser(userId);
+        }
     }
 }

@@ -112,8 +112,7 @@ export class UserGameRepoPrisma implements IUserGameRepository {
         }
     }
 
-    async totalGameStatus(gameId: number) {
-        console.log('usecase', gameId);
+    async totalGameStatusGame(gameId: number): Promise<any> {
         try {
             const result = await prisma.userGame.groupBy({
                 by: ['status'],
@@ -124,6 +123,25 @@ export class UserGameRepoPrisma implements IUserGameRepository {
             return result.map((r) => ({ status: r.status, total: r._count._all }));
         } catch (err: any) {
             throw new ErrorApp('Erro ao pegar total game status', 500, err);
+        }
+    }
+
+    async totalGameStatusUser(userId: string): Promise<any> {
+        try {
+            const result = await prisma.userGame.groupBy({
+                by: ['status'],
+                where: { userId: userId },
+                _count: { _all: true },
+            });
+
+            const out = result.map((r) => ({
+                status: r.status,
+                total: r._count._all,
+            }));
+
+            return out;
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao pegar tota game status', 500, err);
         }
     }
 }
