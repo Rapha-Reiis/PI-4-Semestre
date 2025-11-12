@@ -38,6 +38,10 @@ export class UserGameRepoPrisma implements IUserGameRepository {
                         userId,
                         ...(status ? { status } : {}),
                     },
+                    omit:{
+                        updated_at:true,
+                        created_at: true
+                    },
                     skip: (page - 1) * limit,
                     take: limit,
                     orderBy: { created_at: 'desc' },
@@ -53,7 +57,9 @@ export class UserGameRepoPrisma implements IUserGameRepository {
 
             const userWithGame = await Promise.all(
                 data.map(async (user: any) => {
-                    const game = await this.repository.getByIdSimple(user.gameId);
+                    const game = await this.repository.getByIdSimple(user.gameId).catch((err: any) => {
+                        console.log(err);
+                    });
                     return {
                         ...user,
                         game: game,
