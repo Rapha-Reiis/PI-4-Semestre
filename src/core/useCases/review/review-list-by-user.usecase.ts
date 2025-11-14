@@ -7,7 +7,8 @@ export class ReviewListByUserUsecase {
 
     public async execute(reviewListParam: reviewListUserParams) {
         this.validate(reviewListParam);
-        return await this.repositoty.reviewListByUser(reviewListParam);
+        const review = await this.repositoty.reviewListByUser(reviewListParam);
+        return review;
     }
 
     private validate(reviewListParam: reviewListUserParams) {

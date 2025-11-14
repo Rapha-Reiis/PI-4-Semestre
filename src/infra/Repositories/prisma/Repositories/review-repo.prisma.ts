@@ -1,6 +1,13 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { IReviewRepository } from '../../../../adapters/Repositories/Ireview-repository';
-import { ReviewCreateDTO, reviewListFeed, reviewListUserParams, ReviewUpdateDTO } from '../../../../core/Entities/review-entity';
+import {
+    reviewByIdResponse,
+    ReviewCreateDTO,
+    reviewListFeed,
+    reviewListUserParams,
+    reviewResponse,
+    ReviewUpdateDTO,
+} from '../../../../core/Entities/review-entity';
 import { prisma } from '../client';
 import { ErrorApp } from '../../../../core/Error/erro-app';
 
@@ -65,7 +72,7 @@ export class ReviwRepository implements IReviewRepository {
         }
     }
 
-    async reviewListFeed(reviewParam: reviewListFeed) {
+    async reviewListFeed(reviewParam: reviewListFeed): Promise<reviewResponse[]> {
         const { gameId, limit, page, userId } = reviewParam;
 
         const reviews = await prisma.review.findMany({
@@ -92,6 +99,7 @@ export class ReviwRepository implements IReviewRepository {
 
         const output = reviews.map((r) => ({
             reviewId: r.id,
+            gameId: gameId,
             title: r.title,
             body: r.body,
             rating: r.rating,
@@ -102,13 +110,14 @@ export class ReviwRepository implements IReviewRepository {
             likedByUser: r.likes.length > 0,
             likesCount: r._count.likes,
         }));
+
         return output;
     }
 
-    async reviewListByUser(reviewParam: reviewListUserParams) {
+    async reviewListByUser(reviewParam: reviewListUserParams): Promise<reviewResponse[]> {
         const { limit, page, status, userId, title } = reviewParam;
 
-        const review = prisma.review.findMany({
+        const review = await prisma.review.findMany({
             where: {
                 userId,
                 status,
@@ -141,22 +150,24 @@ export class ReviwRepository implements IReviewRepository {
             orderBy: { updated_at: 'desc' },
         });
 
-        return (await review).map((r) => ({
+        const output = review.map((r) => ({
             reviewId: r.id,
             gameId: r.gameId,
-            body: r.body,
             title: r.title,
+            body: r.body,
             rating: r.rating,
-            isPublic: r.isPublic,
             status: r.status,
+            isPublic: r.isPublic,
             published_at: r.published_at,
             author: r.author,
+            likedByUser: r.likes.length > 0,
             likesCount: r._count.likes,
-            userLiked: r.likes.length > 0,
         }));
+
+        return output;
     }
 
-    async reviewById(reviwId: string): Promise<any> {
+    async reviewById(reviwId: string): Promise<reviewByIdResponse | null> {
         try {
             const review = await prisma.review.findUnique({
                 where: { id: reviwId },
