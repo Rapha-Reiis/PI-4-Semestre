@@ -1,28 +1,18 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { IUserRepository } from '../../../../adapters/Repositories/Iuser-repository';
-import { UserCreateDTO, UserResponseDTO, UserResponseWhitPasswordDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
+import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
 import { ErrorApp } from '../../../../core/Error/erro-app';
 
 export class UserRepoPrisma implements IUserRepository {
     constructor(private prisma: PrismaClient) {}
 
-    private select = {
-        id: true,
-        name: true,
-        email: true,
-        username: true,
-        profile_image_url: true,
-        bio: true,
-        premium: true,
-        role: true,
-        plan_expires_at: true,
-    };
-
     async create(data: UserCreateDTO): Promise<UserResponseDTO> {
         try {
             const user = await this.prisma.user.create({
                 data: data,
-                select: this.select,
+                omit: {
+                    created_at: true,
+                },
             });
 
             return user;
@@ -68,7 +58,9 @@ export class UserRepoPrisma implements IUserRepository {
         try {
             return await this.prisma.user.findUnique({
                 where: { email },
-                select: this.select,
+                omit: {
+                    created_at: true,
+                },
             });
         } catch (err) {
             throw new ErrorApp('Erro no findByEmail', 500, err);
@@ -79,7 +71,9 @@ export class UserRepoPrisma implements IUserRepository {
         try {
             return await this.prisma.user.findUnique({
                 where: { id },
-                select: this.select,
+                omit: {
+                    created_at: true,
+                },
             });
         } catch (err) {
             throw new ErrorApp('Erro no findById', 500, err);
@@ -90,24 +84,21 @@ export class UserRepoPrisma implements IUserRepository {
         try {
             return await this.prisma.user.findUnique({
                 where: { username },
-                select: this.select,
+                omit: {
+                    created_at: true,
+                },
             });
         } catch (err) {
             throw new ErrorApp('Erro no FindByUsername', 500, err);
         }
     }
 
-    async findByEmailWithPassword(email: string): Promise<UserResponseWhitPasswordDTO | null> {
+    async findByEmailWithPassword(email: string): Promise<UserResponseDTO | null> {
         try {
             return await this.prisma.user.findUnique({
                 where: { email },
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    username: true,
-                    premium: true,
-                    password: true,
+                omit: {
+                    created_at: true,
                 },
             });
         } catch (err) {

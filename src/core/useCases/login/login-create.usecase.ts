@@ -1,7 +1,6 @@
 import { IHash } from '../../../adapters/IHash';
 import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
 import { LoginEntity } from '../../Entities/login-entity';
-import { ErrorNotFound } from '../../Error/error-not-found';
 import { ErrorBadRequest } from '../../Error/error-bad-request';
 import { IToken } from '../../../adapters/IToken';
 import { ErrorUnauthorized } from '../../Error/error-unauthorized';
@@ -19,7 +18,7 @@ export class LoginCreateUseCase {
             throw new ErrorUnauthorized('Usuário não autorizado, verifique email e senha');
         }
         //
-        const compare = await this.hash.compare(data.password, user.password);
+        const compare = await this.hash.compare(data.password, user.password!);
         //
         if (!compare) throw new ErrorBadRequest('Senha ou email está incorreto');
 
@@ -29,6 +28,7 @@ export class LoginCreateUseCase {
             email: user.email,
             username: user.username,
             premium: user.premium,
+            plan_expires_at: user.plan_expires_at,
             token: this.token.assin(user.id),
         };
     }

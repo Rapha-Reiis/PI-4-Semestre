@@ -2,7 +2,6 @@ import { IHash } from '../../../adapters/IHash';
 import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
 import { UserUniquenessService } from '../../../application/Services/user-unique-services';
 import { UserCreateDTO } from '../../Entities/user-entity';
-import { ErrorConflitct } from '../../Error/error-conflict';
 import 'dotenv/config';
 
 export class UserCreateUseCase {
@@ -21,6 +20,10 @@ export class UserCreateUseCase {
             data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${data.profile_image_url}`;
         }
 
-        return await this.repository.create(data);
+        const newUser = await this.repository.create(data);
+
+        return {
+            id: newUser.id,
+        };
     }
 }
