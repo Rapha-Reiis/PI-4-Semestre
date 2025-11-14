@@ -1,4 +1,5 @@
 import { IUserRepository } from '../../adapters/Repositories/Iuser-repository';
+import { ErrorConflitct } from '../../core/Error/error-conflict';
 
 export class UserUniquenessService {
     constructor(private readonly userRepo: IUserRepository) {}
@@ -24,6 +25,8 @@ export class UserUniquenessService {
             }
         }
 
-        return details.length > 0 ? details : null;
+        if (details.length > 0) {
+            throw new ErrorConflitct(details, 'Erro na com dados únicos');
+        }
     }
 }

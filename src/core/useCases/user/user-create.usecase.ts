@@ -13,10 +13,7 @@ export class UserCreateUseCase {
     ) {}
 
     async execute(data: UserCreateDTO) {
-        const details = await this.verifyUnique.verify(data.email, data.username);
-        if (details) {
-            throw new ErrorConflitct(details);
-        }
+        await this.verifyUnique.verify(data.email, data.username);
 
         data.password = await this.hash.hashPassword(data.password);
 

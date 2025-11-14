@@ -16,8 +16,7 @@ export class UserUpdateUseCase {
     async execute(data: UserUpdateDTO): Promise<UserResponseDTO> {
         const { profile_image_url } = data;
         if (data.email || data.username) {
-            const details = await this.verifyUnique.verify(data.email, data.username, data.userId);
-            if (details) throw new ErrorConflitct(details);
+            await this.verifyUnique.verify(data.email, data.username, data.userId);
         }
         const user = await this.userRepo.findById(data.userId);
         if (!user) throw new ErrorBadRequest('Usuário não cadastrado');
