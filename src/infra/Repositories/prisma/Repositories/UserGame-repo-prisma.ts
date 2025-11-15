@@ -102,6 +102,31 @@ export class UserGameRepoPrisma implements IUserGameRepository {
         }
     }
 
+    async DeleteUserGame(userGameId: string): Promise<void> {
+        try {
+            await prisma.userGame.delete({
+                where: { id: userGameId },
+            });
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao deletar game do perfil', 500, err);
+        }
+    }
+
+    async UserGameById(userGameId: string): Promise<{ id: string } | null> {
+        try {
+            const userGame = await prisma.userGame.findFirst({
+                where: { id: userGameId },
+                select: {
+                    id: true,
+                },
+            });
+
+            return userGame;
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao deletar game do perfil', 500, err);
+        }
+    }
+
     async VerifyGameWithUser(userId: string, rawgId: string): Promise<Boolean> {
         const idGame = Number(rawgId);
         try {

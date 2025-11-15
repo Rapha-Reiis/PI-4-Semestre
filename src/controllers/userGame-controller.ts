@@ -6,6 +6,7 @@ import { UserGameGetByIdListUseCase } from '../core/useCases/userGame/userGame-g
 import { UserGameCreateUsecase } from '../core/useCases/userGame/userGame-create.usecase';
 import { UserGameUpdateUsecase } from '../core/useCases/userGame/userGame-update.usecase';
 import { UserGameTotalGameStatus } from '../core/useCases/userGame/userGame-total-game-status.usecase';
+import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 
 export class UserGameController {
     constructor(
@@ -13,6 +14,7 @@ export class UserGameController {
         private createProfileUC: UserGameCreateUsecase,
         private updateProfileUC: UserGameUpdateUsecase,
         private totalGameStatusUC: UserGameTotalGameStatus,
+        private deleteUserGameUC: userGameDelete,
     ) {}
 
     getProfileList = async (req: Request, res: Response) => {
@@ -63,6 +65,14 @@ export class UserGameController {
             message: 'Atualizado com sucesso!',
             ...updateProfile,
         });
+    };
+
+    deleteUserProfile = async (req: Request, res: Response) => {
+        const { gameProfileId } = req.params;
+        if (!gameProfileId) throw new ErrorBadRequest('ID do perfil não foi passado corretamente');
+        await this.deleteUserGameUC.execute(gameProfileId);
+
+        return res.status(200).json({ message: 'Deletado com sucesso!' });
     };
 
     totalGameStatusGame = async (req: Request, res: Response) => {

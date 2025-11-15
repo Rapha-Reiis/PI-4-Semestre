@@ -38,6 +38,7 @@ import { PaymentRepo } from '../infra/Repositories/prisma/Repositories/payment-r
 import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
 import { VerifyUserService } from '../application/Services/user/verify-user.service';
 import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
+import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -70,10 +71,11 @@ export function makeControllers() {
     const GameGenreList = new GameGetGenresUseCase(gameRepo);
     const gameGetById = new GameGetByIdUseCase(gameRepo);
     // UserGame
-    const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo);
+    const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo, verifyUser);
     const userGameCreate = new UserGameCreateUsecase(userGameRepo, verifyUser);
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
-    const TotalGameStatus = new UserGameTotalGameStatus(userGameRepo);
+    const TotalGameStatus = new UserGameTotalGameStatus(userGameRepo, verifyUser);
+    const UserGameDelete = new userGameDelete(userGameRepo);
     // Review
     const reviewCreate = new ReviewCreateUsecase(reviewRepo, verifyUser);
     const reviewUpdate = new ReviewUpdateUsecase(reviewRepo);
@@ -90,7 +92,13 @@ export function makeControllers() {
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
     const gameController = new GameController(GameList, GameGenreList, gameGetById);
-    const userGameController = new UserGameController(userGameGetProfileList, userGameCreate, userGameUpdate, TotalGameStatus);
+    const userGameController = new UserGameController(
+        userGameGetProfileList,
+        userGameCreate,
+        userGameUpdate,
+        TotalGameStatus,
+        UserGameDelete,
+    );
     const loginController = new LoginController(login);
     const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser);
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
