@@ -15,6 +15,7 @@ services:
       - dev-net
     ports:
       - "3000:3000"
+      - "5555:5555"
     volumes:
       - uploads:/app/uploads
 
