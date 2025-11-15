@@ -1,5 +1,5 @@
 import { IPayments } from '../../../adapters/Repositories/IPayment-repository';
-import { UpgradeUserToPremiumService } from '../../../application/Services/paymentsServices/UpgradeUserToPremium.service';
+import { UpgradeUserToPremiumService } from '../../../application/Services/paymentsServices/upgradeUserToPremium.service';
 import { payment } from '../../../factories/mp-external';
 import { ErrorApp } from '../../Error/erro-app';
 

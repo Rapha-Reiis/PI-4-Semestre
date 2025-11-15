@@ -1,6 +1,6 @@
 import { IHash } from '../../../adapters/IHash';
 import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
-import { UserUniquenessService } from '../../../application/Services/user-unique-services';
+import { VerifyUserService } from '../../../application/Services/user/verify-user.service';
 import { UserCreateDTO } from '../../Entities/user-entity';
 import 'dotenv/config';
 
@@ -8,11 +8,11 @@ export class UserCreateUseCase {
     constructor(
         private repository: IUserRepository,
         private hash: IHash,
-        private verifyUnique: UserUniquenessService,
+        private VerfyUser: VerifyUserService,
     ) {}
 
     async execute(data: UserCreateDTO) {
-        await this.verifyUnique.verify(data.email, data.username);
+        await this.VerfyUser.VerifyUnique(data.email, data.username);
 
         data.password = await this.hash.hashPassword(data.password);
 

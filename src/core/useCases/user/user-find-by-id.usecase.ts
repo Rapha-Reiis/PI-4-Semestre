@@ -1,16 +1,11 @@
-import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
+import { VerifyUserService } from '../../../application/Services/user/verify-user.service';
 import { UserResponseDTO } from '../../Entities/user-entity';
-import { ErrorApp } from '../../Error/erro-app';
 
 export class UserFindByIdUseCase {
-    constructor(private userRepo: IUserRepository) {}
+    constructor(private verifyUser: VerifyUserService) {}
 
-    async execute(id: string): Promise<UserResponseDTO> {
-        const user = await this.userRepo.findById(id);
-
-        if (!user) {
-            throw new ErrorApp('Usuário não cadastrado', 404);
-        }
+    async execute(userId: string): Promise<UserResponseDTO | null> {
+        const user = await this.verifyUser.VerifyId(userId);
 
         return user;
     }

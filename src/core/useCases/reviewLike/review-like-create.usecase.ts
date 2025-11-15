@@ -8,7 +8,6 @@ export class ReviewLikeCreateUsecase {
     async execute(reviewParam: reviewLikeParams) {
         const like = await this.repository.getLike(reviewParam);
         if (like) throw new ErrorConflitct('Review Like já existe');
-        console.log(like);
         await this.repository.create(reviewParam);
     }
 }

@@ -45,14 +45,14 @@ export class UserGameController {
         return res.status(201).json(profile);
     };
 
-    updateProfiel = async (req: Request, res: Response) => {
+    updateProfile = async (req: Request, res: Response) => {
         if (!req.body) throw new ErrorBadRequest('Body veio vázio');
         if (!req.params) throw new ErrorBadRequest('Parâmetro do ID não foi passado corretamente');
         const { status, note } = req.body;
-        const { id } = req.params;
+        const { profileId } = req.params;
 
         const data = {
-            id: id,
+            profileId,
             status,
             note,
         } as ProfileUpdateDTO;

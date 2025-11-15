@@ -17,9 +17,9 @@ export type ProfileCreateDTO = {
 };
 
 export type ProfileUpdateDTO = {
-    id: string;
-    status: GameStatus;
-    note: string | null;
+    profileId: string;
+    status?: GameStatus;
+    note?: string | null;
 };
 
 export type userWithGame = {

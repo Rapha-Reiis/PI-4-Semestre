@@ -2,7 +2,6 @@ import { UserRepoPrisma } from '../infra/Repositories/prisma/Repositories/user-r
 import { prisma } from '../infra/Repositories/prisma/client';
 import { RawgRepostiry } from '../infra/Repositories/Games/rawg-repository';
 import { HashBcrypt } from '../infra/hash-bycript';
-import { UserUniquenessService } from '../application/Services/user-unique-services';
 import { UserCreateUseCase } from '../core/useCases/user/user-create.usecase';
 import { UserUpdateUseCase } from '../core/useCases/user/user-update.usecase';
 import { UserFindByIdUseCase } from '../core/useCases/user/user-find-by-id.usecase';
@@ -37,7 +36,8 @@ import { PaymentController } from '../controllers/payment-controller';
 import { CreatePayment } from '../core/useCases/payment/payment-create-code.usecase';
 import { PaymentRepo } from '../infra/Repositories/prisma/Repositories/payment-repo.prisma';
 import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
-import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
+import { VerifyUserService } from '../application/Services/user/verify-user.service';
+import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
 
 export function makeControllers() {
     // Repositorios
@@ -48,19 +48,21 @@ export function makeControllers() {
     const reviewLikeRepo = new ReviewLikeRepository();
     const paymentRepo = new PaymentRepo();
 
-    // Infras
+    // Adapters
     const hash = new HashBcrypt();
-    const verifyUniques = new UserUniquenessService(userRepo);
-
+    // ------------------------------------------------------
+    // Services
     const Subscribe = new UpgradeUserToPremiumService(userRepo);
+    const verifyUser = new VerifyUserService(userRepo);
 
     // usecases
+    // ----------------------------------------------------------------------------------
     // Login
-    const login = new LoginCreateUseCase(userRepo, hash, instanceToken);
+    const login = new LoginCreateUseCase(verifyUser, hash, instanceToken);
     // Usuário
-    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUniques);
-    const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUniques);
-    const userFindById = new UserFindByIdUseCase(userRepo);
+    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser);
+    const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser);
+    const userFindById = new UserFindByIdUseCase(verifyUser);
     const userFindByEmail = new UserFindByEmailUseCase(userRepo);
     const userFindByUsername = new UserFindByUsernameUseCase(userRepo);
     //Game
@@ -69,11 +71,11 @@ export function makeControllers() {
     const gameGetById = new GameGetByIdUseCase(gameRepo);
     // UserGame
     const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo);
-    const userGameCreate = new UserGameCreateUsecase(userGameRepo);
+    const userGameCreate = new UserGameCreateUsecase(userGameRepo, verifyUser);
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
     const TotalGameStatus = new UserGameTotalGameStatus(userGameRepo);
     // Review
-    const reviewCreate = new ReviewCreateUsecase(reviewRepo, userRepo);
+    const reviewCreate = new ReviewCreateUsecase(reviewRepo, verifyUser);
     const reviewUpdate = new ReviewUpdateUsecase(reviewRepo);
     const reviewGetByID = new ReviewGetByIdUsecase(reviewRepo);
     const reviewListFeed = new ReviewListFeedUsecase(reviewRepo);

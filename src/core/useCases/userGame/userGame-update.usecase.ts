@@ -6,11 +6,15 @@ export class UserGameUpdateUsecase {
     constructor(private repository: IUserGameRepository) {}
 
     async execute(data: ProfileUpdateDTO) {
+        
         return await this.repository.UpdateDataProfile(data);
     }
 
     validate(data: ProfileUpdateDTO) {
-        if (!['BACKLOG', 'PLAYING', 'FINISHED', 'DROPPED'].includes(data.status))
-            throw new ErrorBadRequest('Parâmetro de status não é valido');
+        if (data.status) {
+            if (!['BACKLOG', 'PLAYING', 'FINISHED', 'DROPPED'].includes(data.status)) {
+                throw new ErrorBadRequest('Parâmetro de status não é valido');
+            }
+        }
     }
 }

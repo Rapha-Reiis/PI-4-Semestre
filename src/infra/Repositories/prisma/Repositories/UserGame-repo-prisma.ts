@@ -38,9 +38,9 @@ export class UserGameRepoPrisma implements IUserGameRepository {
                         userId,
                         ...(status ? { status } : {}),
                     },
-                    omit:{
-                        updated_at:true,
-                        created_at: true
+                    omit: {
+                        updated_at: true,
+                        created_at: true,
                     },
                     skip: (page - 1) * limit,
                     take: limit,
@@ -91,7 +91,7 @@ export class UserGameRepoPrisma implements IUserGameRepository {
             };
             //
             const perfilUpdate = await prisma.userGame.update({
-                where: { id: profileUpdate.id },
+                where: { id: profileUpdate.profileId },
                 data,
                 select,
             });

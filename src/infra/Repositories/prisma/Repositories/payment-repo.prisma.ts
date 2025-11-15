@@ -18,7 +18,6 @@ export class PaymentRepo implements IPayments {
                 qr_code_base64: createPayment.qr_code_base64,
                 qr_valid: createPayment.qr_valid,
             };
-            console.log(createPayment);
 
             const out = await prisma.payments.create({
                 data: data,

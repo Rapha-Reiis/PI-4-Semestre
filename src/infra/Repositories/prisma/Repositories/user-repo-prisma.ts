@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { IUserRepository } from '../../../../adapters/Repositories/Iuser-repository';
-import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
+import { UserCreateDTO, UserResponseDTO, UserResponsePassDTO, UserUpdateDTO } from '../../../../core/Entities/user-entity';
 import { ErrorApp } from '../../../../core/Error/erro-app';
 
 export class UserRepoPrisma implements IUserRepository {
@@ -60,6 +60,7 @@ export class UserRepoPrisma implements IUserRepository {
                 where: { email },
                 omit: {
                     created_at: true,
+                    password: true,
                 },
             });
         } catch (err) {
@@ -73,6 +74,7 @@ export class UserRepoPrisma implements IUserRepository {
                 where: { id },
                 omit: {
                     created_at: true,
+                    password: true,
                 },
             });
         } catch (err) {
@@ -86,6 +88,7 @@ export class UserRepoPrisma implements IUserRepository {
                 where: { username },
                 omit: {
                     created_at: true,
+                    password: true,
                 },
             });
         } catch (err) {
@@ -93,7 +96,7 @@ export class UserRepoPrisma implements IUserRepository {
         }
     }
 
-    async findByEmailWithPassword(email: string): Promise<UserResponseDTO | null> {
+    async findByEmailWithPassword(email: string): Promise<UserResponsePassDTO | null> {
         try {
             return await this.prisma.user.findUnique({
                 where: { email },

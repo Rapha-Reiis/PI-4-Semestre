@@ -51,10 +51,21 @@ export type UserResponseDTO = {
     email: string;
     username: string;
     profile_image_url: string | null;
-    password?: string | null;
     bio: string | null;
     premium: boolean;
     plan_expires_at: Date | null;
     role: 'USER' | 'ADMIN';
 };
 
+export type UserResponsePassDTO = {
+    id: string;
+    name: string;
+    email: string;
+    username: string;
+    profile_image_url: string | null;
+    password?: string | null;
+    bio: string | null;
+    premium: boolean;
+    plan_expires_at: Date | null;
+    role: 'USER' | 'ADMIN';
+};
