@@ -39,6 +39,7 @@ import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
 import { VerifyUserService } from '../application/Services/user/verify-user.service';
 import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
+import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -82,6 +83,7 @@ export function makeControllers() {
     const reviewGetByID = new ReviewGetByIdUsecase(reviewRepo);
     const reviewListFeed = new ReviewListFeedUsecase(reviewRepo);
     const reviewListUser = new ReviewListByUserUsecase(reviewRepo);
+    const reviewDelete = new ReviewDeleteUsecase(reviewRepo);
     // ReviewLike
     const reviewLikeCreate = new ReviewLikeCreateUsecase(reviewLikeRepo);
     const reviewLikeDelete = new ReviewLikeDeleteUsecase(reviewLikeRepo);
@@ -100,7 +102,7 @@ export function makeControllers() {
         UserGameDelete,
     );
     const loginController = new LoginController(login);
-    const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser);
+    const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser, reviewDelete);
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
     const paymentController = new PaymentController(CreatePaymentUsecase, webhook);
 

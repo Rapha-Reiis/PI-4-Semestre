@@ -17,6 +17,7 @@ class RoutesReview {
         this.routes.get('/:reviewId', this.controller.getById);
         this.routes.get('/list/feed', this.controller.listFeed);
         this.routes.get('/list/user/:userId', this.controller.listUser);
+        this.routes.delete("/:reviewId", this.controller.delete)
     }
 }
 

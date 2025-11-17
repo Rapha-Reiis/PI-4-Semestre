@@ -7,6 +7,8 @@ import { ReviewGetByIdUsecase } from '../core/useCases/review/review-get-by-id.u
 import { ReviewListFeedUsecase } from '../core/useCases/review/review-list-feed.usecase';
 import { ReviewListByUserUsecase } from '../core/useCases/review/review-list-by-user.usecase';
 import { ReviewStatus } from '@prisma/client';
+import { ReviewLikeDeleteUsecase } from '../core/useCases/reviewLike/review-like-delete.usecase';
+import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
 
 export class ReviewController {
     constructor(
@@ -15,6 +17,7 @@ export class ReviewController {
         private getByIdreviewU: ReviewGetByIdUsecase,
         private listfeedUsecase: ReviewListFeedUsecase,
         private listByUserUsecase: ReviewListByUserUsecase,
+        private deleteReviewUsecase: ReviewDeleteUsecase,
     ) {}
 
     create = async (req: Request, res: Response) => {
@@ -50,6 +53,15 @@ export class ReviewController {
         const output = await this.updateReview.execute(updateDTO);
 
         res.status(200).json(output);
+    };
+
+    delete = async (req: Request, res: Response) => {
+        const { reviewId } = req.params;
+        if (!reviewId) throw new ErrorBadRequest('reviewID não foi passado corretamente');
+
+        this.deleteReviewUsecase.execute(reviewId);
+
+        return res.status(200).json({ message: 'Review deletada com sucesso!' });
     };
 
     listFeed = async (req: Request, res: Response) => {

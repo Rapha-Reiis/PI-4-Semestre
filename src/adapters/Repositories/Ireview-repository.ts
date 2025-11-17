@@ -10,6 +10,7 @@ import {
 export interface IReviewRepository {
     create(data: ReviewCreateDTO): Promise<{ id: string }>;
     update(data: ReviewUpdateDTO): Promise<any>;
+    delete(reviewId: string): Promise<void>;
     reviewListFeed(data: reviewListFeed): Promise<reviewResponse[]>;
     reviewListByUser(data: reviewListUserParams): Promise<reviewResponse[]>;
     reviewById(reviwId: string): Promise<reviewByIdResponse | null>;

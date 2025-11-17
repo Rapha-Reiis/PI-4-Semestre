@@ -72,6 +72,16 @@ export class ReviwRepository implements IReviewRepository {
         }
     }
 
+    async delete(reviewId: string): Promise<void> {
+        try {
+            await prisma.review.delete({
+                where: { id: reviewId },
+            });
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao deletar review', 500, err);
+        }
+    }
+
     async reviewListFeed(reviewParam: reviewListFeed): Promise<reviewResponse[]> {
         const { gameId, limit, page, userId } = reviewParam;
 
