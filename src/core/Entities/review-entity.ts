@@ -1,7 +1,7 @@
 import { ReviewStatus } from '@prisma/client';
 
 export const createBodyMandatory = ['userId', 'gameId', 'title', 'body', 'status'];
-export const updateBody = ['userId', 'gameId', 'title', 'body', 'status', 'rating'];
+export const updateBody = ['userId', 'gameId', 'title', 'body', 'status', 'rating', 'isPublic'];
 
 export type ReviewCreateDTO = {
     userId: string;
