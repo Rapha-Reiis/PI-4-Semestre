@@ -1,4 +1,4 @@
-import { GameStatus } from '@prisma/client';
+import { GameStatus, UserGame } from '@prisma/client';
 import { ProfileCreateDTO, ProfileUpdateDTO } from '../../core/Entities/userGame-entity';
 
 export interface IUserGameRepository {
@@ -7,6 +7,7 @@ export interface IUserGameRepository {
     UpdateDataProfile(data: ProfileUpdateDTO): Promise<any>;
     DeleteUserGame(userGameId: string): Promise<void>;
     UserGameById(userGameId: string): Promise<{ id: string } | null>;
+    UserGameByUserId(gameId: number, userId: string): Promise<UserGame | null>;
     VerifyGameWithUser(userId: string, rawgId: string): Promise<any>;
     totalGameStatusGame(gameId: number): Promise<any>;
     totalGameStatusUser(userId: string): Promise<any>;

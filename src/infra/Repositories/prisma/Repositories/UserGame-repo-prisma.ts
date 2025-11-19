@@ -1,4 +1,4 @@
-import { GameStatus, Prisma } from '@prisma/client';
+import { GameStatus, Prisma, UserGame } from '@prisma/client';
 import { IGameRepository } from '../../../../adapters/Repositories/Igame-repository';
 import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/userGame-entity';
 import { ErrorApp } from '../../../../core/Error/erro-app';
@@ -124,6 +124,25 @@ export class UserGameRepoPrisma implements IUserGameRepository {
             return userGame;
         } catch (err: any) {
             throw new ErrorApp('Erro ao deletar game do perfil', 500, err);
+        }
+    }
+
+    async UserGameByUserId(gameId: number, userId: string): Promise<UserGame | null> {
+        console.log(gameId, ' + ', userId);
+
+        try {
+            const userGame = await prisma.userGame.findUnique({
+                where: {
+                    userId_gameId: {
+                        gameId,
+                        userId,
+                    },
+                },
+            });
+
+            return userGame;
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao buscar o perfil', 500, err);
         }
     }
 

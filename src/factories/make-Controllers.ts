@@ -70,7 +70,7 @@ export function makeControllers() {
     //Game
     const GameList = new GameListUseCase(gameRepo);
     const GameGenreList = new GameGetGenresUseCase(gameRepo);
-    const gameGetById = new GameGetByIdUseCase(gameRepo);
+    const gameGetById = new GameGetByIdUseCase(gameRepo, verifyUser, userGameRepo);
     // UserGame
     const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo, verifyUser);
     const userGameCreate = new UserGameCreateUsecase(userGameRepo, verifyUser);

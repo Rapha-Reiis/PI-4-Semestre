@@ -29,9 +29,12 @@ export class GameController {
     };
 
     GameById = async (req: Request, res: Response): Promise<Response> => {
-        const { id } = req.params;
-        if (!id) throw new ErrorBadRequest('Faltando passar o ID');
-        const game = await this.gameById.execute(id);
+        const { gameId, userId } = req.body;
+        if (!gameId) throw new ErrorBadRequest('Faltando passar o gameId');
+        if (!userId) throw new ErrorBadRequest('Faltando passaro userId');
+
+        console.log(req.body);
+        const game = await this.gameById.execute(gameId, userId);
 
         return res.status(200).json(game);
     };

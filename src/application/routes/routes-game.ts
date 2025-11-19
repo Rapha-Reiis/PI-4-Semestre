@@ -11,7 +11,7 @@ class RoutesGames {
     initRoutes() {
         this.routes.get('/', this.controllerGame.ListOfGame);
         this.routes.get('/genres', this.controllerGame.ListGenre);
-        this.routes.get('/:id', this.controllerGame.GameById);
+        this.routes.get('/id', this.controllerGame.GameById);
     }
 }
 
