@@ -28,12 +28,14 @@ export class GameController {
         return res.status(200).json(genres);
     };
 
-    GameById = async (req: Request, res: Response): Promise<Response> => {
-        const { gameId, userId } = req.body;
+    GameById = async (req: Request<any, any, any, { gameId: string; userId: string }>, res: Response): Promise<Response> => {
+        const { gameId, userId } = req.query;
         if (!gameId) throw new ErrorBadRequest('Faltando passar o gameId');
-        if (!userId) throw new ErrorBadRequest('Faltando passaro userId');
+        const idGame = Number(gameId);
+        if (Number.isNaN(idGame)) {
+            throw new ErrorBadRequest('gameId precisa ser um número');
+        }
 
-        console.log(req.body);
         const game = await this.gameById.execute(gameId, userId);
 
         return res.status(200).json(game);
