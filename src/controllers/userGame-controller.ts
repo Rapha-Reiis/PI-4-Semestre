@@ -17,18 +17,17 @@ export class UserGameController {
         private deleteUserGameUC: userGameDelete,
     ) {}
 
-    getProfileList = async (req: Request, res: Response) => {
-        let { id, page, limit, status } = req.query;
-        if (!id) throw new ErrorBadRequest('Não foi passado o ID do usuário');
+    getProfileList = async (req: Request<any, any, any, profileList>, res: Response) => {
+        if (!req.query.userId) throw new ErrorBadRequest('User id não foi passado') 
+        const userId = req.query.userId;
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit);
+        if(Number.isNaN(page)) throw new ErrorBadRequest("Page tem que ser numérico")
+        if(Number.isNaN(limit)) throw new ErrorBadRequest("Limit tem que ser numérico")    
+        const status = req.query.status;
+        const search = req.query.search;
 
-        const pageN = Number(page);
-        const limitN = Number(limit);
-
-        let gameStatus: GameStatus | undefined;
-        if (status && Object.values(GameStatus).includes(status.toString().toUpperCase() as GameStatus)) {
-            gameStatus = status.toString().toUpperCase() as GameStatus;
-        }
-        const userProfile = await this.getUserProfileById.execute(id.toString(), pageN, limitN, gameStatus);
+        const userProfile = await this.getUserProfileById.execute(userId, page, limit, status, search);
         return res.status(200).json(userProfile);
     };
 
@@ -92,4 +91,12 @@ export class UserGameController {
 
         res.status(200).json(out);
     };
+}
+
+interface profileList {
+    userId: string;
+    page: number;
+    limit: number;
+    status: GameStatus;
+    search: string;
 }

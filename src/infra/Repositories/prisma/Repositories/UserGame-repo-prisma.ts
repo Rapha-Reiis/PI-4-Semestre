@@ -4,7 +4,6 @@ import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/us
 import { ErrorApp } from '../../../../core/Error/erro-app';
 import { prisma } from '../client';
 import { IUserGameRepository } from '../../../../adapters/Repositories/IuserGame-repository';
-import { omit } from 'zod/mini';
 
 export class UserGameRepoPrisma implements IUserGameRepository {
     constructor(private repository: IGameRepository) {}
@@ -33,27 +32,29 @@ export class UserGameRepoPrisma implements IUserGameRepository {
         }
     }
 
-    async getUserProfile(userId: string, page: number = 1, limit: number = 4, status?: GameStatus): Promise<any> {
+    async getUserProfile(userId: string, page: number = 1, limit: number = 4, status?: GameStatus, search?: string): Promise<any> {
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+
         try {
             const [data, total] = await Promise.all([
                 prisma.userGame.findMany({
                     where: {
                         userId,
                         ...(status ? { status } : {}),
+                        ...(search ? { game_name: { contains: search, mode: 'insensitive' } } : {}),
                     },
-                    omit: {
-                        updated_at: true,
-                        created_at: true,
-                    },
-                    skip: (page - 1) * limit,
-                    take: limit,
+                    skip: (pageNumber - 1) * limitNumber,
+                    take: limitNumber,
                     orderBy: { created_at: 'desc' },
                 }),
                 prisma.userGame.count({
                     where: { userId, ...(status ? { status } : {}) },
                 }),
             ]);
+
             const totalPage = Math.ceil(total / limit);
+            console.log('oi');
             if (data.length === 0) {
                 return [];
             }
@@ -77,6 +78,7 @@ export class UserGameRepoPrisma implements IUserGameRepository {
                 currentPage: page,
             };
         } catch (err) {
+            console.error('Erro: ', err);
             throw new ErrorApp('Erro ao buscar o games do perfil no repositório', 500);
         }
     }

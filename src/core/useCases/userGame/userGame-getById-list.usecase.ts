@@ -8,9 +8,9 @@ export class UserGameGetByIdListUseCase {
         private userVery: VerifyUserService,
     ) {}
 
-    async execute(userId: string, page: number, limit: number, status: GameStatus | undefined) {
+    async execute(userId: string, page: number, limit: number, status?: GameStatus, search?: string) {
         this.userVery.VerifyId(userId);
-        const games = await this.repository.getUserProfile(userId, page, limit, status);
+        const games = await this.repository.getUserProfile(userId, page, limit, status, search);
         return games;
     }
 }
