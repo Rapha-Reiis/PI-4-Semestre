@@ -4,6 +4,7 @@ import { ProfileCreateDTO, ProfileUpdateDTO } from '../../../../core/Entities/us
 import { ErrorApp } from '../../../../core/Error/erro-app';
 import { prisma } from '../client';
 import { IUserGameRepository } from '../../../../adapters/Repositories/IuserGame-repository';
+import { omit } from 'zod/mini';
 
 export class UserGameRepoPrisma implements IUserGameRepository {
     constructor(private repository: IGameRepository) {}
@@ -17,11 +18,13 @@ export class UserGameRepoPrisma implements IUserGameRepository {
                 connect: { id: profile.userId },
             },
             note: profile.note,
+            game_name: profile.gameName,
         };
         //
         try {
             const profile = await prisma.userGame.create({
                 data,
+                select: { id: true },
             });
 
             return profile;

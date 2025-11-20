@@ -73,7 +73,7 @@ export function makeControllers() {
     const gameGetById = new GameGetByIdUseCase(gameRepo, verifyUser, userGameRepo);
     // UserGame
     const userGameGetProfileList = new UserGameGetByIdListUseCase(userGameRepo, verifyUser);
-    const userGameCreate = new UserGameCreateUsecase(userGameRepo, verifyUser);
+    const userGameCreate = new UserGameCreateUsecase(userGameRepo, verifyUser, gameRepo);
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
     const TotalGameStatus = new UserGameTotalGameStatus(userGameRepo, verifyUser);
     const UserGameDelete = new userGameDelete(userGameRepo);

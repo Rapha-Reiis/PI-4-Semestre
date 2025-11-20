@@ -8,17 +8,17 @@ datasource db {
 }
 
 model User {
-  id                String   @id @default(uuid())
-  username          String   @unique
-  email             String   @unique
+  id                String    @id @default(uuid())
+  username          String    @unique
+  email             String    @unique
   name              String
   password          String
   profile_image_url String?
   bio               String?
-  premium           Boolean  @default(false)
+  premium           Boolean   @default(false)
   plan_expires_at   DateTime?
-  role              Role     @default(USER)
-  created_at        DateTime @default(now())
+  role              Role      @default(USER)
+  created_at        DateTime  @default(now())
 
   userGames UserGame[]
   reviews   Review[]
@@ -33,11 +33,12 @@ enum Role {
 // -------------------------------------------------
 
 model UserGame {
-  id     String     @id @default(cuid())
-  userId String
-  gameId Int
-  status GameStatus
-  note   String?
+  id        String     @id @default(cuid())
+  userId    String
+  gameId    Int
+  game_name String?
+  status    GameStatus
+  note      String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -103,7 +104,7 @@ model ReviewLike {
 // ------------------------------------------------------------------------------------
 
 model Payments {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   user_id        String
   mp_payment_id  String?
   description    String?
@@ -113,7 +114,7 @@ model Payments {
   qr_code        String?
   qr_code_base64 String?
   qr_valid       DateTime?
-  finished       Boolean  @default(false)
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
+  finished       Boolean   @default(false)
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
 }

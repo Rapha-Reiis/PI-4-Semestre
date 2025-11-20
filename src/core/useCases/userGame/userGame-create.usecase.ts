@@ -1,3 +1,4 @@
+import { IGameRepository } from '../../../adapters/Repositories/Igame-repository';
 import { IUserGameRepository } from '../../../adapters/Repositories/IuserGame-repository';
 import { VerifyUserService } from '../../../application/Services/user/verify-user.service';
 import { ProfileCreateDTO } from '../../Entities/userGame-entity';
@@ -8,6 +9,7 @@ export class UserGameCreateUsecase {
     constructor(
         private repository: IUserGameRepository,
         private verifyUser: VerifyUserService,
+        private gameRepo: IGameRepository,
     ) {}
 
     async exeute(data: ProfileCreateDTO) {
@@ -16,7 +18,12 @@ export class UserGameCreateUsecase {
         await this.verifyUser.VerifyId(userId);
         this.validate(data);
         const exist = await this.repository.VerifyGameWithUser(userId, gameId);
-        if (exist) throw new ErrorConflitct('O jogo já cadastrado nesse perfil');
+        if (exist) throw new ErrorConflitct('O jogo já está cadastrado nesse perfil');
+
+        const game = await this.gameRepo.getById(String(gameId)).catch((err: any) => {
+            if (err.statusCode == 404) throw new ErrorBadRequest('ID do jogo não cadastrado');
+        });
+        if (game) data.gameName = game.name;
         const profileCreate = await this.repository.createUserProfile(data);
 
         return profileCreate;

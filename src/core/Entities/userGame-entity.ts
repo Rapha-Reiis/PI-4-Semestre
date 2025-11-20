@@ -13,6 +13,7 @@ export type ProfileCreateDTO = {
     userId: string;
     gameId: string;
     status: GameStatus;
+    gameName?: string | null;
     note: string | null;
 };
 
