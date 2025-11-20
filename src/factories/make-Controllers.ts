@@ -40,6 +40,8 @@ import { VerifyUserService } from '../application/Services/user/verify-user.serv
 import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
+import { SendEmailService } from '../application/Services/email/sendEmailService';
+import { nodemailerImpl } from '../infra/email/nodemailer-imp';
 
 export function makeControllers() {
     // Repositorios
@@ -51,18 +53,20 @@ export function makeControllers() {
     const paymentRepo = new PaymentRepo();
 
     // Adapters
+    const email = new nodemailerImpl();
     const hash = new HashBcrypt();
     // ------------------------------------------------------
     // Services
     const Subscribe = new UpgradeUserToPremiumService(userRepo);
     const verifyUser = new VerifyUserService(userRepo);
+    const sendEmail = new SendEmailService(email);
 
     // usecases
     // ----------------------------------------------------------------------------------
     // Login
     const login = new LoginCreateUseCase(verifyUser, hash, instanceToken);
     // Usuário
-    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser);
+    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser, sendEmail);
     const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser);
     const userFindById = new UserFindByIdUseCase(verifyUser);
     const userFindByEmail = new UserFindByEmailUseCase(userRepo);
