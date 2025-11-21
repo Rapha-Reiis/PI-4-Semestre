@@ -6,6 +6,8 @@ import RoutesProfile from './routes-userGame';
 import RoutesReview from './routes-review';
 import routesReviewLike from './routes-review-like';
 import routesPayment from './routes.payment';
+import routesAuth from './routes-auth';
+import routesTest from './routes-test';
 
 class MainRoutes {
     public routes = Router();
@@ -22,6 +24,8 @@ class MainRoutes {
         this.routes.use('/review', RoutesReview);
         this.routes.use('/reviewLike', routesReviewLike);
         this.routes.use('/payment', routesPayment);
+        this.routes.use('/auth', routesAuth);
+        this.routes.use('/teste', routesTest);
     }
 }
 

@@ -1,4 +1,7 @@
+import { JwtPayload } from 'jsonwebtoken';
+
 export interface IToken {
     assin(userID: string): string;
-    verify(token: string): void;
+    signEmailToken(userId: string): string;
+    verify(token: string, type?: 'email' | 'key'): JwtPayload;
 }

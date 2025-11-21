@@ -39,6 +39,8 @@ export type UserUpdateDTO = {
     name?: string;
     email?: string;
     password?: string;
+    email_verified?: boolean;
+    email_verified_a?: Date;
     bio?: string;
     profile_image_url?: string | null;
     plan_expires_at?: Date;

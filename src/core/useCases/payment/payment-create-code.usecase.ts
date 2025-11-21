@@ -80,7 +80,6 @@ export class CreatePayment {
                 qr_valid: out.qr_valid,
             };
         } catch (err: any) {
-            console.log(err);
             throw new ErrorBadRequest('Erro ao criar pagamento pix', err);
         }
     }

@@ -1,9 +1,7 @@
 import { IHash } from '../../../adapters/IHash';
-import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
 import { LoginEntity, LoginResponse } from '../../Entities/login-entity';
 import { ErrorBadRequest } from '../../Error/error-bad-request';
 import { IToken } from '../../../adapters/IToken';
-import { ErrorUnauthorized } from '../../Error/error-unauthorized';
 import { VerifyUserService } from '../../../application/Services/user/verify-user.service';
 
 export class LoginCreateUseCase {

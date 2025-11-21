@@ -39,7 +39,11 @@ import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
 import { VerifyUserService } from '../application/Services/user/verify-user.service';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
-import { UserDeleteUsecase } from '../core/useCases/user/user-delete.usecase';
+import { SendEmailService } from '../application/Services/email/sendEmailService';
+import { nodemailerImpl } from '../infra/email/nodemailer-imp';
+import { AuthController } from '../controllers/auth-controller';
+import { AuthVerifyEmailUsecase } from '../core/useCases/auth/auth-verify-email.usecase';
+import { TesteController } from '../controllers/test-controller';
 import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
 
 export function makeControllers() {
@@ -52,10 +56,12 @@ export function makeControllers() {
     const paymentRepo = new PaymentRepo();
 
     // Adapters
+    const email = new nodemailerImpl();
     const hash = new HashBcrypt();
     // ------------------------------------------------------
     // Services
-    const Subscribe = new UpgradeUserToPremiumService(userRepo);
+    const sendEmail = new SendEmailService(email);
+    const Subscribe = new UpgradeUserToPremiumService(userRepo, sendEmail);
     const verifyUser = new VerifyUserService(userRepo);
 
     // usecases
@@ -63,7 +69,7 @@ export function makeControllers() {
     // Login
     const login = new LoginCreateUseCase(verifyUser, hash, instanceToken);
     // Usuário
-    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser);
+    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser, sendEmail, instanceToken);
     const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser);
     const userDelete = new UserDeleteUsecase(userRepo, verifyUser);
     const userFindById = new UserFindByIdUseCase(verifyUser);
@@ -92,6 +98,8 @@ export function makeControllers() {
     // Payments
     const CreatePaymentUsecase = new CreatePayment(paymentRepo);
     const webhook = new webhookUsecase(Subscribe, paymentRepo);
+    // Auth
+    const Auth = new AuthVerifyEmailUsecase(instanceToken, verifyUser, userRepo, sendEmail);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername, userDelete);
@@ -107,6 +115,8 @@ export function makeControllers() {
     const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser, reviewDelete);
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
     const paymentController = new PaymentController(CreatePaymentUsecase, webhook);
+    const authController = new AuthController(Auth);
+    const teste = new TesteController(Subscribe);
 
     return {
         userController,
@@ -116,5 +126,7 @@ export function makeControllers() {
         reviewController,
         reviewLikeController,
         paymentController,
+        authController,
+        teste,
     };
 }
