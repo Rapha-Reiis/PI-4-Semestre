@@ -1,9 +1,10 @@
 import { IToken } from '../adapters/IToken';
 import 'dotenv/config';
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import { ErrorUnauthorized } from '../core/Error/error-unauthorized';
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { ErrorApp } from '../core/Error/erro-app';
+import { registry } from 'zod';
 
 export class JwtToken implements IToken {
     private token = jwt;
@@ -28,20 +29,15 @@ export class JwtToken implements IToken {
     }
 
     signEmailToken(userId: string): string {
-        const secret = process.env.EMAIL_TOKEN;
-        if (!secret) throw new ErrorBadRequest('Não foi passado EMAIL_TOKEN, verificar o .env');
-        return this.token.sign({ userId: userId }, secret, { expiresIn: '1d' });
+        return this.token.sign({ userId: userId }, this.secretEmail, { expiresIn: '1d' });
     }
 
-    verify(token: string, type?: 'email' | 'key'): any {
+    verify(token: string, type?: 'email' | 'key'): JwtPayload {
         try {
-            if (type && type == 'email') {
-                const payload = this.token.verify(token, this.secretEmail);
+            const secret = type === 'email' ? this.secretEmail : this.secretKey;
+            const payload = this.token.verify(token, secret) as JwtPayload;
 
-                return payload;
-            } else {
-                this.token.verify(token, this.secretKey);
-            }
+            return payload;
         } catch (err) {
             if (err instanceof TokenExpiredError) {
                 throw new ErrorBadRequest('Token expirado');

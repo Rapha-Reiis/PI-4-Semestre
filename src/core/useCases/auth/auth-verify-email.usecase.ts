@@ -1,0 +1,26 @@
+import { IToken } from '../../../adapters/IToken';
+import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
+import { VerifyUserService } from '../../../application/Services/user/verify-user.service';
+import { UserUpdateDTO } from '../../Entities/user-entity';
+
+export class AuthVerifyEmailUsecase {
+    constructor(
+        private token: IToken,
+        private verifyUser: VerifyUserService,
+        private userRepo: IUserRepository,
+    ) {}
+
+    async verifyEmail(token: string) {
+        const payload = this.token.verify(token, 'email');
+
+        const user = await this.verifyUser.VerifyId(payload.userId);
+
+        const data: UserUpdateDTO = {
+            userId: user?.id!,
+            email_verified: true,
+            email_verified_a: new Date(),
+        };
+
+        await this.userRepo.update(data, user?.id!);
+    }
+}

@@ -29,6 +29,8 @@ export class UserRepoPrisma implements IUserRepository {
             username: user.username,
             bio: user.bio,
             premium: user.premium,
+            email_verified: user.email_verified,
+            email_verified_at: user.email_verified_a,
             profile_image_url: user.profile_image_url,
             plan_expires_at: user.plan_expires_at,
         };
@@ -39,6 +41,8 @@ export class UserRepoPrisma implements IUserRepository {
             email: !!data.email,
             username: !!data.username,
             profile_image_url: !!data.profile_image_url,
+            email_verified: !!data.email_verified,
+            email_verified_at: !!data.email_verified_at,
             bio: !!data.bio,
             premium: !!data.premium,
         };
