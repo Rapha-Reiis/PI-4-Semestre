@@ -54,7 +54,6 @@ export class UserGameRepoPrisma implements IUserGameRepository {
             ]);
 
             const totalPage = Math.ceil(total / limit);
-            console.log('oi');
             if (data.length === 0) {
                 return [];
             }
@@ -133,8 +132,6 @@ export class UserGameRepoPrisma implements IUserGameRepository {
     }
 
     async UserGameByUserId(gameId: number, userId: string): Promise<UserGame | null> {
-        console.log(gameId, ' + ', userId);
-
         try {
             const userGame = await prisma.userGame.findUnique({
                 where: {

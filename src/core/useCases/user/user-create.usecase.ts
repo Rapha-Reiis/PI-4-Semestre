@@ -33,7 +33,6 @@ export class UserCreateUseCase {
 
     async sendVerifyEmail(data: UserCreateDTO, userId: string) {
         const token = this.jwtToken.signEmailToken(userId);
-
         const verifyUrl = `${process.env.BASE_URL}/verify-email?token=${token}`;
 
         await this.sendEmail.sendVerifyEmail(data.email, data.name, verifyUrl);

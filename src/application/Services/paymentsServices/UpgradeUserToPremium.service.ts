@@ -18,7 +18,7 @@ export class UpgradeUserToPremiumService {
             premium: true,
             plan_expires_at: this.add30Days(),
         };
-                
+
         await this.userRepo.update(update, user.id);
         await this.sendEmail.sendPremiumActiveted(user.email, user.username);
     }

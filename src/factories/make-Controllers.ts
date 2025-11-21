@@ -44,6 +44,7 @@ import { SendEmailService } from '../application/Services/email/sendEmailService
 import { nodemailerImpl } from '../infra/email/nodemailer-imp';
 import { AuthController } from '../controllers/auth-controller';
 import { AuthVerifyEmailUsecase } from '../core/useCases/auth/auth-verify-email.usecase';
+import { TesteController } from '../controllers/test-controller';
 
 export function makeControllers() {
     // Repositorios
@@ -114,6 +115,7 @@ export function makeControllers() {
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
     const paymentController = new PaymentController(CreatePaymentUsecase, webhook);
     const authController = new AuthController(Auth);
+    const teste = new TesteController(Subscribe);
 
     return {
         userController,
@@ -124,5 +126,6 @@ export function makeControllers() {
         reviewLikeController,
         paymentController,
         authController,
+        teste,
     };
 }
