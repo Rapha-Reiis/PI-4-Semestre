@@ -66,7 +66,7 @@ export function makeControllers() {
     // Login
     const login = new LoginCreateUseCase(verifyUser, hash, instanceToken);
     // Usuário
-    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser, sendEmail);
+    const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser, sendEmail, instanceToken);
     const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser);
     const userFindById = new UserFindByIdUseCase(verifyUser);
     const userFindByEmail = new UserFindByEmailUseCase(userRepo);

@@ -1,5 +1,6 @@
 import { IEmail } from '../../../adapters/IEmail';
 import { ErrorApp } from '../../../core/Error/erro-app';
+import { verifyEmailTemplate } from './templates/verify-email.template';
 import { welcomeTemplate } from './templates/welcomeTemplate';
 
 export class SendEmailService {
@@ -13,5 +14,11 @@ export class SendEmailService {
         } catch (err: any) {
             throw new ErrorApp('Erro ao enviar email', 500, err);
         }
+    }
+
+    async sendVerifyEmail(to: string, name: string, verifyUrl: string) {
+        const subject = 'Confirme seu e-mail - SafePlay';
+        const template = verifyEmailTemplate(name, verifyUrl);
+        await this.sendEmail.send(to, subject, template);
     }
 }

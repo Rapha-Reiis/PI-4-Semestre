@@ -1,4 +1,5 @@
 import { IHash } from '../../../adapters/IHash';
+import { IToken } from '../../../adapters/IToken';
 import { IUserRepository } from '../../../adapters/Repositories/Iuser-repository';
 import { SendEmailService } from '../../../application/Services/email/sendEmailService';
 import { VerifyUserService } from '../../../application/Services/user/verify-user.service';
@@ -11,6 +12,7 @@ export class UserCreateUseCase {
         private hash: IHash,
         private VerfyUser: VerifyUserService,
         private sendEmail: SendEmailService,
+        private jwtToken: IToken,
     ) {}
 
     async execute(data: UserCreateDTO) {
@@ -22,11 +24,18 @@ export class UserCreateUseCase {
             data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${data.profile_image_url}`;
         }
         const newUser = await this.repository.create(data);
-
-        await this.sendEmail.sendWelcomeEmail(data.email, data.name);
+        // this.sendVerifyEmail(data, newUser.id);
 
         return {
             id: newUser.id,
         };
+    }
+
+    async sendVerifyEmail(data: UserCreateDTO, userId: string) {
+        const token = this.jwtToken.signEmailToken(userId);
+
+        const verifyUrl = `${process.env.BASE_URL}/verify-email?token=${token}`;
+
+        await this.sendEmail.sendVerifyEmail(data.email, data.name, verifyUrl);
     }
 }
