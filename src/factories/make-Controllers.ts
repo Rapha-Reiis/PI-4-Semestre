@@ -37,7 +37,6 @@ import { CreatePayment } from '../core/useCases/payment/payment-create-code.usec
 import { PaymentRepo } from '../infra/Repositories/prisma/Repositories/payment-repo.prisma';
 import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
 import { VerifyUserService } from '../application/Services/user/verify-user.service';
-import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
 import { SendEmailService } from '../application/Services/email/sendEmailService';
@@ -45,6 +44,7 @@ import { nodemailerImpl } from '../infra/email/nodemailer-imp';
 import { AuthController } from '../controllers/auth-controller';
 import { AuthVerifyEmailUsecase } from '../core/useCases/auth/auth-verify-email.usecase';
 import { TesteController } from '../controllers/test-controller';
+import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
 
 export function makeControllers() {
     // Repositorios
@@ -98,7 +98,7 @@ export function makeControllers() {
     const CreatePaymentUsecase = new CreatePayment(paymentRepo);
     const webhook = new webhookUsecase(Subscribe, paymentRepo);
     // Auth
-    const Auth = new AuthVerifyEmailUsecase(instanceToken, verifyUser, userRepo);
+    const Auth = new AuthVerifyEmailUsecase(instanceToken, verifyUser, userRepo, sendEmail);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);

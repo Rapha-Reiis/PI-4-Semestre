@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
+
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { ErrorApp } from '../core/Error/erro-app';
+import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
 
 export class TesteController {
     constructor(private teste: UpgradeUserToPremiumService) {}
