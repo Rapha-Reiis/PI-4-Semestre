@@ -1,5 +1,6 @@
 import { IEmail } from '../../../adapters/IEmail';
 import { ErrorApp } from '../../../core/Error/erro-app';
+import { premiumActivatedTemplate } from './templates/premium-actived.template';
 import { verifyEmailTemplate } from './templates/verify-email.template';
 import { welcomeTemplate } from './templates/welcomeTemplate';
 
@@ -19,6 +20,12 @@ export class SendEmailService {
     async sendVerifyEmail(to: string, name: string, verifyUrl: string) {
         const subject = 'Confirme seu e-mail - SafePlay';
         const template = verifyEmailTemplate(name, verifyUrl);
+        await this.sendEmail.send(to, subject, template);
+    }
+
+    async sendPremiumActiveted(to: string, name: string) {
+        const subject = 'SafeZone Premium ativado 🎉';
+        const template = premiumActivatedTemplate(name);
         await this.sendEmail.send(to, subject, template);
     }
 }

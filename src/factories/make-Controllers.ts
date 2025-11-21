@@ -59,9 +59,9 @@ export function makeControllers() {
     const hash = new HashBcrypt();
     // ------------------------------------------------------
     // Services
-    const Subscribe = new UpgradeUserToPremiumService(userRepo);
-    const verifyUser = new VerifyUserService(userRepo);
     const sendEmail = new SendEmailService(email);
+    const Subscribe = new UpgradeUserToPremiumService(userRepo, sendEmail);
+    const verifyUser = new VerifyUserService(userRepo);
 
     // usecases
     // ----------------------------------------------------------------------------------
