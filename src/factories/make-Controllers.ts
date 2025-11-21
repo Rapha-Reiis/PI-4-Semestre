@@ -45,6 +45,7 @@ import { AuthController } from '../controllers/auth-controller';
 import { AuthVerifyEmailUsecase } from '../core/useCases/auth/auth-verify-email.usecase';
 import { TesteController } from '../controllers/test-controller';
 import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
+import { UserDeleteUsecase } from '../core/useCases/user/user-delete.usecase';
 
 export function makeControllers() {
     // Repositorios
