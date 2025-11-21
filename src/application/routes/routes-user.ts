@@ -25,6 +25,7 @@ class RoutesUser {
             ValidateRequest.validateBody(userUpdateBody),
             this.userController.update,
         );
+        this.routes.delete('/delete/:userId', this.userController.delete);
         this.routes.get('/:id', this.auth.auth, this.userController.findById);
         this.routes.get('/email/:email', this.userController.findByEmail);
         this.routes.get('/username/:username', this.userController.findByUsername);

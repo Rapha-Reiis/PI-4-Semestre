@@ -54,6 +54,16 @@ export class UserRepoPrisma implements IUserRepository {
         }
     }
 
+    async deleteUser(userId: string): Promise<void> {
+        try {
+            await this.prisma.user.delete({
+                where: { id: userId },
+            });
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao deletar usuário', 500, err);
+        }
+    }
+
     async findByEmail(email: string): Promise<UserResponseDTO | null> {
         try {
             return await this.prisma.user.findUnique({

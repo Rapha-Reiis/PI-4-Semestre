@@ -37,9 +37,10 @@ import { CreatePayment } from '../core/useCases/payment/payment-create-code.usec
 import { PaymentRepo } from '../infra/Repositories/prisma/Repositories/payment-repo.prisma';
 import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
 import { VerifyUserService } from '../application/Services/user/verify-user.service';
-import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/upgradeUserToPremium.service';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
+import { UserDeleteUsecase } from '../core/useCases/user/user-delete.usecase';
+import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
 
 export function makeControllers() {
     // Repositorios
@@ -64,6 +65,7 @@ export function makeControllers() {
     // Usuário
     const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser);
     const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser);
+    const userDelete = new UserDeleteUsecase(userRepo, verifyUser);
     const userFindById = new UserFindByIdUseCase(verifyUser);
     const userFindByEmail = new UserFindByEmailUseCase(userRepo);
     const userFindByUsername = new UserFindByUsernameUseCase(userRepo);
@@ -92,7 +94,7 @@ export function makeControllers() {
     const webhook = new webhookUsecase(Subscribe, paymentRepo);
 
     // Controllers
-    const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
+    const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername, userDelete);
     const gameController = new GameController(GameList, GameGenreList, gameGetById);
     const userGameController = new UserGameController(
         userGameGetProfileList,

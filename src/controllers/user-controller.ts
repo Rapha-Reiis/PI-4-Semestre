@@ -6,6 +6,7 @@ import { UserFindByUsernameUseCase } from '../core/useCases/user/user-find-by-us
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { UserFindByIdUseCase } from '../core/useCases/user/user-find-by-id.usecase';
 import { UserCreateDTO, UserUpdateDTO } from '../core/Entities/user-entity';
+import { UserDeleteUsecase } from '../core/useCases/user/user-delete.usecase';
 
 export class UserController {
     constructor(
@@ -14,6 +15,7 @@ export class UserController {
         private readonly UserfindById: UserFindByIdUseCase,
         private readonly UserfindByEmail: UserFindByEmailUseCase,
         private readonly UserfindByUsername: UserFindByUsernameUseCase,
+        private readonly DeleteUserUsecase: UserDeleteUsecase,
     ) {}
 
     create = async (req: Request, res: Response) => {
@@ -54,6 +56,15 @@ export class UserController {
 
         const user = await this.updateUser.execute(input);
         return res.status(200).json(user);
+    };
+
+    delete = async (req: Request, res: Response) => {
+        const { userId } = req.params;
+        if (!userId) throw new ErrorBadRequest('User Id não foi passado');
+
+        await this.DeleteUserUsecase.execute(userId);
+        
+        return res.status(200).json({ Message: 'Deletado com sucesso!' });
     };
 
     findById = async (req: Request, res: Response) => {
