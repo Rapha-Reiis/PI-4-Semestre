@@ -4,7 +4,6 @@ import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import { ErrorUnauthorized } from '../core/Error/error-unauthorized';
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { ErrorApp } from '../core/Error/erro-app';
-import { registry } from 'zod';
 
 export class JwtToken implements IToken {
     private token = jwt;
@@ -23,7 +22,7 @@ export class JwtToken implements IToken {
     }
 
     assin(userID: string): string {
-        return this.token.sign({ id: userID }, this.secretEmail, {
+        return this.token.sign({ id: userID }, this.secretKey, {
             expiresIn: '5d',
         });
     }
@@ -36,7 +35,6 @@ export class JwtToken implements IToken {
         try {
             const secret = type === 'email' ? this.secretEmail : this.secretKey;
             const payload = this.token.verify(token, secret) as JwtPayload;
-
             return payload;
         } catch (err) {
             if (err instanceof TokenExpiredError) {
