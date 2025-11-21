@@ -42,6 +42,8 @@ import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecas
 import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
 import { SendEmailService } from '../application/Services/email/sendEmailService';
 import { nodemailerImpl } from '../infra/email/nodemailer-imp';
+import { AuthController } from '../controllers/auth-controller';
+import { AuthVerifyEmailUsecase } from '../core/useCases/auth/auth-verify-email.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -94,6 +96,8 @@ export function makeControllers() {
     // Payments
     const CreatePaymentUsecase = new CreatePayment(paymentRepo);
     const webhook = new webhookUsecase(Subscribe, paymentRepo);
+    // Auth
+    const Auth = new AuthVerifyEmailUsecase(instanceToken, verifyUser, userRepo);
 
     // Controllers
     const userController = new UserController(userCreate, userUpdate, userFindById, userFindByEmail, userFindByUsername);
@@ -109,6 +113,7 @@ export function makeControllers() {
     const reviewController = new ReviewController(reviewCreate, reviewUpdate, reviewGetByID, reviewListFeed, reviewListUser, reviewDelete);
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
     const paymentController = new PaymentController(CreatePaymentUsecase, webhook);
+    const authController = new AuthController(Auth);
 
     return {
         userController,
@@ -118,5 +123,6 @@ export function makeControllers() {
         reviewController,
         reviewLikeController,
         paymentController,
+        authController,
     };
 }

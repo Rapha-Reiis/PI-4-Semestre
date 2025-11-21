@@ -24,7 +24,7 @@ export class UserCreateUseCase {
             data.profile_image_url = `${process.env.BASE_URL}/perfil-image/${data.profile_image_url}`;
         }
         const newUser = await this.repository.create(data);
-        // this.sendVerifyEmail(data, newUser.id);
+        this.sendVerifyEmail(data, newUser.id);
 
         return {
             id: newUser.id,
