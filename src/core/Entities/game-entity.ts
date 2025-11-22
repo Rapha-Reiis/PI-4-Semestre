@@ -13,7 +13,7 @@ export interface gameComplete {
     reddit_url: string | null;
     website: string | null;
     metacritic_url: string | null;
-    paltforms: GamePlatforms[];
+    palatforms: GamePlatforms[];
     genres: GameGenres[];
     publishers: GamePublisher[];
     developers: GameDevelopers[];

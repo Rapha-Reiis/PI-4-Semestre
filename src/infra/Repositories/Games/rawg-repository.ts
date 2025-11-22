@@ -109,7 +109,7 @@ export class RawgRepostiry implements IGameRepository {
             reddit_url,
             website,
             metacritic_url,
-            paltforms: platforms.map(
+            palatforms: platforms.map(
                 (g: any): GamePlatforms => ({
                     id: g.platform.id,
                     name: g.platform.name,
