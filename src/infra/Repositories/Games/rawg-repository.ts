@@ -185,7 +185,7 @@ export class RawgRepostiry implements IGameRepository {
             background_image: data.background_image,
             website: data.website,
             platforms: data.platforms.map((g: any) => ({ id: g.platform.id, name: g.platform.name })),
-            genres: [data.genres.map((g: any) => ({ id: g.id, name: g.name }))],
+            genres: data.genres.map((g: any) => ({ id: g.id, name: g.name })),
         };
 
         return games;
