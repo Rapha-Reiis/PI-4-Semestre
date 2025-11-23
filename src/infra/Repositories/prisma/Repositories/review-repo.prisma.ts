@@ -189,6 +189,23 @@ export class ReviwRepository implements IReviewRepository {
         }
     }
 
+    async reviewByIdGamdAndUser(userId: string, gameId: number) {
+        console.log(userId, ' - ', gameId);
+        try {
+            const review = await prisma.review.findUnique({
+                where: { userId_rawgId: { userId, gameId } },
+                omit: {
+                    updated_at: true,
+                    created_at: true,
+                },
+            });
+
+            return review;
+        } catch (err: any) {
+            throw new ErrorApp('Erro ao buscar review', 500, err);
+        }
+    }
+
     async verifyDuplicateReview(userId: string, gameId: number): Promise<boolean> {
         const game = Number(gameId);
         try {

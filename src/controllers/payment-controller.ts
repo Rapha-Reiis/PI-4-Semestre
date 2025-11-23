@@ -12,7 +12,10 @@ export class PaymentController {
 
     createSubscription = async (req: Request, res: Response) => {
         const { email, userId, type } = req.body;
-        if (!email || !userId || !type) throw new ErrorBadRequest('Verificar o request enviado');
+        console.log(req.body);
+        if (!email) throw new ErrorBadRequest('Email foi passado vazio');
+        if (!userId) throw new ErrorBadRequest('userId foi passado vazio');
+        if (!type) throw new ErrorBadRequest('type foi passado vazio');
         const out = await this.createQRcodeUsecase.execute(email, userId, type);
 
         return res.status(200).json(out);

@@ -19,7 +19,7 @@ export class ReviewLikeController {
             userId,
         };
 
-        const out = await this.createLike.execute(input);
+        await this.createLike.execute(input);
 
         return res.status(200).json({ message: 'ok' });
     };

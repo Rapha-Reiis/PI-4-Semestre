@@ -7,8 +7,9 @@ import { ReviewGetByIdUsecase } from '../core/useCases/review/review-get-by-id.u
 import { ReviewListFeedUsecase } from '../core/useCases/review/review-list-feed.usecase';
 import { ReviewListByUserUsecase } from '../core/useCases/review/review-list-by-user.usecase';
 import { ReviewStatus } from '@prisma/client';
-import { ReviewLikeDeleteUsecase } from '../core/useCases/reviewLike/review-like-delete.usecase';
 import { ReviewDeleteUsecase } from '../core/useCases/review/review-delete.usecase';
+import { VerifyNumeric } from '../util/verify-numeric';
+import { reviewGetByUserIdAndGameId } from '../core/useCases/review/review-get-by-userId-and-gameId.usecase';
 
 export class ReviewController {
     constructor(
@@ -18,6 +19,7 @@ export class ReviewController {
         private listfeedUsecase: ReviewListFeedUsecase,
         private listByUserUsecase: ReviewListByUserUsecase,
         private deleteReviewUsecase: ReviewDeleteUsecase,
+        private GetByUserAndGameUseCase: reviewGetByUserIdAndGameId,
     ) {}
 
     create = async (req: Request, res: Response) => {
@@ -104,6 +106,17 @@ export class ReviewController {
         const out = await this.listByUserUsecase.execute(input);
 
         res.status(201).json(out);
+    };
+
+    getByUserIdAndGameId = async (req: Request<any, any, any, { userId: string; gameId: number }>, res: Response) => {
+        const { userId, gameId } = req.query;
+        if (!userId) throw new ErrorBadRequest('UserId não foi passado');
+        if (!gameId) throw new ErrorBadRequest('GameID não foi passado');
+        VerifyNumeric.execute(Number(gameId), 'GameId');
+
+        const out = await this.GetByUserAndGameUseCase.execute(userId, Number(gameId));
+
+        res.status(200).json(out);
     };
 
     getById = async (req: Request, res: Response) => {

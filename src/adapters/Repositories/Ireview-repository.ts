@@ -1,3 +1,4 @@
+import { number } from 'zod';
 import {
     reviewByIdResponse,
     ReviewCreateDTO,
@@ -15,4 +16,5 @@ export interface IReviewRepository {
     reviewListByUser(data: reviewListUserParams): Promise<reviewResponse[]>;
     reviewById(reviwId: string): Promise<reviewByIdResponse | null>;
     verifyDuplicateReview(userId: string, gameId: number): Promise<boolean>;
+    reviewByIdGamdAndUser(userId: String, gameId: number): Promise<any>;
 }
