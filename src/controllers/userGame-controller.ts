@@ -7,6 +7,7 @@ import { UserGameCreateUsecase } from '../core/useCases/userGame/userGame-create
 import { UserGameUpdateUsecase } from '../core/useCases/userGame/userGame-update.usecase';
 import { UserGameTotalGameStatus } from '../core/useCases/userGame/userGame-total-game-status.usecase';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
+import { VerifyNumeric } from '../util/verify-numeric';
 
 export class UserGameController {
     constructor(
@@ -18,12 +19,12 @@ export class UserGameController {
     ) {}
 
     getProfileList = async (req: Request<any, any, any, profileList>, res: Response) => {
-        if (!req.query.userId) throw new ErrorBadRequest('User id não foi passado') 
+        if (!req.query.userId) throw new ErrorBadRequest('User id não foi passado');
         const userId = req.query.userId;
         const page = Number(req.query.page);
         const limit = Number(req.query.limit);
-        if(Number.isNaN(page)) throw new ErrorBadRequest("Page tem que ser numérico")
-        if(Number.isNaN(limit)) throw new ErrorBadRequest("Limit tem que ser numérico")    
+        VerifyNumeric.execute(page, "Page")
+        VerifyNumeric.execute(limit, "Limit")
         const status = req.query.status;
         const search = req.query.search;
 
@@ -74,17 +75,18 @@ export class UserGameController {
         return res.status(200).json({ message: 'Deletado com sucesso!' });
     };
 
-    totalGameStatusGame = async (req: Request, res: Response) => {
-        const { gameId } = req.body;
+    totalGameStatusGame = async (req: Request<any, any, any, { gameId: number }>, res: Response) => {
+        const { gameId } = req.query;
         if (!gameId) throw new ErrorBadRequest('ID do jogo não foi passado');
+        VerifyNumeric.execute(gameId, 'gameId');
 
-        const out = await this.totalGameStatusUC.execute(gameId);
+        const out = await this.totalGameStatusUC.execute(Number(gameId));
 
         res.status(200).json(out);
     };
 
-    totalGameStatusUser = async (req: Request, res: Response) => {
-        const { userId } = req.body;
+    totalGameStatusUser = async (req: Request<any, any, any, { userId: string }>, res: Response) => {
+        const { userId } = req.query;
         if (!userId) throw new ErrorBadRequest('ID do usuáiro não foi passado corretamente');
 
         const out = await this.totalGameStatusUC.execute(undefined, userId);
