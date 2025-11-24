@@ -27,7 +27,7 @@ export function welcomeTemplate(name: string): string {
           </p>
 
           <!-- BUTTON -->
-          <a href="${process.env.URL_FRONT}"
+          <a href="${process.env.URL_FRONT_HOME}"
             style="
               display:inline-block;
               padding:12px 20px;

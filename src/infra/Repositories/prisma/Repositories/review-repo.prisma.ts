@@ -190,7 +190,6 @@ export class ReviwRepository implements IReviewRepository {
     }
 
     async reviewByIdGamdAndUser(userId: string, gameId: number) {
-        console.log(userId, ' - ', gameId);
         try {
             const review = await prisma.review.findUnique({
                 where: { userId_rawgId: { userId, gameId } },

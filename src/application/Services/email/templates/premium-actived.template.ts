@@ -33,7 +33,7 @@ export function premiumActivatedTemplate(name: string): string {
             <li>Suporte prioritário para a sua conta;</li>
           </ul>
 
-          <a href="${process.env.URL_FRONT}"
+          <a href="${process.env.URL_FRONT_HOME}"
              style="display:inline-block;padding:10px 18px;background:#2563eb;color:#ffffff;
                     text-decoration:none;border-radius:6px;font-size:14px;">
             Acessar minha conta Premium

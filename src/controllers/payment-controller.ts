@@ -12,7 +12,6 @@ export class PaymentController {
 
     createSubscription = async (req: Request, res: Response) => {
         const { email, userId, type } = req.body;
-        console.log(req.body);
         if (!email) throw new ErrorBadRequest('Email foi passado vazio');
         if (!userId) throw new ErrorBadRequest('userId foi passado vazio');
         if (!type) throw new ErrorBadRequest('type foi passado vazio');
