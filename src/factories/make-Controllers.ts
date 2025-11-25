@@ -47,6 +47,7 @@ import { TesteController } from '../controllers/test-controller';
 import { UpgradeUserToPremiumService } from '../application/Services/paymentsServices/UpgradeUserToPremium.service';
 import { UserDeleteUsecase } from '../core/useCases/user/user-delete.usecase';
 import { reviewGetByUserIdAndGameId } from '../core/useCases/review/review-get-by-userId-and-gameId.usecase';
+import { CreateFavoriteUsecase } from '../core/useCases/userGame/userGame-createFavorite';
 
 export function makeControllers() {
     // Repositorios
@@ -87,6 +88,7 @@ export function makeControllers() {
     const userGameUpdate = new UserGameUpdateUsecase(userGameRepo);
     const TotalGameStatus = new UserGameTotalGameStatus(userGameRepo, verifyUser);
     const UserGameDelete = new userGameDelete(userGameRepo);
+    const createFavoriteGame = new CreateFavoriteUsecase(userRepo, gameRepo, verifyUser);
     // Review
     const reviewCreate = new ReviewCreateUsecase(reviewRepo, verifyUser);
     const reviewUpdate = new ReviewUpdateUsecase(reviewRepo);
@@ -113,6 +115,7 @@ export function makeControllers() {
         userGameUpdate,
         TotalGameStatus,
         UserGameDelete,
+        createFavoriteGame
     );
     const loginController = new LoginController(login);
     const reviewController = new ReviewController(

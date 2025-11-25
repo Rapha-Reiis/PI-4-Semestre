@@ -38,6 +38,9 @@ export type UserUpdateDTO = {
     username?: string;
     name?: string;
     email?: string;
+    favorite_GameId?: number;
+    favorite_name?: string;
+    favorite_url?: string | null;
     password?: string;
     email_verified?: boolean;
     email_verified_a?: Date;

@@ -16,6 +16,7 @@ class RoutesUserGame {
         this.routes.delete('/delete/:gameProfileId', this.userGameController.deleteUserProfile);
         this.routes.get('/total/status/game', this.userGameController.totalGameStatusGame);
         this.routes.get('/total/status/user', this.userGameController.totalGameStatusUser);
+        this.routes.post('/favorite/game', this.userGameController.createFavoriteGame)
     }
 }
 

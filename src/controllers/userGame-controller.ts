@@ -8,6 +8,7 @@ import { UserGameUpdateUsecase } from '../core/useCases/userGame/userGame-update
 import { UserGameTotalGameStatus } from '../core/useCases/userGame/userGame-total-game-status.usecase';
 import { userGameDelete } from '../core/useCases/userGame/userGame-delete.usecase';
 import { VerifyNumeric } from '../util/verify-numeric';
+import { CreateFavoriteUsecase } from '../core/useCases/userGame/userGame-createFavorite';
 
 export class UserGameController {
     constructor(
@@ -16,6 +17,7 @@ export class UserGameController {
         private updateProfileUC: UserGameUpdateUsecase,
         private totalGameStatusUC: UserGameTotalGameStatus,
         private deleteUserGameUC: userGameDelete,
+        private createFavoriteGameUC: CreateFavoriteUsecase,
     ) {}
 
     getProfileList = async (req: Request<any, any, any, profileList>, res: Response) => {
@@ -23,8 +25,8 @@ export class UserGameController {
         const userId = req.query.userId;
         const page = Number(req.query.page);
         const limit = Number(req.query.limit);
-        VerifyNumeric.execute(page, "Page")
-        VerifyNumeric.execute(limit, "Limit")
+        VerifyNumeric.execute(page, 'Page');
+        VerifyNumeric.execute(limit, 'Limit');
         const status = req.query.status;
         const search = req.query.search;
 
@@ -92,6 +94,14 @@ export class UserGameController {
         const out = await this.totalGameStatusUC.execute(undefined, userId);
 
         res.status(200).json(out);
+    };
+
+    createFavoriteGame = async (req: Request, res: Response) => {
+        const { gameId, userId } = req.body;
+
+        const out = await this.createFavoriteGameUC.execute(gameId, userId);
+
+        res.status(201).json(out);
     };
 }
 
