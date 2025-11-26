@@ -10,7 +10,17 @@ export class UserGameGetByIdListUseCase {
 
     async execute(userId: string, page: number, limit: number, status?: GameStatus, search?: string) {
         this.userVery.VerifyId(userId);
-        const games = await this.repository.getUserProfile(userId, page, limit, status, search);
-        return games;
+        const result = await this.repository.getUserProfile(userId, page, limit, status, search);
+
+        if (!result || !result.data || result.data.length === 0) {
+            return {
+                data: [],
+                totalGames: 0,
+                totalPage: 0,
+                currentPage: page,
+            };
+        }
+
+        return result;
     }
 }
