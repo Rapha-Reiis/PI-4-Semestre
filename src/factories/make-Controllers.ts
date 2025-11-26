@@ -73,7 +73,7 @@ export function makeControllers() {
     const login = new LoginCreateUseCase(verifyUser, hash, instanceToken);
     // Usuário
     const userCreate = new UserCreateUseCase(userRepo, hash, verifyUser, sendEmail, instanceToken);
-    const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser);
+    const userUpdate = new UserUpdateUseCase(userRepo, hash, verifyUser, sendEmail, instanceToken);
     const userDelete = new UserDeleteUsecase(userRepo, verifyUser);
     const userFindById = new UserFindByIdUseCase(verifyUser);
     const userFindByEmail = new UserFindByEmailUseCase(userRepo);
@@ -115,7 +115,7 @@ export function makeControllers() {
         userGameUpdate,
         TotalGameStatus,
         UserGameDelete,
-        createFavoriteGame
+        createFavoriteGame,
     );
     const loginController = new LoginController(login);
     const reviewController = new ReviewController(
