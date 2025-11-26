@@ -48,6 +48,7 @@ import { UpgradeUserToPremiumService } from '../application/Services/paymentsSer
 import { UserDeleteUsecase } from '../core/useCases/user/user-delete.usecase';
 import { reviewGetByUserIdAndGameId } from '../core/useCases/review/review-get-by-userId-and-gameId.usecase';
 import { CreateFavoriteUsecase } from '../core/useCases/userGame/userGame-createFavorite';
+import { getPaymentStatus } from '../core/useCases/payment/get-payment-status.usecase';
 
 export function makeControllers() {
     // Repositorios
@@ -103,6 +104,7 @@ export function makeControllers() {
     // Payments
     const CreatePaymentUsecase = new CreatePayment(paymentRepo);
     const webhook = new webhookUsecase(Subscribe, paymentRepo);
+    const get = new getPaymentStatus(paymentRepo);
     // Auth
     const Auth = new AuthVerifyEmailUsecase(instanceToken, verifyUser, userRepo, sendEmail);
 
@@ -128,7 +130,7 @@ export function makeControllers() {
         getReviewByUserAndGameID,
     );
     const reviewLikeController = new ReviewLikeController(reviewLikeCreate, reviewLikeDelete);
-    const paymentController = new PaymentController(CreatePaymentUsecase, webhook);
+    const paymentController = new PaymentController(CreatePaymentUsecase, webhook, get);
     const authController = new AuthController(Auth);
     const teste = new TesteController(Subscribe);
 

@@ -3,11 +3,13 @@ import { CreatePayment } from '../core/useCases/payment/payment-create-code.usec
 import { ErrorBadRequest } from '../core/Error/error-bad-request';
 import { webhookUsecase } from '../core/useCases/payment/webhook.usecase';
 import { string } from 'zod';
+import { getPaymentStatus } from '../core/useCases/payment/get-payment-status.usecase';
 
 export class PaymentController {
     constructor(
         private createQRcodeUsecase: CreatePayment,
         private webHookUsecase: webhookUsecase,
+        private getPaymentStatusUC: getPaymentStatus,
     ) {}
 
     createSubscription = async (req: Request, res: Response) => {
@@ -23,6 +25,18 @@ export class PaymentController {
     webHook = async (req: Request, res: Response) => {
         const { type, action, data } = req.body;
         const out = await this.webHookUsecase.execute(type, action, data);
+
+        return res.status(200).json(out);
+    };
+
+    paymentStatus = async (req: Request<{ paymentId: string }>, res: Response) => {
+        const { paymentId } = req.params;
+
+        if (!paymentId) {
+            throw new ErrorBadRequest('Parametro não foi passado');
+        }
+
+        const out = await this.getPaymentStatusUC.execute(paymentId);
 
         return res.status(200).json(out);
     };

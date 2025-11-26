@@ -68,4 +68,17 @@ export class PaymentRepo implements IPayments {
             throw new ErrorApp('Erro ao atualizar pagamento', 500, err);
         }
     }
+
+    async paymentStatus(paymentId: string) {
+        console.log(paymentId)
+        try {
+            const out = await prisma.payments.findFirst({
+                where: { mp_payment_id: paymentId },
+            });
+
+            return out;
+        } catch (err) {
+            throw new ErrorApp('Erro ao buscar status no pagamento', 500, err);
+        }
+    }
 }

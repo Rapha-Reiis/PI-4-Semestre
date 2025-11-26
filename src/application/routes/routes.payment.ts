@@ -12,6 +12,7 @@ class RoutesPayment {
     initRoutes() {
         this.routes.post('/', this.controller.createSubscription);
         this.routes.post('/webhook', this.controller.webHook);
+        this.routes.get('/status/:paymentId', this.controller.paymentStatus);
     }
 }
 

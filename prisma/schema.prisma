@@ -111,7 +111,7 @@ model ReviewLike {
 model Payments {
   id             Int       @id @default(autoincrement())
   user_id        String
-  mp_payment_id  String?
+  mp_payment_id  String?   @unique
   description    String?
   price          Decimal?  @db.Decimal(10, 2)
   payer_email    String

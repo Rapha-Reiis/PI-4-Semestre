@@ -11,6 +11,7 @@ export class CreatePayment {
             if (pending && new Date() < pending.qr_valid) {
                 return {
                     message: 'Retornando QR existente',
+                    paymentId: pending.mp_payment_id,
                     qr_valid: pending.qr_valid,
                     qr_code: pending.qr_code,
                     qr_code_base64: pending.qr_code_base64,
@@ -72,6 +73,7 @@ export class CreatePayment {
             //
             return {
                 message: 'criado novo QR',
+                paymentId: String(result.id!),
                 id: out.id,
                 status: out.status,
                 user_id: userId,
