@@ -9,14 +9,11 @@ export class TesteController {
 
     Stest(req: Request, res: Response) {
         const { userId } = req.body;
-        if (!userId) throw new ErrorBadRequest('teste');
-        console.log(userId);
-        try {
-            this.teste.execute(userId);
-        } catch (err) {
-            throw new ErrorApp('seila', 500, err);
-        }
 
-        res.status(200).json({ message: 'Teste' });
+        const baseUrl = process.env.BASE_URL_FRONT;
+        const verifyUrl = `${process.env.BASE_URL_FRONT}/verify-email?token=${'teste'}`;
+        console.log(verifyUrl);
+
+        res.status(200).json(verifyUrl);
     }
 }
