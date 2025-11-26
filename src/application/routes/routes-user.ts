@@ -17,11 +17,16 @@ class RoutesUser {
     }
 
     initRoutes() {
-        this.routes.post('/', this.upload.single('profile'), ValidateRequest.validateBody([], userCreateBody), this.userController.create);
+        this.routes.post(
+            '/',
+            this.upload.single('profile_image_url'),
+            ValidateRequest.validateBody([], userCreateBody),
+            this.userController.create,
+        );
 
         this.routes.put(
             '/update/:userId',
-            this.upload.single('profile'),
+            this.upload.single('profile_image_url'),
             ValidateRequest.validateBody(userUpdateBody),
             this.userController.update,
         );
