@@ -1,9 +1,0 @@
--- AlterTable
-ALTER TABLE "public"."Payments" ALTER COLUMN "mp_payment_id" DROP NOT NULL,
-ALTER COLUMN "mp_payment_id" SET DATA TYPE TEXT,
-ALTER COLUMN "description" DROP NOT NULL,
-ALTER COLUMN "price" DROP NOT NULL,
-ALTER COLUMN "status" DROP NOT NULL,
-ALTER COLUMN "qr_code" DROP NOT NULL,
-ALTER COLUMN "qr_code_base64" DROP NOT NULL,
-ALTER COLUMN "qr_valid" DROP NOT NULL;
