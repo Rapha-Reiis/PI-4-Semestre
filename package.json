@@ -1,0 +1,38 @@
+{
+  "name": "projeto-integrador-4-semestre-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/main/main.ts",
+    "dev": "nodemon src/main/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rapha-Reiis/projeto-integrador-4-semestre-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rapha-Reiis/projeto-integrador-4-semestre-backend/issues"
+  },
+  "homepage": "https://github.com/Rapha-Reiis/projeto-integrador-4-semestre-backend#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.6",
+    "@types/sharp": "^0.31.1",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
