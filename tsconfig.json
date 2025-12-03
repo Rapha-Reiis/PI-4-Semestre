@@ -6,9 +6,10 @@
     "baseUrl": "./src",
     "paths": {
       "@routes/*": ["./routes/*"],
-      "@utils/*": [".utils/*"],
-      "@factories/*": [".factories/*"],
-      "@main/*": [".main/*"]
+      "@utils/*": ["./utils/*"],
+      "@core/*": ["./core/*"],
+      "@factories/*": ["./factories/*"],
+      "@main/*": ["./main/*"]
     },
 
     "esModuleInterop": true,
