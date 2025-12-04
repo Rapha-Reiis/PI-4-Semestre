@@ -10,7 +10,7 @@ export class UserRepository implements IUserRepository {
   async create(user: User): Promise<User> {
     try {
       const rows = await this.db.query<UserRow>(
-        `INSERT INTO users (name, email, username, password_hash, profile_image_url, bio, email_verified, premium, role)
+        `INSERT INTO users (name, email, username, password_hash, avatar_url, bio, email_verified, premium, role)
         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING *
         `,
@@ -19,7 +19,7 @@ export class UserRepository implements IUserRepository {
           user.email,
           user.username,
           user.password,
-          user.profile_image_url,
+          user.avatar_url,
           user.bio,
           user.email_verified,
           user.premium,
@@ -35,7 +35,7 @@ export class UserRepository implements IUserRepository {
         email: row.email,
         username: row.username,
         password: row.password_hash,
-        profile_image_url: row.profile_image_url,
+        avatar_url: row.avatar_url,
         bio: row.bio,
         email_verified: row.email_verified,
         premium: row.premium,

@@ -7,7 +7,7 @@ export type UserCreateInputDto = {
   username: string;
   email: string;
   password: string;
-  profile_image_url?: string | null;
+  avatar_url?: string | null;
   bio?: string | null;
   role?: RoleUser;
   premium?: boolean;

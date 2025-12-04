@@ -4,7 +4,7 @@ export interface User {
   username: string;
   email: string;
   password: string;
-  profile_image_url?: string | null;
+  avatar_url?: string | null;
   bio?: string | null;
   favorite_gameId?: string | null;
   favorite_name?: string | null;
