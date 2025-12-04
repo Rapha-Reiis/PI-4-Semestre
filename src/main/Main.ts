@@ -2,15 +2,15 @@ import { UserCreateUsecase } from "../core/usecases/user/User-create.usecase";
 import { ApiExpress } from "../infra/api/express/api.express";
 import { CreateUserRoute } from "infra/api/express/routes/user/Create-user.express.routes";
 import { PostgresDbConfig } from "infra/data/Config/Postgres/Postgres-db.config";
-import { UserRepository } from "infra/user/User.repository";
+import { UserSqlRepository } from "infra/data/repositories/sql/user/User-sql.repository";
 import "dotenv/config";
 
 function main() {
   const db = new PostgresDbConfig();
 
-  const userRepo = new UserRepository(db);
+  const userSqlRepo = new UserSqlRepository(db);
 
-  const UserCreateUC = new UserCreateUsecase(userRepo);
+  const UserCreateUC = new UserCreateUsecase(userSqlRepo);
 
   const UserCreateRoute = CreateUserRoute.create(UserCreateUC);
 

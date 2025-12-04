@@ -3,7 +3,7 @@ import { IUserRepository } from "core/repositories/IUser.repository";
 import { PostgresDbConfig } from "infra/data/Config/Postgres/Postgres-db.config";
 import { UserRow } from "./types/User-types";
 
-export class UserRepository implements IUserRepository {
+export class UserSqlRepository implements IUserRepository {
   
   constructor(private db: PostgresDbConfig) {}
 
@@ -48,6 +48,7 @@ export class UserRepository implements IUserRepository {
       throw new Error("Erro ao criar usuário");
     }
   }
+
   listUsers(): Promise<User[]> {
     throw new Error("Method not implemented.");
   }
