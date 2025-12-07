@@ -1,6 +1,9 @@
 import { IUsecase } from "@core/usecases/Usecase";
 import { HttpMethod, IRoutes } from "../routes";
-import { searchInputDTO, searchOutputDto } from "@core/usecases/user/Search-users.usecase";
+import {
+  searchInputDTO,
+  searchOutputDto,
+} from "@core/usecases/user/Search-users.usecase";
 import { Request, Response } from "express";
 
 export class SearchUserRoute implements IRoutes {

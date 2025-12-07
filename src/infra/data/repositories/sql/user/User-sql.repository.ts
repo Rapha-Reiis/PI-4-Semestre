@@ -5,10 +5,18 @@ import { UserRow } from "./types/User-types";
 import { UserCreateOutputDto } from "@core/usecases/user/User-create.usecase";
 import { searchOutputDto } from "@core/usecases/user/Search-users.usecase";
 import { getUserByIdOutput } from "@core/usecases/user/Get-user-by-id.usecase";
+import {
+  UpdateUserInputDto,
+  UpdateUserOutputDto,
+} from "@core/usecases/user/Update-users.usecase";
 
 export class UserSqlRepository implements IUserRepository {
   constructor(private db: PostgresDbConfig) {}
-  
+
+  update(user: UpdateUserInputDto): Promise<UpdateUserOutputDto> {
+    throw new Error("Method not implemented.");
+  }
+
   getUserById(userId: string): Promise<getUserByIdOutput> {
     throw new Error("Method not implemented.");
   }
@@ -38,7 +46,6 @@ export class UserSqlRepository implements IUserRepository {
 
       return userOut;
     } catch (err: any) {
-      console.log(err);
       throw new Error("Erro ao criar usuário");
     }
   }
