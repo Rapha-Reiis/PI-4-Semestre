@@ -23,14 +23,13 @@ export class CreateUserRoute implements IRoutes {
 
   getHandler() {
     return async (request: Request, response: Response) => {
-      const { name, username, email, password, avatar_url, bio } =
-        request.body;
+      const { name, username, email, password, avatar_url, bio } = request.body;
 
       const input: UserCreateInputDto = {
         name,
         username,
         email,
-        password,
+        password_hash: password,
         avatar_url,
         bio,
       };

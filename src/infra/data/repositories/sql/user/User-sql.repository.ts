@@ -2,13 +2,16 @@ import { User } from "core/entity/user/User.entity";
 import { IUserRepository } from "core/repositories/IUser.repository";
 import { PostgresDbConfig } from "infra/data/Config/Postgres/Postgres-db.config";
 import { UserRow } from "./types/User-types";
-import {
-  UserCreateInputDto,
-  UserCreateOutputDto,
-} from "@core/usecases/user/User-create.usecase";
+import { UserCreateOutputDto } from "@core/usecases/user/User-create.usecase";
+import { searchOutputDto } from "@core/usecases/user/Search-users.usecase";
+import { getUserByIdOutput } from "@core/usecases/user/Get-user-by-id.usecase";
 
 export class UserSqlRepository implements IUserRepository {
   constructor(private db: PostgresDbConfig) {}
+  
+  getUserById(userId: string): Promise<getUserByIdOutput> {
+    throw new Error("Method not implemented.");
+  }
 
   async create(user: User): Promise<UserCreateOutputDto> {
     try {
@@ -21,9 +24,9 @@ export class UserSqlRepository implements IUserRepository {
           user.name,
           user.email,
           user.username,
-          user.password,
+          user.password_hash,
           user.avatar_url,
-          user.bio
+          user.bio,
         ]
       );
 
@@ -35,12 +38,12 @@ export class UserSqlRepository implements IUserRepository {
 
       return userOut;
     } catch (err: any) {
-      console.log(err)
+      console.log(err);
       throw new Error("Erro ao criar usuário");
     }
   }
 
-  listUsers(): Promise<User[]> {
+  searchUsers(username: string): Promise<searchOutputDto> {
     throw new Error("Method not implemented.");
   }
 }
