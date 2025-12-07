@@ -1,5 +1,3 @@
-import { RoleUser } from "core/entity/user/User.entity";
-
 export interface UserRow {
   id: string;
   name: string;
@@ -15,6 +13,6 @@ export interface UserRow {
   email_verified_at: Date | null;
   premium: boolean;
   plan_expires_at: Date | null;
-  role: RoleUser;
+  role: string;
   created_at: Date;
 }

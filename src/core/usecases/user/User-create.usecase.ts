@@ -1,4 +1,4 @@
-import { RoleUser, User } from "core/entity/user/User.entity";
+import { User } from "core/entity/user/User.entity";
 import { IUsecase } from "../Usecase";
 import { IUserRepository } from "core/repositories/IUser.repository";
 
@@ -6,10 +6,10 @@ export type UserCreateInputDto = {
   name: string;
   username: string;
   email: string;
-  password: string;
+  password_hash: string;
   avatar_url?: string | null;
   bio?: string | null;
-  role?: RoleUser;
+  role?: string;
   premium?: boolean;
 };
 
@@ -33,7 +33,7 @@ export class UserCreateUsecase
       name: input.name,
       username: input.username,
       email: input.email,
-      password: input.password,
+      password_hash: input.password_hash,
       role: input.role ?? "USER",
       premium: input.premium ?? false,
       email_verified: false,

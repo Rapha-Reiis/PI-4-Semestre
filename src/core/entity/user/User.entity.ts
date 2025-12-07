@@ -3,7 +3,7 @@ export interface User {
   name: string;
   username: string;
   email: string;
-  password: string;
+  password_hash: string;
   avatar_url?: string | null;
   bio?: string | null;
   favorite_gameId?: string | null;
@@ -13,9 +13,6 @@ export interface User {
   email_verified_at?: Date | null;
   premium: boolean;
   plan_expires_at?: Date | null;
-  role: RoleUser;
+  role: string;
   created_at?: Date | null;
 }
-
-export type RoleUser = "USER" | "ADM";
-
