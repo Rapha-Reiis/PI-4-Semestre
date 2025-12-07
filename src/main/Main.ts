@@ -4,13 +4,15 @@ import { CreateUserRoute } from "infra/api/express/routes/user/Create-user.expre
 import { PostgresDbConfig } from "infra/data/Config/Postgres/Postgres-db.config";
 import { UserSqlRepository } from "infra/data/repositories/sql/user/User-sql.repository";
 import "dotenv/config";
+import { UserPrismaRepository } from "infra/data/repositories/prisma/user/User-prisma.repository";
 
 function main() {
   const db = new PostgresDbConfig();
 
   const userSqlRepo = new UserSqlRepository(db);
+  const userPrismaRepo = new UserPrismaRepository(db.prisma);
 
-  const UserCreateUC = new UserCreateUsecase(userSqlRepo);
+  const UserCreateUC = new UserCreateUsecase(userPrismaRepo);
 
   const UserCreateRoute = CreateUserRoute.create(UserCreateUC);
 
