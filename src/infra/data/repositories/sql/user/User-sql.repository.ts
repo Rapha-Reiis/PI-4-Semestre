@@ -9,9 +9,17 @@ import {
   UpdateUserInputDto,
   UpdateUserOutputDto,
 } from "@core/usecases/user/Update-users.usecase";
+import {
+  DeleteUserInput,
+  DeleteUserOutput,
+} from "@core/usecases/user/Delete-user.usecase";
 
 export class UserSqlRepository implements IUserRepository {
   constructor(private db: PostgresDbConfig) {}
+
+  delete(userId: DeleteUserInput): Promise<DeleteUserOutput> {
+    throw new Error("Method not implemented.");
+  }
 
   update(user: UpdateUserInputDto): Promise<UpdateUserOutputDto> {
     throw new Error("Method not implemented.");

@@ -1,5 +1,9 @@
 import { User } from "@core/entity/user/User.entity";
 import { IUserRepository } from "@core/repositories/IUser.repository";
+import {
+  DeleteUserInput,
+  DeleteUserOutput,
+} from "@core/usecases/user/Delete-user.usecase";
 import { getUserByIdOutput } from "@core/usecases/user/Get-user-by-id.usecase";
 import { searchOutputDto } from "@core/usecases/user/Search-users.usecase";
 import {
@@ -41,8 +45,19 @@ export class UserPrismaRepository implements IUserRepository {
           password_hash: true,
         },
       });
-
       return updateuser;
+    } catch (error: any) {
+      throw new Error("Erro ao cadastrar usuário no banco");
+    }
+  }
+
+  async delete(user: DeleteUserInput): Promise<DeleteUserOutput> {
+    try {
+      await this.db.users.delete({
+        where: {
+          id: user.userId,
+        },
+      });
     } catch (error: any) {
       throw new Error("Erro ao cadastrar usuário no banco");
     }
