@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/main/main.ts",
+    "build": "tsc",
+    "start": "node dist/main/Main.ts",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/main/Main.ts"
   },
   "repository": {
