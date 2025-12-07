@@ -25,11 +25,7 @@ export class UserCreateUsecase
   async execute(input: UserCreateInputDto): Promise<UserCreateOutputDto> {
     const user = this.buildUser(input);
 
-    const userCreate = await this.userRepo.create(user);
-
-    const output = this.buildOutput(userCreate);
-
-    return output;
+    return await this.userRepo.create(user);
   }
 
   buildUser(input: UserCreateInputDto): User {
@@ -41,14 +37,6 @@ export class UserCreateUsecase
       role: input.role ?? "USER",
       premium: input.premium ?? false,
       email_verified: false,
-    };
-
-    return user;
-  }
-
-  buildOutput(userInput: User): UserCreateOutputDto {
-    const user: UserCreateOutputDto = {
-      id: userInput.id!,
     };
 
     return user;
