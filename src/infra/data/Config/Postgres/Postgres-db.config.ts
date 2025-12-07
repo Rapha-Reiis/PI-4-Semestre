@@ -1,20 +1,22 @@
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 export class PostgresDbConfig {
-  private pool!: Pool;
-  private databaseUrl: string;
+  public pool!: Pool;
+  public prisma: PrismaClient;
 
   constructor() {
     if (!process.env.DATABASE_URL) {
       throw new Error("DATABASE_URL não foi definida no .env");
     }
-    this.databaseUrl = process.env.DATABASE_URL;
-    this.poolConnection();
-  }
+    const dataBaseUrl = process.env.DATABASE_URL;
 
-  private poolConnection() {
     this.pool = new Pool({
-      connectionString: this.databaseUrl,
+      connectionString: dataBaseUrl,
     });
+
+    const adapter = new PrismaPg(this.pool);
+    this.prisma = new PrismaClient({ adapter });
   }
 
   public async query<T = any>(text: string, params?: any[]): Promise<T[]> {
