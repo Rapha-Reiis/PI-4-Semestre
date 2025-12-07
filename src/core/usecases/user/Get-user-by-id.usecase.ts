@@ -15,7 +15,9 @@ export class GetUserByIdUsecase
 
   async execute(input: getUserByIdInput): Promise<getUserByIdOutput> {
     const user = await this.userRepo.getUserById(input.userId);
-
+    if(!user){
+      throw new Error("Usuário não cadastrado")
+    }
     return user;
   }
 }
