@@ -1,19 +1,9 @@
-import { UserCreateUsecase } from "../core/usecases/user/User-create.usecase";
 import { ApiExpress } from "../infra/api/express/api.express";
-import { CreateUserRoute } from "infra/api/express/routes/user/Create-user.express.routes";
 import { PostgresDbConfig } from "infra/data/Config/Postgres/Postgres-db.config";
 import { UserSqlRepository } from "infra/data/repositories/sql/user/User-sql.repository";
-import "dotenv/config";
 import { UserPrismaRepository } from "infra/data/repositories/prisma/user/User-prisma.repository";
-import { SearchUserUsecase } from "@core/usecases/user/Search-users.usecase";
-import { SearchUserRoute } from "infra/api/express/routes/user/Search-user.express.routes";
-import { GetUserByIdUsecase } from "@core/usecases/user/Get-user-by-id.usecase";
-import { UserByIdRoute } from "infra/api/express/routes/user/User-by-id.express.route";
-import { UpdateUserRoute } from "infra/api/express/routes/user/Update-user.express.routes";
-import { UpdateUserUsecase } from "@core/usecases/user/Update-users.usecase";
 import { VerifyUserExistById } from "services/VerifyUserExist";
-import { UserDeleteUsecase } from "@core/usecases/user/Delete-user.usecase";
-import { UserDeleteRoute } from "infra/api/express/routes/user/Delete-user.express.routes";
+import { UserRoutesFactory } from "@factories/UserRouteFactory";
 
 function main() {
   const db = new PostgresDbConfig();
@@ -23,27 +13,14 @@ function main() {
 
   const VerifyUserExist = new VerifyUserExistById(userPrismaRepo);
 
-  const userCreateUC = new UserCreateUsecase(userPrismaRepo);
-  const usersearchUC = new SearchUserUsecase(userPrismaRepo);
-  const userByIdUC = new GetUserByIdUsecase(userPrismaRepo);
-  const UserUpdateUC = new UpdateUserUsecase(userPrismaRepo, VerifyUserExist);
-  const userDeleteUC = new UserDeleteUsecase(userPrismaRepo, VerifyUserExist);
+  const factoryUser = new UserRoutesFactory(userPrismaRepo, VerifyUserExist);
+  const userRoutes = factoryUser.GetRoutes();
 
-  const userCreateRoutes = CreateUserRoute.create(userCreateUC);
-  const userSearchRouters = SearchUserRoute.create(usersearchUC);
-  const userByIdRouters = UserByIdRoute.create(userByIdUC);
-  const userUpdateRoutes = UpdateUserRoute.create(UserUpdateUC);
-  const userDeleteRoutes = UserDeleteRoute.create(userDeleteUC);
+  const Routes = [...userRoutes];
 
   const port = 3000;
 
-  const api = ApiExpress.create([
-    userCreateRoutes,
-    userSearchRouters,
-    userByIdRouters,
-    userUpdateRoutes,
-    userDeleteRoutes,
-  ]);
+  const api = ApiExpress.create(Routes);
 
   api.start(port);
 }

@@ -1,3 +1,4 @@
+import { User } from "@core/entity/user/User.entity";
 import {
   DeleteUserInput,
   DeleteUserOutput,
@@ -9,7 +10,7 @@ import {
   UpdateUserOutputDto,
 } from "@core/usecases/user/Update-users.usecase";
 import { UserCreateOutputDto } from "@core/usecases/user/User-create.usecase";
-import { User } from "core/entity/user/User.entity";
+
 
 export interface IUserRepository {
   create(User: User): Promise<UserCreateOutputDto>;
