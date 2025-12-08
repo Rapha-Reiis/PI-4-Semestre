@@ -1,5 +1,4 @@
 import { IUserRepository } from "@core/repositories/IUser.repository";
-import { IUsecase } from "@core/usecases/Usecase";
 import { UserDeleteUsecase } from "@core/usecases/user/Delete-user.usecase";
 import { GetUserByIdUsecase } from "@core/usecases/user/Get-user-by-id.usecase";
 import { SearchUserUsecase } from "@core/usecases/user/Search-users.usecase";

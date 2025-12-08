@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { HttpMethod, IRoutes } from "../routes";
 import { IUsecase } from "@core/usecases/Usecase";
-import { SearchUserRoute } from "./Search-user.express.routes";
 
 export class UserDeleteRoute implements IRoutes {
   private constructor(
